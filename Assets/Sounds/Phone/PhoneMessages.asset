@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7782c86370e34ed40a32263b6efa4aee, type: 3}
+  m_Name: PhoneMessages
+  m_EditorClassIdentifier: 
+  primerLoopMessages:
+  - text: 
+    duration: 3
+  segundoLoopMessages:
+  - text: 
+    duration: 3
+  - text: "Buenos dias se\xF1ora @&:$-&/"
+    duration: 3
+  - text: llamo con el motivo de confirmarle la visita a su casa
+    duration: 3
+  - text: por parte del museo de las bellas artes para...
+    duration: 3
+  - text: "\xBFc\xF3mo es que dijo usted?..."
+    duration: 2.5
+  - text: "\xA1Ah si! deshacerse de las obras de su espo..."
+    duration: 4.5
+  - text: 
+    duration: 2
+  - text: No olvides...
+    duration: 2
+  - text: 
+    duration: 2
+  - text: Lo que hiciste...
+    duration: 2
+  - text: "Ellas nunca te perdonar\xE1n..."
+    duration: 4
+  - text: Nunca...
+    duration: 1.5
+  - text: te perdonaremos...
+    duration: 3.5
+  - text: 
+    duration: 6

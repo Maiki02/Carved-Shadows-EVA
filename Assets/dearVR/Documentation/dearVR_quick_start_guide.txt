@@ -1,0 +1,173 @@
+dearVR UNITY v1.5.1 - QUICK START GUIDE
+
+
+1. IMPORT- Import the dearVR Asset to your project.
+2. SETUP- In Unity AudioManager set Spatializer Plugin to dearVR Engine. Go to menu bar Edit -> Project Setting -> Audio -> Spatializer Plugin. 
+
+3. LISTEN- Option 1: Run the dearVR Demo Scene. 
+
+- Option 2: Add DearVRManager component to a game object in your scene. Create a new game object and add the DearVRSource component.
+Note: In the Demo Scene move with WASD and rotate with mouse down. You can change a room preset or any other parameter on a DearVRSource anytime. Press keys “R” and “T” to switch presets and keys “F” and “G” to switch audioclip.___
+USING dearVR REVERB SENDSTo illustrate how to use dearVR Reverb Sends enable dearVRSource_Send object (and disable dearVRSource_internal) in the dearVR Demo Scene.
+
+or: 
+1. Create an Audio Mixer and add a new group (e.g. name it Reverb Bus 1).
+2. Right-click on that group, add effect at top and select dearVR Reverb.Repeat Steps 1. & 2. for more groups and Reverb Plugin instances (i.e. using multiple Reverb Groups for different room presets).
+3. Select the dearVR Reverb Plugin, choose a room preset (in the Inspector Window) and set the Reverb ID between 1 and 100!IMPORTANT: Each dearVR Reverb Plugin needs a unique Reverb ID!
+
+4. For each dearVRSource set INTERNAL REVERB to OFF. Use SIZE to set the numbers (size) of dearVR Reverb Plugins you want to address with the audio source.NOTICE: Select the same room preset for a source object as for the main Reverb Plugin to use the corresponding early reflections.
+5. Set Reverb ID(s) and Send-Level(s). The Reverb ID(s) determines the Reverb Plugins the selected source object sends signal to.NOTICE: SEND determines the individual Send Level to a Reverb Plugin while REVRB LEVEL (in the LEVELS Section) acts as a Master Send Fader for all Reverb Groups (if using multiple Reverb Groups).
+6. For each dearVR Source set the AudioSources Output to Audio Mixer Master. 
+WARNING: Do not send the AudioSources output to the Reverb Bus!Otherwise the binaural signal gets processed by the dearVR Reverb again!
+
+
+___
+
+UPDATING dearVR WITHIN AN EXISTING PROJECT:OSX:
+- Delete the following files from your Unity project:
+• /Assets/dearVR/Components/dearVR_Components.dll
+• /Assets/dearVR/Components/dearVR_Components.xml
+• /Assets/dearVR/Components/Editor/dearVR_Editor.dll
+- Open your Unity project
+- Import the new dearVR UNITY asset into your project.
+- Close Unity.
+
+When upgrading from earlier versions than v.1.5.0, the old managed plugin components have to be replaced with the new C# source components. The dearVR manager components will lose their values and are not legacy compatible. To keep the values you used in your dearVR sources, you can update the fileID and GUID to replace the components without losing any information. The following instructions are performed on the unity scene files, so you might want to create a backup of your scenes.
+
+- Create backups of your Unity scenes
+- Open your Unity scenes in a text editor.
+
+- Find all
+fileID: -1933281608, guid: 6fc5cdeb2b2664cd69b743656e623709
+and replace them with
+fileID: 11500000, guid: 497c625f05c190b478129f9cecc739f0
+
+- Find all
+fileID: -1461815862, guid: 6fc5cdeb2b2664cd69b743656e623709
+and replace them with
+fileID: 11500000, guid: b51e54047889f1c4dac64a27f85a09c2
+
+
+
+To make this part of the process easier for you, you can alternatively run a terminal command:
+- Open terminal
+- Move to the folder, where your Unity scenes are
+- For each scene, execute these commands, where you replace scene_to_migrate with
+the name of your scene:
+
+sed -i '' 's/fileID: -1933281608, guid: 6fc5cdeb2b2664cd69b743656e623709/fileID: 11500000, guid: 497c625f05c190b478129f9cecc739f0/g' scene_to_migrate.unity
+
+sed -i '' 's/fileID: -1461815862, guid: 6fc5cdeb2b2664cd69b743656e623709/fileID: 11500000, guid: b51e54047889f1c4dac64a27f85a09c2/g' scene_to_migrate.unity
+
+
+WINDOWS:
+- Delete the following files from your Unity project:
+• /Assets/dearVR/Components/dearVR_Components.dll 
+• /Assets/dearVR/Components/dearVR_Components.xml
+• /Assets/dearVR/Components/Editor/dearVR_Editor.dll
+
+- Close Unity.
+- On a 64bit Windows system delete the file /Assets/Plugins/x86_64/AudioPluginDearVR.dll
+- On a 32bit Windows system delete the file /Assets/Plugins/x86/AudioPluginDearVR.dll.
+NOTICE: Not following these steps leads to the warning "Copying file failed" because AudioPluginDearVR.dll is still loaded in the Unity Editor.
+
+- Open your Unity project
+- Import the new dearVR UNITY asset into your project.
+- Close Unity
+
+When upgrading from earlier versions than v.1.5.0, the old managed plugin components have to be replaced with the new C# source components. The dearVR manager components will loose their values and are not legacy compatible. To keep the values you used in your dearVR sources, you can update the fileID and GUID to replace the components without loosing any information. The following instructions are performed on the unity scene files, so you might want to create a backup of your scenes.
+- Create backups of your Unity scenes
+- Open your Unity scenes in a text editor.
+
+- Find all
+fileID: -1933281608, guid: 6fc5cdeb2b2664cd69b743656e623709
+and replace them with
+fileID: 11500000, guid: 497c625f05c190b478129f9cecc739f0
+
+- Find all
+fileID: -1461815862, guid: 6fc5cdeb2b2664cd69b743656e623709
+and replace them with
+fileID: 11500000, guid: b51e54047889f1c4dac64a27f85a09c2
+
+
+To make this part of the process easier for you, you can alternatively run a terminal command:
+- Open cmd
+- Move to the folder, where your Unity scenes are
+- For each scene, execute these commands, where you replace scene_to_migrate with
+the name of your scene:
+
+powershell -Command "(gc scene_to_migrate.unity) -replace 'fileID: -1933281608, guid: 6fc5cdeb2b2664cd69b743656e623709', 'fileID: 11500000, guid: 497c625f05c190b478129f9cecc739f0' | Out-File -encoding ASCII scene_to_migrate.unity"
+
+powershell -Command "(gc scene_to_migrate.unity) -replace 'fileID: -1461815862, guid: 6fc5cdeb2b2664cd69b743656e623709', 'fileID: 11500000, guid: b51e54047889f1c4dac64a27f85a09c2' | Out-File -encoding ASCII scene_to_migrate.unity"
+
+
+___
+
+MOBILE DEVELOPMENT iOS & ANDROID:
+1. Default sample rate on mobile is 24000 Hz. You may change sample rate to 44100 Hz or 48000 Hz for higher quality in trade of performance. To change sample rate go to menu bar Edit -> Project Setting -> Audio
+2. Best practice is to use Reverb Sends and set DSP Buffer Size in the Audio Manager to Best Performance.iOS:
+In your Xcode-Project open /Classes/UnityAppController.mm. 
+
+1. Add the line:#include "../Libraries/Plugins/iOS/AudioPluginInterface.h"2. In the same file replace line:- (void)preStartUnity {}with- (void)preStartUnity { UnityRegisterAudioPlugin(&UnityGetAudioEffectDefinitions ) ; }
+
+
+___
+
+CHANGELOG dearVR v1.5.1
+- Add support for Android ARM64
+- Fixed minor bugs
+
+
+CHANGELOG dearVR v1.6.0
+- Add Audio Object Automation import from dearVR SPATIAL CONNECT and dearVR PRO
+- Fixed minor bugs
+
+
+CHANGELOG dearVR v1.5.1
+- Add support for Android ARM64
+- Fixed minor bugs
+
+
+CHANGELOG dearVR v1.5
+- Add support for IL2CPP
+- Up to 60% performance boost on binaural output
+- Optimized dearVR API documentation
+- Access to C# editor scripts
+- Various bug fixes
+
+
+
+CHANGELOG dearVR v1.2.1
+- add API documentation
+- update dearVR demo scene
+- update DearVRScriptLoad.cs example
+- disabled Bitcode for iOS
+- Fixed minor bugs
+
+
+
+CHANGELOG dearVR v1.2.0
+- Added Obstruction feature
+- Optimized Performance for Internal Reverb
+- Optimized Auralization
+- Fixed minor bugs
+
+
+
+CHANGELOG dearVR v1.1.1
+WARNING: Due to changes in Unity's (5.3.6+) internal audio engine, left and right channels have to be summed. So the value 0.0 is fixed now and the parameter is depricated. We recommend to recheck your mix and work with mono files from now on.
+- Fixed input channel paremter to 0.0
+- Fixed not playing sources after deactivation and reactivation
+- Enabled mono audio clips for spatialization
+- Enabled ENABLE_BITCODE for iOS
+- Enabled dearVRPlayOnAwake on OnEnable
+- Auto detecting Android architecture as ARMv7 now
+
+
+
+CHANGELOG dearVR v1.1- Changed Distance Correction range to [0.01 m - 10 m]- Changed Occlusion default to 0.6- Changed Occlusion Update Intervall default to 0.2- Changed Occlusion Raycast start to Audio Listener (was Camera before) 
+- Added Force Occlusion flag- Added Mute (no processing) flag to Reverb Bus- Added Performance-Mode: not processing spatial audio sources, that aren't playing. 
+- Added Reverb Tail after stop in Performance-Mode (only useful for Internal Reverb) 
+- Solved bug in Windows on performance overload
+
+

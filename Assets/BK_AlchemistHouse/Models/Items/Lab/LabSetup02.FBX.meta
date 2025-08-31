@@ -1,0 +1,150 @@
+fileFormatVersion: 2
+guid: 26e6bae5ccf202c4784d944e0b4f7caf
+timeCreated: 1502411184
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Box013
+    100002: Burner003
+    100004: Cylinder027
+    100006: Cylinder031
+    100008: Cylinder036
+    100010: Cylinder038
+    100012: //RootNode
+    100014: Line001
+    100016: Sphere010
+    100018: Spring001
+    100020: Torus001
+    100022: VialDrop01
+    100024: VialRound01
+    100026: VialRound02
+    100028: VialRoundLiquid
+    400000: Box013
+    400002: Burner003
+    400004: Cylinder027
+    400006: Cylinder031
+    400008: Cylinder036
+    400010: Cylinder038
+    400012: //RootNode
+    400014: Line001
+    400016: Sphere010
+    400018: Spring001
+    400020: Torus001
+    400022: VialDrop01
+    400024: VialRound01
+    400026: VialRound02
+    400028: VialRoundLiquid
+    2300000: Box013
+    2300002: Burner003
+    2300004: Cylinder027
+    2300006: Cylinder031
+    2300008: Cylinder036
+    2300010: Cylinder038
+    2300012: Line001
+    2300014: Sphere010
+    2300016: Spring001
+    2300018: Torus001
+    2300020: VialDrop01
+    2300022: VialRound01
+    2300024: VialRound02
+    2300026: VialRoundLiquid
+    3300000: Box013
+    3300002: Burner003
+    3300004: Cylinder027
+    3300006: Cylinder031
+    3300008: Cylinder036
+    3300010: Cylinder038
+    3300012: Line001
+    3300014: Sphere010
+    3300016: Spring001
+    3300018: Torus001
+    3300020: VialDrop01
+    3300022: VialRound01
+    3300024: VialRound02
+    3300026: VialRoundLiquid
+    4300000: Spring001
+    4300002: VialDrop01
+    4300004: Cylinder027
+    4300006: Cylinder031
+    4300008: Sphere010
+    4300010: Cylinder036
+    4300012: Cylinder038
+    4300014: VialRound02
+    4300016: VialRoundLiquid
+    4300018: Line001
+    4300020: Box013
+    4300022: VialRound01
+    4300024: Torus001
+    4300026: Burner003
+    9500000: //RootNode
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

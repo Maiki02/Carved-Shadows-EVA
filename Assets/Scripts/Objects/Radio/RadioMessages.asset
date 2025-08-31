@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62ca333cd2a3d054eae4f9272987fe1e, type: 3}
+  m_Name: RadioMessages
+  m_EditorClassIdentifier: 
+  primerLoopMessages:
+  - text: 
+    duration: 13
+  - text: Siendo la una y un minuto,
+    duration: 3
+  - text: "antes de continuar con la secci\xF3n musical,"
+    duration: 3
+  - text: "vamos con la noticia del d\xEDa"
+    duration: 2.5
+  - text: 
+    duration: 3
+  - text: "El panorama art\xEDstico argentino"
+    duration: 2
+  - text: ha dado un vuelco con la reciente obra
+    duration: 5
+  - text: 
+    duration: 3
+  - text: un artista presuntamente desconocido
+    duration: 3
+  - text: "aunque seg\xFAn pudimos confirmar,"
+    duration: 3
+  - text: proviene de la famosa familia de artistas
+    duration: 3
+  - text: 
+    duration: 2.5
+  - text: De igual forma,
+    duration: 1.5
+  - text: sea cual sea el motivo por el cual
+    duration: 3
+  - text: "habr\xEDa permanecido en el anonimato,"
+    duration: 3
+  - text: su futuro parece ser prometedor
+    duration: 4
+  - text: y ahora si,
+    duration: 2
+  - text: "con la secci\xF3n musical"
+    duration: 3.5
+  - text: 
+    duration: 2.5
+  segundoLoopMessages:
+  - text: 
+    duration: 9
+  - text: Siendo las dos y dos minutos,
+    duration: 4
+  - text: "y continuando con las noticias del d\xEDa,"
+    duration: 4
+  - text: 
+    duration: 4
+  - text: "las cr\xEDticas han destruido al famoso escultor..."
+    duration: 4
+  - text: 
+    duration: 4
+  - text: y la sociedad...
+    duration: 2
+  - text: "estar\xEDa conmocionada..."
+    duration: 3
+  - text: Ampliaremos...
+    duration: 3

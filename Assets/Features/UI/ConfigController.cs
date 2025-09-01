@@ -16,6 +16,7 @@ public class ConfigController : MonoBehaviour
     [Header("Audio Settings UI")]
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider sfxVolumeSlider;
+    [SerializeField] private Slider masterVolumeSlider; // Nueva slider para volumen master
 
     //[Header("Event System")]
     //[SerializeField] private GameObject eventSystem;
@@ -55,8 +56,16 @@ public class ConfigController : MonoBehaviour
         {
             Debug.Log("AudioController Instance found, setting up audio sliders." +
             AudioController.Instance.MusicVolume + " " + AudioController.Instance.SfxVolume);
+            
             musicVolumeSlider.value = AudioController.Instance.MusicVolume;
             sfxVolumeSlider.value = AudioController.Instance.SfxVolume;
+            
+            // Configurar slider de volumen master si está disponible
+            if (masterVolumeSlider != null)
+            {
+                masterVolumeSlider.value = AudioController.Instance.MasterVolume;
+                masterVolumeSlider.onValueChanged.AddListener(OnMasterVolumeChanged);
+            }
 
             // Agregamos listeners para detectar cambios en UI
             musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
@@ -95,9 +104,19 @@ public class ConfigController : MonoBehaviour
 
     private void OnSfxVolumeChanged(float value)
     {
+        Debug.Log("Changed SFX volume");
         if (AudioController.Instance != null)
         {
             AudioController.Instance.SfxVolume = value;
+        }
+    }
+
+    private void OnMasterVolumeChanged(float value)
+    {
+        Debug.Log("Changed master volume");
+        if (AudioController.Instance != null)
+        {
+            AudioController.Instance.MasterVolume = value;
         }
     }
 

@@ -6,6 +6,7 @@ public class PauseController : MonoBehaviour
 {
     public static PauseController Instance { get; private set; }
     [SerializeField] private GameObject pauseMenuUI;
+    private bool isShowConfig = false;
 
     void Awake()
     {
@@ -27,7 +28,19 @@ public class PauseController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P)) this.TogglePauseMenu();
+        bool pressEscape = Input.GetKeyDown(KeyCode.Escape);
+        bool pressP = Input.GetKeyDown(KeyCode.P);
+
+        if (pressEscape || pressP)
+        {
+            if (isShowConfig)
+            {
+                this.CloseConfiguration();
+                return;
+            }
+        }
+
+        this.TogglePauseMenu();
     }
 
     public void SetShowPauseUI(bool show)
@@ -47,7 +60,8 @@ public class PauseController : MonoBehaviour
     {
         // Ocultar el menú de pausa
         SetShowPauseUI(false);
-        
+        isShowConfig = true;
+
         // Mostrar la configuración usando el Singleton
         if (ConfigController.Instance != null)
         {
@@ -64,6 +78,8 @@ public class PauseController : MonoBehaviour
         {
             ConfigController.Instance.HideConfiguration();
         }
+
+        isShowConfig = false;
         
         // Volver al menú de pausa
         SetShowPauseUI(true);

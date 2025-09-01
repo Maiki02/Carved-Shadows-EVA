@@ -38,9 +38,10 @@ public class PauseController : MonoBehaviour
                 this.CloseConfiguration();
                 return;
             }
+            this.TogglePauseMenu();
+
         }
 
-        this.TogglePauseMenu();
     }
 
     public void SetShowPauseUI(bool show)

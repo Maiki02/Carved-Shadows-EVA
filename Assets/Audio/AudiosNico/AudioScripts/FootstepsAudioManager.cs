@@ -124,7 +124,7 @@ public class FootstepAudioManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Alfombra"))
+        /*if (other.CompareTag("Alfombra"))
         {
             sobreAlfombra = true;
         }
@@ -132,11 +132,11 @@ public class FootstepAudioManager : MonoBehaviour
         {
             enEscaleras = true;
             stepInterval = stairStepInterval;
-        }
+        }*/
     }
 
     private void OnTriggerExit(Collider other)
-    {
+    {/*
         if (other.CompareTag("Alfombra"))
         {
             sobreAlfombra = false;
@@ -145,6 +145,6 @@ public class FootstepAudioManager : MonoBehaviour
         {
             enEscaleras = false;
             stepInterval = defaultStepInterval;
-        }
+        }*/
     }
 }

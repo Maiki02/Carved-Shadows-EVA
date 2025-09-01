@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4499100836251542409}
   - component: {fileID: 6091088402623762073}
   - component: {fileID: 7748630653659725717}
+  - component: {fileID: 5260266859456289396}
   m_Layer: 0
   m_Name: Radio
   m_TagString: Untagged
@@ -60,6 +61,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -97,11 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3436bdafc37fd5a40b957ffd10a04a92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dearVRSource: {fileID: 0}
   audioSource: {fileID: 7748630653659725717}
-  playerController: {fileID: 0}
-  radioRange: 6
-  audioDuration: 85
-  inventarioHotbar: {fileID: 0}
+  useDearVRPlayback: 1
 --- !u!82 &7748630653659725717
 AudioSource:
   m_ObjectHideFlags: 0
@@ -112,7 +114,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 7574874581348822571, guid: 1992caae9c51c244abb1dc3bfe4b0971, type: 2}
-  m_audioClip: {fileID: 8300000, guid: c292b0663efb31e46aded56ca2a3f8a5, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: c292b0663efb31e46aded56ca2a3f8a5, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -198,3 +201,55 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5260266859456289396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8052127189804060613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b51e54047889f1c4dac64a27f85a09c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  occlusionWallMask:
+    serializedVersion: 2
+    m_Bits: 55
+  obstructionWallMask:
+    serializedVersion: 2
+    m_Bits: 55
+  occlusionRayUpdateTime: 1
+  obstructionRayUpdateTime: 1
+  clipIsPlaying: 0
+  gainLevel: 0
+  directLevel: 0
+  reflectionLevel: 0
+  reverbLevel: 0
+  azimuthCorrection: 1
+  distanceCorrection: 1
+  useUnityDistance: 0
+  auralization: 0
+  roomPreset: 7
+  internalReverb: 1
+  performanceMode: 0
+  dearVRPlayOnAwake: 0
+  bypass: 0
+  bypassPerformance: 0
+  reverbStopOverlap: 1
+  inputChannel: 0
+  reflectionLP: 20000
+  reverbLP: 20000
+  roomSize: 100
+  bassBoost: 0
+  occlusionLevel: 0.6
+  obsturctionLevel: 0.6
+  occlusionActive: 0
+  obstructionActive: 0
+  forceOcclusion: 0
+  forceObstruction: 0
+  occlusionDebugRayCast: 0
+  occlusionRayUpdateFreq: 0.2
+  obstructionRayUpdateFreq: 0.2
+  obstructionDebugRayCast: 0
+  reverbSends: []

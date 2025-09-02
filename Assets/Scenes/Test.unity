@@ -692,6 +692,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 7277044005389332717, guid: babc10837413aaa46b5eebc8c208b7d6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -770,6 +774,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1667121854 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3599459732674494355, guid: 502e539d75bb4364db88d4daa2e287fb, type: 3}
+  m_PrefabInstance: {fileID: 278855187}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b066ac3e231d6e3479991b0fa9f5a877, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1738127595
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -862,10 +877,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4105494118944447937, guid: 106172354549ea2439b7a35ebf1285c9, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 4850455178394023110, guid: 106172354549ea2439b7a35ebf1285c9, type: 3}
+      propertyPath: playerController
+      value: 
+      objectReference: {fileID: 1667121854}
     - target: {fileID: 8515550598850117022, guid: 106172354549ea2439b7a35ebf1285c9, type: 3}
       propertyPath: mainMenuPanel
       value: 

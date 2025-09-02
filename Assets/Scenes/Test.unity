@@ -882,13 +882,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1667121854}
     - target: {fileID: 5618152786092894598, guid: 106172354549ea2439b7a35ebf1285c9, type: 3}
-      propertyPath: sfxAbrirLibro
-      value: 
-      objectReference: {fileID: 8300000, guid: 63e7164aabdff2147b31ff5feac23b86, type: 3}
-    - target: {fileID: 5618152786092894598, guid: 106172354549ea2439b7a35ebf1285c9, type: 3}
-      propertyPath: sfxPasarPagina
-      value: 
-      objectReference: {fileID: 8300000, guid: 358c7da78c75e7541bc29586d1f0fd09, type: 3}
+      propertyPath: duracionFadePagina
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8515550598850117022, guid: 106172354549ea2439b7a35ebf1285c9, type: 3}
       propertyPath: mainMenuPanel
       value: 

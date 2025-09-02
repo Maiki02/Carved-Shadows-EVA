@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using System.Collections;
+
 public class BookUIController : MonoBehaviour
 {
     [Header("Referencias")]
@@ -15,7 +17,11 @@ public class BookUIController : MonoBehaviour
     [SerializeField] private AudioClip sfxAbrirLibro; // Sonido al abrir/cerrar el libro
     [SerializeField] private AudioClip sfxPasarPagina; // Sonido al pasar de página
 
+
     private int paginaActual = 0; // Índice de la página izquierda actual
+
+    [Header("Animación")]
+    [SerializeField] private float duracionFadePagina = 0.3f; // Duración del fade entre páginas
 
 
     void Start()
@@ -87,8 +93,7 @@ public class BookUIController : MonoBehaviour
     {
         if (paginaActual + 2 < paginas.Length)
         {
-            paginaActual += 2;
-            ActualizarPaginas();
+            StartCoroutine(FadePaginasCoroutine(2));
             // Reproducir sonido de pasar página
             if (sfxPasarPagina != null && AudioController.Instance != null)
                 AudioController.Instance.PlaySFXClip(sfxPasarPagina);
@@ -100,11 +105,61 @@ public class BookUIController : MonoBehaviour
     {
         if (paginaActual - 2 >= 0)
         {
-            paginaActual -= 2;
-            ActualizarPaginas();
+            StartCoroutine(FadePaginasCoroutine(-2));
             // Reproducir sonido de pasar página
             if (sfxPasarPagina != null && AudioController.Instance != null)
                 AudioController.Instance.PlaySFXClip(sfxPasarPagina);
+        }
+    }
+
+    // Corrutina para hacer fade out/in al pasar de página
+    IEnumerator FadePaginasCoroutine(int cambio)
+    {
+        // Fade out
+        yield return StartCoroutine(FadePaginas(1f, 0f, duracionFadePagina / 2f));
+
+        // Cambiar página
+        paginaActual += cambio;
+        ActualizarPaginas();
+
+        // Fade in
+        yield return StartCoroutine(FadePaginas(0f, 1f, duracionFadePagina / 2f));
+    }
+
+    // Hace fade de alpha en ambas páginas
+    // CORRUTINA HECHA CON IA (COMO CASI TODO)
+    IEnumerator FadePaginas(float from, float to, float duration)
+    {
+        float elapsed = 0f;
+        Color leftColor = leftPageImage.color;
+        Color rightColor = rightPageImage.color;
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+            float alpha = Mathf.Lerp(from, to, t);
+            if (leftPageImage.sprite != null)
+            {
+                leftColor.a = alpha;
+                leftPageImage.color = leftColor;
+            }
+            if (rightPageImage.sprite != null)
+            {
+                rightColor.a = alpha;
+                rightPageImage.color = rightColor;
+            }
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        // Asegurar alpha final
+        if (leftPageImage.sprite != null)
+        {
+            leftColor.a = to;
+            leftPageImage.color = leftColor;
+        }
+        if (rightPageImage.sprite != null)
+        {
+            rightColor.a = to;
+            rightPageImage.color = rightColor;
         }
     }
 }

@@ -38,9 +38,15 @@ public class PlayerInteractor : MonoBehaviour
                 // Si es distinto al anterior, actualizar hover
                 if (interactable != currentInteractable)
                 {
-                    currentInteractable?.OnHoverExit();
+                    // currentInteractable?.OnHoverExit();
                     currentInteractable = interactable;
-                    currentInteractable.OnHoverEnter();
+                    // currentInteractable.OnHoverEnter();
+                    
+                    // Mostrar indicador UI animado
+                    if (CrosshairAnimator.Instance != null)
+                    {
+                        CrosshairAnimator.Instance.StartInteractionAnimation();
+                    }
                 }
 
                 // Interactuar al presionar E
@@ -76,8 +82,14 @@ public class PlayerInteractor : MonoBehaviour
         if (currentInteractable != null)
         {
             Debug.Log("No interactable under ray. Exiting hover state.");
-            currentInteractable.OnHoverExit();
+            // currentInteractable.OnHoverExit();
             currentInteractable = null;
+            
+            // Ocultar indicador UI
+            if (CrosshairAnimator.Instance != null)
+            {
+                CrosshairAnimator.Instance.StopInteractionAnimation();
+            }
         }
     }
 

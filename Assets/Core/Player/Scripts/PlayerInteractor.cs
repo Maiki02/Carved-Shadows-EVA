@@ -34,13 +34,14 @@ public class PlayerInteractor : MonoBehaviour
             Debug.Log("Raycast hit: " + hit.collider.name);
             if (interactable != null)
             {
-                Debug.Log("Interactable detected: " + interactable.GetType().Name);
+                
                 // Si es distinto al anterior, actualizar hover
                 if (interactable != currentInteractable)
                 {
                     // currentInteractable?.OnHoverExit();
                     currentInteractable = interactable;
                     // currentInteractable.OnHoverEnter();
+                    Debug.Log("NEW interactable detected: " + interactable.GetType().Name);
                     
                     // Mostrar indicador UI animado
                     if (CrosshairAnimator.Instance != null)

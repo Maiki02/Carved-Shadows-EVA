@@ -31,9 +31,10 @@ public class PlayerInteractor : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, maxDistance))
         {
             var interactable = hit.collider.GetComponent<IInteractable>();
-            //Debug.Log("Raycast hit: " + hit.collider.name);
+            Debug.Log("Raycast hit: " + hit.collider.name);
             if (interactable != null)
             {
+                Debug.Log("Interactable detected: " + interactable.GetType().Name);
                 // Si es distinto al anterior, actualizar hover
                 if (interactable != currentInteractable)
                 {
@@ -74,7 +75,7 @@ public class PlayerInteractor : MonoBehaviour
         // Si no hay ningún interactable bajo el rayo, desactivar outline
         if (currentInteractable != null)
         {
-            //Debug.Log("No hay nada bajo el rayo.");
+            Debug.Log("No interactable under ray. Exiting hover state.");
             currentInteractable.OnHoverExit();
             currentInteractable = null;
         }

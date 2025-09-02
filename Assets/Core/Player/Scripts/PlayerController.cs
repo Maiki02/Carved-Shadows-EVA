@@ -431,16 +431,28 @@ public class PlayerController : MonoBehaviour
     {
         this.SetControlesActivos(false);
         GameController.Instance.IsInspecting = true;
-        if (brain) brain.enabled = false;
-        if (inspectionCam) inspectionCam.gameObject.SetActive(true);
+        
+        // Usar el sistema de prioridades de Cinemachine correctamente
+        if (mainCam) mainCam.Priority = 0;           // Desactivar cámara principal
+        if (inspectionCam) 
+        {
+            inspectionCam.Priority = 10;             // Activar cámara de inspección con alta prioridad
+            inspectionCam.gameObject.SetActive(true);
+        }
     }
 
     public void DesactivarCamaraInspeccion()
     {
         GameController.Instance.IsInspecting = false;
         SetControlesActivos(true);
-        if (brain) brain.enabled = true;
-        if (inspectionCam) inspectionCam.gameObject.SetActive(false);
+        
+        // Restaurar prioridades de cámaras
+        if (inspectionCam) 
+        {
+            inspectionCam.Priority = 0;              // Desactivar cámara de inspección
+            inspectionCam.gameObject.SetActive(false);
+        }
+        if (mainCam) mainCam.Priority = 10;          // Reactivar cámara principal
     }
 
     public void SetStatusCharacterController(bool status)
@@ -450,6 +462,19 @@ public class PlayerController : MonoBehaviour
 
     public Transform GetCameraTransform()
     {
+        return camTransform;
+    }
+
+    // Nuevo método para obtener la transform de la cámara activa de Cinemachine
+    public Transform GetActiveCameraTransform()
+    {
+        if (brain != null && brain.ActiveVirtualCamera != null)
+        {
+            // Obtener la transform de la Virtual Camera activa
+            return brain.ActiveVirtualCamera.VirtualCameraGameObject.transform;
+        }
+        
+        // Fallback a la cámara principal
         return camTransform;
     }
 }

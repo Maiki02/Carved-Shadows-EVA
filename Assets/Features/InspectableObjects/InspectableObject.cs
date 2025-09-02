@@ -4,8 +4,9 @@ using UnityEngine;
 public class InspectableObject : ObjectInteract
 {
 
-    public float rotationSpeed = 5f;
-    private float distanciaInspeccion = 0.75f;
+    [Header("Inspección")]
+    [SerializeField] private float rotationSpeed = 5f;
+    [SerializeField] private float distanciaInspeccion = 0.75f;
 
     protected bool isInspecting = false;
     protected float tiempoDesdeInicio = 0f;
@@ -19,6 +20,7 @@ public class InspectableObject : ObjectInteract
     private Rigidbody rb;
     private Collider col;
 
+    [Header("Punto de inspección")]
     [SerializeField] protected Transform inspectionPoint;
 
     protected override void Awake()
@@ -68,6 +70,12 @@ public class InspectableObject : ObjectInteract
         }
     }
 
+    public override void OnHoverEnter()
+    {
+        base.OnHoverEnter();
+        Debug.Log("Hover enter en objeto inspeccionable: " + this.name);
+    }
+
     public override void OnInteract()
     {
         if (this.tiempoDeCancelarInspeccion < 0.5f) return;
@@ -88,23 +96,8 @@ public class InspectableObject : ObjectInteract
                 //objetoActual = inspect;
             }
         }
-        //}
-        // Candado
-        /* else if (hit.collider.GetComponentInParent<PadlockInspectable>() is PadlockInspectable padlock)
-         {
-             Debug.Log("Es un candado inspeccionable: " + padlock.name);
-             padlock.EntrarInspeccion();
-             if (padlock.EstaSiendoInspeccionado())
-             {
-                 Debug.Log("Modo inspección del candado iniciado.");
-                 candadoActual = padlock;
-             }
-             else
-             {
-                 Debug.LogWarning("¡No se inició la inspección del candado!");
-             }
-         }*/
     }
+
     public void IniciarInspeccion(Transform inspeccionDestino)
     {
         if (isInspecting) return;
@@ -117,25 +110,40 @@ public class InspectableObject : ObjectInteract
         originalRotation = transform.rotation;
         originalScale = transform.localScale;
 
-        // 2) Nivelar rotación de la Main Camera
-        this.NivelarCamara();
+        // 2) Activar el sistema de inspección de Cinemachine PRIMERO
+        this.ActivarInspeccion();
 
         // 3) Desanidar y resetear escala
         transform.SetParent(null);
         transform.localScale = Vector3.one;
 
-        // 4) Mover frente a la cámara principal del jugador
-        Camera cam = Camera.main;
-        if (cam != null)
+        // 4) Obtener la posición de la cámara activa desde el PlayerController
+        GameObject jugador = GameObject.FindWithTag("Player");
+        if (jugador != null && jugador.TryGetComponent(out PlayerController pc))
         {
-            Vector3 posicionFrenteCamara = cam.transform.position + cam.transform.forward * distanciaInspeccion;
-            transform.position = posicionFrenteCamara;
-            // Opcional: alinear rotación con la cámara, pero sin girar en X/Z para que quede "recto"
-            transform.rotation = Quaternion.Euler(0, cam.transform.eulerAngles.y, 0);
+            Transform cameraTransform = pc.GetActiveCameraTransform();
+            if (cameraTransform != null)
+            {
+                // Posicionar el objeto frente a la cámara actual
+                Vector3 posicionFrenteCamara = cameraTransform.position + cameraTransform.forward * distanciaInspeccion;
+                transform.position = posicionFrenteCamara;
+                // Alinear rotación con la cámara, pero sin girar en X/Z para que quede "recto"
+                transform.rotation = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0);
+            }
+            else
+            {
+                Debug.LogWarning("No se pudo obtener la cámara del PlayerController.");
+                // Fallback: usar InspectionPoint si está disponible
+                if (inspeccionDestino != null)
+                {
+                    transform.position = inspeccionDestino.position;
+                    transform.rotation = Quaternion.identity;
+                }
+            }
         }
         else
         {
-            Debug.LogWarning("No se encontró la cámara principal para inspección. Se usará el punto de inspección por defecto.");
+            Debug.LogWarning("No se encontró el PlayerController. Se usará el punto de inspección por defecto.");
             if (inspeccionDestino != null)
             {
                 transform.position = inspeccionDestino.position;
@@ -147,12 +155,7 @@ public class InspectableObject : ObjectInteract
         if (rb != null) { rb.isKinematic = true; rb.detectCollisions = false; }
         if (col != null) col.enabled = false;
 
-        // 6) Subir prioridad de la cámara de inspección
-        /*if (inspectionCamera != null)
-            inspectionCamera.Priority = 20;*/
         Debug.Log("Iniciar inspección del objeto: " + this.name);
-        // 7) Bloquear controles del jugador
-        this.ActivarInspeccion();
     }
 
     public void FinalizarInspeccion()
@@ -180,12 +183,6 @@ public class InspectableObject : ObjectInteract
     }
 
     public bool EstaSiendoInspeccionado() => isInspecting;
-
-    public void NivelarCamara()
-    {
-        if (Camera.main != null)
-            Camera.main.transform.localRotation = Quaternion.identity;
-    }
 
     public void ActivarInspeccion()
     {

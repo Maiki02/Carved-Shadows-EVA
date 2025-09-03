@@ -31,7 +31,6 @@ public class PlayerInteractor : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, maxDistance))
         {
             var interactable = hit.collider.GetComponent<IInteractable>();
-            Debug.Log("Raycast hit: " + hit.collider.name);
             if (interactable != null)
             {
                 
@@ -41,7 +40,6 @@ public class PlayerInteractor : MonoBehaviour
                     // currentInteractable?.OnHoverExit();
                     currentInteractable = interactable;
                     // currentInteractable.OnHoverEnter();
-                    Debug.Log("NEW interactable detected: " + interactable.GetType().Name);
                     
                     // Mostrar indicador UI animado
                     if (CrosshairAnimator.Instance != null)

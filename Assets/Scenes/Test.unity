@@ -1281,6 +1281,10 @@ PrefabInstance:
       propertyPath: mainMenuPanel
       value: 
       objectReference: {fileID: 1630832083}
+    - target: {fileID: 8953752386164590485, guid: 106172354549ea2439b7a35ebf1285c9, type: 3}
+      propertyPath: hoverClip
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

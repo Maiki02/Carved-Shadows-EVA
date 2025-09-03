@@ -166,34 +166,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 4920232510922284887, guid: 502e539d75bb4364db88d4daa2e287fb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 22.265003
-      objectReference: {fileID: 0}
-    - target: {fileID: 4920232510922284887, guid: 502e539d75bb4364db88d4daa2e287fb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.2255557
-      objectReference: {fileID: 0}
-    - target: {fileID: 4920232510922284887, guid: 502e539d75bb4364db88d4daa2e287fb, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -11.175001
-      objectReference: {fileID: 0}
-    - target: {fileID: 4920232510922284887, guid: 502e539d75bb4364db88d4daa2e287fb, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.8656224
-      objectReference: {fileID: 0}
-    - target: {fileID: 4920232510922284887, guid: 502e539d75bb4364db88d4daa2e287fb, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.2254394
-      objectReference: {fileID: 0}
-    - target: {fileID: 4920232510922284887, guid: 502e539d75bb4364db88d4daa2e287fb, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.43264207
-      objectReference: {fileID: 0}
-    - target: {fileID: 4920232510922284887, guid: 502e539d75bb4364db88d4daa2e287fb, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.11267566
-      objectReference: {fileID: 0}
     - target: {fileID: 7442095384805070582, guid: 502e539d75bb4364db88d4daa2e287fb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -239,11 +211,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 502e539d75bb4364db88d4daa2e287fb, type: 3}
---- !u!4 &278855190 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 259565949994337923, guid: 502e539d75bb4364db88d4daa2e287fb, type: 3}
-  m_PrefabInstance: {fileID: 278855187}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &604844085 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3346321951173831247, guid: 106172354549ea2439b7a35ebf1285c9, type: 3}
@@ -710,7 +677,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 5
   distanciaInspeccion: 0.75
-  inspectionPoint: {fileID: 278855190}
+  escalaInspeccion: 1
+  ajustarEscalaAutomaticamente: 1
+  inspectionPoint: {fileID: 0}
 --- !u!1 &1480215483
 GameObject:
   m_ObjectHideFlags: 0
@@ -1381,6 +1350,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 5
   distanciaInspeccion: 0.75
+  escalaInspeccion: 1
+  ajustarEscalaAutomaticamente: 1
   inspectionPoint: {fileID: 0}
 --- !u!1001 &2002830795
 PrefabInstance:
@@ -1499,6 +1470,14 @@ PrefabInstance:
       propertyPath: 'canvasToActivate.Array.data[0]'
       value: 
       objectReference: {fileID: 604844085}
+    - target: {fileID: 8194589182952360182, guid: cb2dd586e1cf8964996bb7112983b6a3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.079736024
+      objectReference: {fileID: 0}
+    - target: {fileID: 8194589182952360182, guid: cb2dd586e1cf8964996bb7112983b6a3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.23908348
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

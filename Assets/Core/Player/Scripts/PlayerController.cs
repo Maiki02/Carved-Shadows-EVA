@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Cámaras (CM3)")]
     [SerializeField] private CinemachineCamera mainCam;
-    [SerializeField] private CinemachineCamera inspectionCam;
     [SerializeField] private CinemachineCamera cinematicCam;
     [SerializeField] private CinemachineBrain brain;
 
@@ -367,12 +366,10 @@ public class PlayerController : MonoBehaviour
         SetControlesActivos(false);
         GameController.Instance.IsInspecting = true;
 
-        if (mainCam) mainCam.Priority = 0;
-        if (inspectionCam)
-        {
-            inspectionCam.Priority = 10;
-            inspectionCam.gameObject.SetActive(true);
-        }
+        // En lugar de cambiar de cámara, solo congelamos el movimiento de la cámara principal
+        if (axisCtrl != null) axisCtrl.enabled = false; // Desactivar controles de rotación
+        
+        Debug.Log("Inspección activada - Movimiento de cámara desactivado");
     }
 
     public void DesactivarCamaraInspeccion()
@@ -380,12 +377,10 @@ public class PlayerController : MonoBehaviour
         GameController.Instance.IsInspecting = false;
         SetControlesActivos(true);
 
-        if (inspectionCam)
-        {
-            inspectionCam.Priority = 0;
-            inspectionCam.gameObject.SetActive(false);
-        }
-        if (mainCam) mainCam.Priority = 10;
+        // Reactivar controles de rotación de la cámara principal
+        if (axisCtrl != null) axisCtrl.enabled = true;
+        
+        Debug.Log("Inspección desactivada - Movimiento de cámara reactivado");
     }
 
     public void SetStatusCharacterController(bool status)

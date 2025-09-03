@@ -1,11 +1,11 @@
 using System.Collections;
 using UnityEngine;
-using Cinemachine;
+using Unity.Cinemachine;
 
 public class Door_NextLoop : ObjectInteract
 {
     [Header("Refs")]
-    [SerializeField] private CinemachineVirtualCamera doorVCam; 
+    [SerializeField] private CinemachineCamera doorVCam; 
     [SerializeField] private Transform doorEntryPoint;
     [SerializeField] private Transform lookTargetPoint;
 

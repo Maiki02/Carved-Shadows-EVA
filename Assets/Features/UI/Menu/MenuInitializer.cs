@@ -6,6 +6,7 @@ public class MenuInitializer : MonoBehaviour
     [SerializeField] private GameObject menuRoot;
     [SerializeField] private GameObject[] canvasToActivate;
     [SerializeField] private GameObject menuCamera;
+    [SerializeField] private float fadeDuration = 3f;
 
 
     private PlayerController playerController;
@@ -40,6 +41,8 @@ public class MenuInitializer : MonoBehaviour
     {
         GameController.Instance.SetGameStarted(true);
         AudioController.Instance.StopMusic();
+        FadeManager.Instance.FadeIn(fadeDuration);
+
 
         if (menuRoot != null) menuRoot.SetActive(false);
         if (menuCamera != null) menuCamera.SetActive(false);

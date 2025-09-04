@@ -1,5 +1,54 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &852831068451072936
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6995376880217336791}
+  - component: {fileID: 4201834291693419212}
+  m_Layer: 0
+  m_Name: InspectableDepth
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6995376880217336791
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852831068451072936}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 1.7190567, y: -1.7110189, z: -2.425931}
+  m_LocalScale: {x: 1, y: 1.1111112, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7442095384805070582}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4201834291693419212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852831068451072936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: b1346a37c22bfcc4592dae9d81e6e300, type: 2}
 --- !u!1 &1018849495417795051
 GameObject:
   m_ObjectHideFlags: 0
@@ -41,6 +90,7 @@ Transform:
   - {fileID: 5596268102240139275}
   - {fileID: 8215322046978871198}
   - {fileID: 259565949994337923}
+  - {fileID: 6995376880217336791}
   - {fileID: 7672544184280456616}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -139,6 +189,10 @@ MonoBehaviour:
   mainCam: {fileID: 4370582132243757582}
   cinematicCam: {fileID: 1501233743210205618}
   brain: {fileID: 4726441344874717124}
+  usarDepthOfField: 1
+  depthOfFieldIntensidad: 0.6
+  transicionDepthOfField: 0.5
+  postProcessVolume: {fileID: 4201834291693419212}
   idleAmplitude: 0.015
   maxShake: 1
   maxSpeed: 5

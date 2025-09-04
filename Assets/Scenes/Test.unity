@@ -211,6 +211,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 502e539d75bb4364db88d4daa2e287fb, type: 3}
+--- !u!4 &278855190 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 259565949994337923, guid: 502e539d75bb4364db88d4daa2e287fb, type: 3}
+  m_PrefabInstance: {fileID: 278855187}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &604844085 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3346321951173831247, guid: 106172354549ea2439b7a35ebf1285c9, type: 3}
@@ -679,7 +684,7 @@ MonoBehaviour:
   distanciaInspeccion: 0.75
   escalaInspeccion: 1
   ajustarEscalaAutomaticamente: 1
-  inspectionPoint: {fileID: 0}
+  inspectionPoint: {fileID: 278855190}
 --- !u!1 &1480215483
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,7 +1477,7 @@ PrefabInstance:
       objectReference: {fileID: 604844085}
     - target: {fileID: 8194589182952360182, guid: cb2dd586e1cf8964996bb7112983b6a3, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.079736024
+      value: 0.07973602
       objectReference: {fileID: 0}
     - target: {fileID: 8194589182952360182, guid: cb2dd586e1cf8964996bb7112983b6a3, type: 3}
       propertyPath: m_LocalRotation.z

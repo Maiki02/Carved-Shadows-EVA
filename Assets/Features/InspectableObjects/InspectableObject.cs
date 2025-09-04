@@ -34,7 +34,10 @@ public class InspectableObject : ObjectInteract
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
 
-        this.inspectionPoint = GameObject.FindGameObjectWithTag("InspectionPoint").GetComponent<Transform>();
+        if (inspectionPoint == null)
+        {
+            this.inspectionPoint = GameObject.FindGameObjectWithTag("InspectionPoint").GetComponent<Transform>();
+        }
     }
 
 

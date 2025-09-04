@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using Unity.Cinemachine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -17,6 +19,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CinemachineCamera mainCam;
     [SerializeField] private CinemachineCamera cinematicCam;
     [SerializeField] private CinemachineBrain brain;
+
+    [Header("Depth of Field - Inspección")]
+    [SerializeField] private bool usarDepthOfField = true;
+    [SerializeField] private float depthOfFieldIntensidad = 5f; // Intensidad del desenfoque
+    [SerializeField] private float transicionDepthOfField = 1f; // Velocidad de transición
+    [SerializeField] private Volume postProcessVolume; // Volume con Depth of Field
+
+    private float depthOfFieldOriginal = 0f; // Valor original del DoF
 
     [Header("Shake al caminar (Noise)")]
     [SerializeField] private float idleAmplitude = 0.05f;
@@ -369,6 +379,10 @@ public class PlayerController : MonoBehaviour
         // En lugar de cambiar de cámara, solo congelamos el movimiento de la cámara principal
         if (axisCtrl != null) axisCtrl.enabled = false; // Desactivar controles de rotación
         
+        // Activar Depth of Field para desenfocar el fondo
+        if (usarDepthOfField)
+            StartCoroutine(TransicionDepthOfField(true));
+        
         Debug.Log("Inspección activada - Movimiento de cámara desactivado");
     }
 
@@ -380,7 +394,49 @@ public class PlayerController : MonoBehaviour
         // Reactivar controles de rotación de la cámara principal
         if (axisCtrl != null) axisCtrl.enabled = true;
         
+        // Desactivar Depth of Field
+        if (usarDepthOfField)
+            StartCoroutine(TransicionDepthOfField(false));
+        
         Debug.Log("Inspección desactivada - Movimiento de cámara reactivado");
+    }
+
+    private IEnumerator TransicionDepthOfField(bool activar)
+    {
+        if (postProcessVolume == null || !postProcessVolume.profile.TryGet<DepthOfField>(out var depthOfField))
+        {
+            Debug.LogWarning("No se encontró Volume o Depth of Field en el profile");
+            yield break;
+        }
+
+        float valorInicial = depthOfField.focusDistance.value;
+        float valorFinal = activar ? depthOfFieldIntensidad : depthOfFieldOriginal;
+        
+        // Si es la primera vez, guardamos el valor original
+        if (activar && depthOfFieldOriginal == 0f)
+            depthOfFieldOriginal = valorInicial;
+
+        float tiempoTranscurrido = 0f;
+        
+        // Activar el efecto
+        depthOfField.active = true;
+        
+        while (tiempoTranscurrido < transicionDepthOfField)
+        {
+            tiempoTranscurrido += Time.deltaTime;
+            float progreso = tiempoTranscurrido / transicionDepthOfField;
+            
+            float valorActual = Mathf.Lerp(valorInicial, valorFinal, progreso);
+            depthOfField.focusDistance.value = valorActual;
+            
+            yield return null;
+        }
+        
+        depthOfField.focusDistance.value = valorFinal;
+        
+        // Si desactivamos y llegamos al valor original, desactivar el efecto
+        if (!activar && Mathf.Approximately(valorFinal, depthOfFieldOriginal))
+            depthOfField.active = false;
     }
 
     public void SetStatusCharacterController(bool status)

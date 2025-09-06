@@ -1724,11 +1724,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1637518702271472683, guid: 98e15c6a001a09f438eaf7c091f2a41f, type: 3}
       propertyPath: candleType
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1637518702271472683, guid: 98e15c6a001a09f438eaf7c091f2a41f, type: 3}
       propertyPath: maxIntensity
-      value: 0.5
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 1637518702271472683, guid: 98e15c6a001a09f438eaf7c091f2a41f, type: 3}
       propertyPath: minIntensity
@@ -1906,7 +1906,7 @@ PrefabInstance:
       objectReference: {fileID: 604844085}
     - target: {fileID: 8194589182952360182, guid: cb2dd586e1cf8964996bb7112983b6a3, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.079736024
+      value: 0.07973602
       objectReference: {fileID: 0}
     - target: {fileID: 8194589182952360182, guid: cb2dd586e1cf8964996bb7112983b6a3, type: 3}
       propertyPath: m_LocalRotation.z

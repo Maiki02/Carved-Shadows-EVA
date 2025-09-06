@@ -1714,38 +1714,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 754921375980627087, guid: 98e15c6a001a09f438eaf7c091f2a41f, type: 3}
-      propertyPath: m_Range
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 754921375980627087, guid: 98e15c6a001a09f438eaf7c091f2a41f, type: 3}
-      propertyPath: m_Intensity
-      value: 0.07957747
-      objectReference: {fileID: 0}
-    - target: {fileID: 1637518702271472683, guid: 98e15c6a001a09f438eaf7c091f2a41f, type: 3}
-      propertyPath: candleType
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1637518702271472683, guid: 98e15c6a001a09f438eaf7c091f2a41f, type: 3}
-      propertyPath: maxIntensity
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1637518702271472683, guid: 98e15c6a001a09f438eaf7c091f2a41f, type: 3}
-      propertyPath: minIntensity
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1637518702271472683, guid: 98e15c6a001a09f438eaf7c091f2a41f, type: 3}
-      propertyPath: baseIntensity
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1637518702271472683, guid: 98e15c6a001a09f438eaf7c091f2a41f, type: 3}
-      propertyPath: maxRandomOffset
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 1637518702271472683, guid: 98e15c6a001a09f438eaf7c091f2a41f, type: 3}
-      propertyPath: variationCycleDuration
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 2655119826328213389, guid: 98e15c6a001a09f438eaf7c091f2a41f, type: 3}
       propertyPath: m_Name
       value: Vela
@@ -1906,7 +1874,7 @@ PrefabInstance:
       objectReference: {fileID: 604844085}
     - target: {fileID: 8194589182952360182, guid: cb2dd586e1cf8964996bb7112983b6a3, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.07973602
+      value: 0.079736024
       objectReference: {fileID: 0}
     - target: {fileID: 8194589182952360182, guid: cb2dd586e1cf8964996bb7112983b6a3, type: 3}
       propertyPath: m_LocalRotation.z

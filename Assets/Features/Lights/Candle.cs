@@ -21,8 +21,8 @@ public class Candle : MonoBehaviour
     [SerializeField] private float maxIntensity = 1.5f; // Intensidad máxima
     [SerializeField] private float minRandomOffset = 0f; // Offset aleatorio mínimo
     [SerializeField] private float maxRandomOffset = 0.2f; // Offset aleatorio máximo
-    [SerializeField] private float variationCycleDuration = 3f; // Duración de un ciclo completo de variación
-    [SerializeField] private AnimationCurve variationCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // Curva de variación
+    [SerializeField] private float variationCycleDuration = 3f; // Duración base de un ciclo completo de variación
+    [SerializeField] private float cycleDurationRandomRange = 0.5f; // Rango aleatorio para la duración del ciclo (+/- segundos)
     
     [Header("Configuración de Intermitencia")]
     [SerializeField] private float offDuration = 2f; // Tiempo que permanece apagada (segundos)
@@ -36,6 +36,8 @@ public class Candle : MonoBehaviour
     private bool isVariationActive = false; // Control de variación de intensidad
     private float variationTimer = 0f; // Timer para el ciclo de variación
     private float currentRandomOffset = 0f; // Offset aleatorio actual
+    private float currentCycleDuration = 0f; // Duración actual del ciclo (con random aplicado)
+    private bool isIncreasing = true; // true = incrementando hacia máximo, false = decrementando hacia mínimo
     
     // Variables para intermitencia
     private bool isIntermittentActive = false;
@@ -93,14 +95,26 @@ public class Candle : MonoBehaviour
         // Incrementar timer de variación
         variationTimer += Time.deltaTime;
         
-        // Calcular progreso del ciclo (0 a 1)
-        float cycleProgress = (variationTimer % variationCycleDuration) / variationCycleDuration;
+        // Verificar si completamos el ciclo actual
+        if (variationTimer >= currentCycleDuration)
+        {
+            // Reiniciar timer y generar nueva duración aleatoria
+            variationTimer = 0f;
+            GenerateNewCycleDuration();
+            
+            // Cambiar dirección (ida y vuelta)
+            isIncreasing = !isIncreasing;
+        }
         
-        // Aplicar curva de variación para obtener valor suave entre 0 y 1
-        float curveValue = variationCurve.Evaluate(cycleProgress);
+        // Calcular progreso del ciclo actual (0 a 1)
+        float cycleProgress = variationTimer / currentCycleDuration;
         
-        // Interpolar entre intensidad mínima y máxima
-        float baseVariation = Mathf.Lerp(minIntensity, maxIntensity, curveValue);
+        // Determinar intensidad objetivo según la dirección
+        float targetIntensity = isIncreasing ? maxIntensity : minIntensity;
+        float startIntensity = isIncreasing ? minIntensity : maxIntensity;
+        
+        // Interpolar linealmente entre intensidades (sin curva)
+        float baseVariation = Mathf.Lerp(startIntensity, targetIntensity, cycleProgress);
         
         // Agregar offset aleatorio si está configurado
         if (maxRandomOffset > 0f)
@@ -121,6 +135,13 @@ public class Candle : MonoBehaviour
         
         // Aplicar la intensidad calculada
         candleLight.intensity = finalIntensity;
+    }
+
+    private void GenerateNewCycleDuration()
+    {
+        // Generar duración aleatoria dentro del rango especificado
+        float randomOffset = Random.Range(-cycleDurationRandomRange, cycleDurationRandomRange);
+        currentCycleDuration = Mathf.Max(0.1f, variationCycleDuration + randomOffset);
     }
 
     private void UpdateIntermittentBehavior()
@@ -327,10 +348,12 @@ public class Candle : MonoBehaviour
         isVariationActive = true;
         variationTimer = 0f;
         currentRandomOffset = 0f;
+        isIncreasing = true; // Empezar incrementando hacia el máximo
+        GenerateNewCycleDuration(); // Generar primera duración aleatoria
     }
 
     /// Detiene la variación de intensidad y establece una intensidad fija
-    public void StopIntensityVariation(float? fixedIntensity = null)
+    public void     StopIntensityVariation(float? fixedIntensity = null)
     {
         isVariationActive = false;
         if (fixedIntensity.HasValue && candleLight != null)
@@ -344,11 +367,18 @@ public class Candle : MonoBehaviour
     }
 
     /// Configura los parámetros de variación en tiempo de ejecución
-    public void ConfigureVariation(float newMinIntensity, float newMaxIntensity, float newCycleDuration)
+    public void ConfigureVariation(float newMinIntensity, float newMaxIntensity, float newCycleDuration, float newRandomRange = 0f)
     {
         minIntensity = Mathf.Max(0f, newMinIntensity);
         maxIntensity = Mathf.Max(minIntensity, newMaxIntensity);
         variationCycleDuration = Mathf.Max(0.1f, newCycleDuration);
+        cycleDurationRandomRange = Mathf.Max(0f, newRandomRange);
+        
+        // Si está activa la variación, regenerar duración
+        if (isVariationActive)
+        {
+            GenerateNewCycleDuration();
+        }
     }
 
     /// Inicia el comportamiento intermitente
@@ -392,6 +422,7 @@ public class Candle : MonoBehaviour
     public bool IsChangingState => isChangingState;
     public bool IsVariationActive => isVariationActive;
     public bool IsIntermittentActive => isIntermittentActive;
+    public bool IsIncreasingIntensity => isIncreasing; // Nueva propiedad para consultar dirección
     public CandleType Type => candleType;
     public float StoredIntensity => storedIntensity;
     public float TargetIntensity => targetIntensity;
@@ -437,6 +468,9 @@ public class Candle : MonoBehaviour
             
         if (variationCycleDuration <= 0f)
             variationCycleDuration = 0.1f;
+            
+        if (cycleDurationRandomRange < 0f)
+            cycleDurationRandomRange = 0f;
             
         // Validaciones de intermitencia
         if (offDuration <= 0f)

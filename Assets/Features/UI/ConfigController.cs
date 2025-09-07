@@ -1,13 +1,14 @@
+using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ConfigController : MonoBehaviour
 {
     public static ConfigController Instance { get; private set; }
 
-    [SerializeField] private GameObject configPanel; // Panel visual de configuración
-    [SerializeField] private GameObject mainMenuPanel; // Panel visual del menú principal
+    [SerializeField] private GameObject configPanel;   // Panel de configuración
+    [SerializeField] private GameObject mainMenuPanel; // Panel del menú principal
 
     [Header("Game Settings UI")]
     [SerializeField] private Slider mouseSensitivitySlider;
@@ -16,10 +17,13 @@ public class ConfigController : MonoBehaviour
     [Header("Audio Settings UI")]
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider sfxVolumeSlider;
-    [SerializeField] private Slider masterVolumeSlider; // Nueva slider para volumen master
+    [SerializeField] private Slider masterVolumeSlider;
 
-    //[Header("Event System")]
-    //[SerializeField] private GameObject eventSystem;
+    [Header("UI Focus")]
+    [SerializeField] private GameObject firstConfigSelected; // primer slider/botón al abrir config
+
+    [Header("Input")]
+    [SerializeField] private UIInputBinder uiBinder; // opcional, se autocompleta
 
     public void Awake()
     {
@@ -38,38 +42,34 @@ public class ConfigController : MonoBehaviour
     private void Start()
     {
         Debug.Log("Starting ConfigController...");
-        // Obtenemos valores desde GameController
+
+        // Game settings
         if (GameController.Instance != null)
         {
             mouseSensitivitySlider.value = GameController.Instance.MouseSensitivity;
-            //invertMouseToggle.isOn = GameController.Instance.InvertMouse;
-
-            // Agregamos listeners para detectar cambios en UI
             mouseSensitivitySlider.onValueChanged.AddListener(OnMouseSensitivityChanged);
-            //invertMouseToggle.onValueChanged.AddListener(OnInvertMouseChanged);
 
-            this.LoadEventSystem();
+            LoadEventSystem();
         }
 
-        // Obtenemos valores desde AudioController
+        // Audio settings
         if (AudioController.Instance != null)
         {
             Debug.Log("AudioController Instance found, setting up audio sliders." +
-            AudioController.Instance.MusicVolume + " " + AudioController.Instance.SfxVolume);
-            
+                AudioController.Instance.MusicVolume + " " + AudioController.Instance.SfxVolume);
+
             musicVolumeSlider.value = AudioController.Instance.MusicVolume;
-            sfxVolumeSlider.value = AudioController.Instance.SfxVolume;
-            
-            // Configurar slider de volumen master si está disponible
+            sfxVolumeSlider.value   = AudioController.Instance.SfxVolume;
+
+            musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
+            sfxVolumeSlider.onValueChanged.AddListener(OnSfxVolumeChanged);
+
             if (masterVolumeSlider != null)
             {
                 masterVolumeSlider.value = AudioController.Instance.MasterVolume;
                 masterVolumeSlider.onValueChanged.AddListener(OnMasterVolumeChanged);
             }
 
-            // Agregamos listeners para detectar cambios en UI
-            musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
-            sfxVolumeSlider.onValueChanged.AddListener(OnSfxVolumeChanged);
             Debug.Log("Music Volume: Start  " + AudioController.Instance.MusicVolume);
         }
     }
@@ -77,110 +77,102 @@ public class ConfigController : MonoBehaviour
     private void OnMouseSensitivityChanged(float value)
     {
         if (GameController.Instance != null)
-        {
             GameController.Instance.MouseSensitivity = value;
-        }
     }
-
-    /*private void OnInvertMouseChanged(bool isInverted)
-    {
-        if (GameController.Instance != null)
-        {
-            GameController.Instance.InvertMouse = isInverted;
-        }
-    }*/
 
     private void OnMusicVolumeChanged(float value)
     {
-        Debug.Log("Changed music volume");
-        // Aseguramos que AudioController esté inicializado antes de cambiar el volumen
-        // Esto es importante para evitar errores si se accede antes de que AudioController se inicialice
-        // o si no existe en la escena actual.
         if (AudioController.Instance != null)
-        {
             AudioController.Instance.MusicVolume = value;
-        }
     }
 
     private void OnSfxVolumeChanged(float value)
     {
-        Debug.Log("Changed SFX volume");
         if (AudioController.Instance != null)
-        {
             AudioController.Instance.SfxVolume = value;
-        }
     }
 
     private void OnMasterVolumeChanged(float value)
     {
-        Debug.Log("Changed master volume");
         if (AudioController.Instance != null)
-        {
             AudioController.Instance.MasterVolume = value;
-        }
     }
 
     private void LoadEventSystem()
     {
-        if (GameController.Instance.IsPaused())
-        {
-            //eventSystem.SetActive(false); //Creo que el event system, puede estar siempre desactivado
-        }
+        // Nada por ahora; dejamos hook por si querés manejar algo especial
     }
 
-    /// Muestra la UI de configuración
+    /// Mostrar configuración
     public void ShowConfiguration()
     {
-        if (configPanel != null)
-            configPanel.SetActive(true);
+        if (configPanel) configPanel.SetActive(true);
 
-        // Si está en pausa, ocultar el menú de pausa
+        // Si está en pausa, ocultar el pause menu
         if (GameController.Instance != null && GameController.Instance.IsPaused())
         {
-            if (PauseController.Instance != null)
-                PauseController.Instance.SetShowPauseUI(false);
+            PauseController.Instance?.SetShowPauseUI(false);
         }
         // Si NO está en pausa, ocultar el menú principal
-        else if (mainMenuPanel != null)
+        else if (mainMenuPanel)
         {
             mainMenuPanel.SetActive(false);
         }
+
+        // Navegación UI + foco inicial
+        GetBinder()?.SwitchToUI();
+        if (firstConfigSelected)
+            StartCoroutine(SelectNextFrame(firstConfigSelected));
+
+        // En menús mostramos cursor (si además hay soporte mouse)
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible   = true;
     }
 
-    /// Oculta la UI de configuración
+    /// Ocultar configuración
     public void HideConfiguration()
     {
-        if (configPanel != null)
-            configPanel.SetActive(false);
+        if (configPanel) configPanel.SetActive(false);
 
-        // Si está en pausa, mostrar el menú de pausa
+        // Si está en pausa, volver a mostrar el pause menu (que ya maneja selección)
         if (GameController.Instance != null && GameController.Instance.IsPaused())
         {
-            if (PauseController.Instance != null)
-                PauseController.Instance.SetShowPauseUI(true);
+            PauseController.Instance?.SetShowPauseUI(true);
+            GetBinder()?.SwitchToUI(); // seguimos en UI mientras hay pausa
         }
-        // Si NO está en pausa, mostrar el menú principal
-        else if (mainMenuPanel != null)
+        else if (mainMenuPanel)
         {
+            // Si veníamos del menú principal, lo volvemos a mostrar (seguimos en UI)
             mainMenuPanel.SetActive(true);
+            GetBinder()?.SwitchToUI();
         }
+
         Debug.Log("Configuración ocultada");
     }
 
     public void ReturnToPreviousScene()
     {
-        this.HideConfiguration();
+        HideConfiguration();
+    }
 
-        // Ocultar la configuración
-        /*HideConfiguration();
-        
-        // Si hay un PauseController activo, volver al menú de pausa
-        if (PauseController.Instance != null)
-        {
-            PauseController.Instance.SetShowPauseUI(true);
-        }*/
+    // -------- helpers --------
 
-        // Si no hay PauseController, asumimos que estamos en el menú principal
-        // y simplemente ocultamos la configuración (el menú principal sigue visible)
+    private IEnumerator SelectNextFrame(GameObject go)
+    {
+        yield return null;
+        if (!go || !EventSystem.current) yield break;
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(go);
+    }
+
+    private UIInputBinder GetBinder()
+    {
+        if (uiBinder) return uiBinder;
+#if UNITY_2023_1_OR_NEWER
+        uiBinder = FindAnyObjectByType<UIInputBinder>();
+#else
+        uiBinder = FindObjectOfType<UIInputBinder>();
+#endif
+        return uiBinder;
     }
 }

@@ -1,125 +1,149 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class PauseController : MonoBehaviour
 {
     public static PauseController Instance { get; private set; }
+
+    [Header("UI")]
     [SerializeField] private GameObject pauseMenuUI;
+    [SerializeField] private GameObject firstPauseSelected; // botón “Resume”, por ejemplo
+
+    [Header("Input System")]
+    [SerializeField] private InputActionReference pauseAction;    // Gameplay/Pause  (Esc / Start)
+    [SerializeField] private InputActionReference uiCancelAction; // UI/Cancel      (Esc / B)
+
+    [Header("Binder (opcional)")]
+    [SerializeField] private UIInputBinder uiBinder; // si no lo asignás, lo busca solo
+
     private bool isShowConfig = false;
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        if (Instance == null) Instance = this;
+        else { Destroy(gameObject); return; }
     }
-    // Start is called before the first frame update
-    void Start()
+
+    void OnEnable()
     {
-
+        pauseAction?.action.Enable();
+        uiCancelAction?.action.Enable();
     }
 
-    // Update is called once per frame
+    void OnDisable()
+    {
+        pauseAction?.action.Disable();
+        uiCancelAction?.action.Disable();
+    }
+
     void Update()
     {
-        bool pressEscape = Input.GetKeyDown(KeyCode.Escape);
-        bool pressP = Input.GetKeyDown(KeyCode.P);
-
-        if (pressEscape || pressP)
+        // Abrir/cerrar pausa desde gameplay
+        if (pauseAction != null && pauseAction.action.WasPressedThisFrame())
         {
-            if (isShowConfig)
-            {
-                this.CloseConfiguration();
-                return;
-            }
-            this.TogglePauseMenu();
-
+            TogglePauseMenu();
         }
 
+        // Si ya estoy en pausa, la tecla Cancel hace "atrás"
+        if (GameController.Instance != null && GameController.Instance.IsPaused())
+        {
+            if (uiCancelAction != null && uiCancelAction.action.WasPressedThisFrame())
+            {
+                if (isShowConfig) CloseConfiguration();
+                else              ResumeGame();
+            }
+        }
     }
 
     public void SetShowPauseUI(bool show)
     {
-        if (pauseMenuUI != null)
+        if (!pauseMenuUI) return;
+        pauseMenuUI.SetActive(show);
+
+        if (show)
         {
-            pauseMenuUI.SetActive(show);
+            GetBinder()?.SwitchToUI();
+            if (firstPauseSelected) StartCoroutine(SelectNextFrame(firstPauseSelected));
+        }
+        else
+        {
+            if (EventSystem.current) EventSystem.current.SetSelectedGameObject(null);
         }
     }
 
-    public void ResumeGame()
-    {
-        this.TogglePauseMenu();
-    }
+    public void ResumeGame() => TogglePauseMenu();
 
     public void OpenConfiguration()
     {
-        // Ocultar el menú de pausa
         SetShowPauseUI(false);
         isShowConfig = true;
-
-        // Mostrar la configuración usando el Singleton
-        if (ConfigController.Instance != null)
-        {
-            ConfigController.Instance.ShowConfiguration();
-        }
-
-        // El juego sigue en pausa mientras se muestran las configuraciones
+        ConfigController.Instance?.ShowConfiguration();
     }
 
     public void CloseConfiguration()
     {
-        // Ocultar la configuración usando el Singleton
-        if (ConfigController.Instance != null)
-        {
-            ConfigController.Instance.HideConfiguration();
-        }
-
+        ConfigController.Instance?.HideConfiguration();
         isShowConfig = false;
-        
-        // Volver al menú de pausa
         SetShowPauseUI(true);
     }
 
-    /*public void ResetGame()
-    {
-        this.TogglePauseMenu();
-        GameController.Instance.ResetGame(true);
-    }*/
-
     public void ExitToMainMenu()
     {
-        this.TogglePauseMenu();
+        TogglePauseMenu();
         GameController.Instance.SetGameStarted(false);
         GameController.Instance.ResetValues();
-
-        GameFlowManager.Instance.ResetGameFlow(); // Reiniciar el flujo del juego
+        GameFlowManager.Instance.ResetGameFlow();
     }
 
     public void TogglePauseMenu()
     {
         if (!GameController.Instance.IsGameStarted()) return;
 
-        bool isPaused = !GameController.Instance.IsPaused(); //Guardamos el valor para reutilizarlo
-
+        bool isPaused = !GameController.Instance.IsPaused();
         GameController.Instance.SetIsPaused(isPaused);
         SetShowPauseUI(isPaused);
 
-        if (isPaused) {
+        if (isPaused)
+        {
+            Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            Time.timeScale = 0f; // Asegurarse de que el tiempo se detenga
-        } else {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            Time.timeScale = 1f; // Asegurarse de que el tiempo se reanude
+            Cursor.visible   = true;
+
+            GetBinder()?.SwitchToUI();
+            if (firstPauseSelected) StartCoroutine(SelectNextFrame(firstPauseSelected));
         }
-        
-        
+        else
+        {
+            Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible   = false;
+
+            GetBinder()?.SwitchToGameplay();
+            if (EventSystem.current) EventSystem.current.SetSelectedGameObject(null);
+        }
+    }
+
+    // -------- helpers --------
+    private IEnumerator SelectNextFrame(GameObject go)
+    {
+        yield return null;
+        if (go && EventSystem.current)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(go);
+        }
+    }
+
+    private UIInputBinder GetBinder()
+    {
+        if (uiBinder) return uiBinder;
+#if UNITY_2023_1_OR_NEWER
+        uiBinder = FindAnyObjectByType<UIInputBinder>();
+#else
+        uiBinder = FindObjectOfType<UIInputBinder>();
+#endif
+        return uiBinder;
     }
 }

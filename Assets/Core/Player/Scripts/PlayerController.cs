@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Unity.Cinemachine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 
@@ -22,11 +23,10 @@ public class PlayerController : MonoBehaviour
 
     [Header("Depth of Field - Inspección")]
     [SerializeField] private bool usarDepthOfField = true;
-    [SerializeField] private float depthOfFieldIntensidad = 5f; // Intensidad del desenfoque
-    [SerializeField] private float transicionDepthOfField = 1f; // Velocidad de transición
-    [SerializeField] private Volume postProcessVolume; // Volume con Depth of Field
-
-    private float depthOfFieldOriginal = 0f; // Valor original del DoF
+    [SerializeField] private float depthOfFieldIntensidad = 5f;
+    [SerializeField] private float transicionDepthOfField = 1f;
+    [SerializeField] private Volume postProcessVolume;
+    private float depthOfFieldOriginal = 0f;
 
     [Header("Shake al caminar (Noise)")]
     [SerializeField] private float idleAmplitude = 0.05f;
@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
 
     // CM3 components
     private CinemachineBasicMultiChannelPerlin noise;
-    private CinemachineInputAxisController axisCtrl; // para habilitar/deshabilitar input
+    private CinemachineInputAxisController axisCtrl; // habilitar/deshabilitar look
 
     [Header("Caída")]
     [SerializeField] private float fallTime = 1f;
@@ -95,6 +95,25 @@ public class PlayerController : MonoBehaviour
     private bool controlesActivos = true;
     private bool isFalling = false;
 
+    [Header("Input System")]
+    [SerializeField] private InputActionReference moveAction;   // Gameplay/Move (Vector2)
+    [SerializeField] private InputActionReference lookAction;   // Gameplay/Look (Vector2) - lo usa CM3
+    [SerializeField] private InputActionReference pauseAction;  // Gameplay/Pause (Button)
+
+    void OnEnable()
+    {
+        moveAction?.action.Enable();
+        lookAction?.action.Enable();
+        pauseAction?.action.Enable();
+    }
+
+    void OnDisable()
+    {
+        moveAction?.action.Disable();
+        lookAction?.action.Disable();
+        pauseAction?.action.Disable();
+    }
+
     void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -105,14 +124,13 @@ public class PlayerController : MonoBehaviour
 
         if (mainCam)
         {
-            // En CM3 son componentes normales del GO de la vcam
-            noise    = mainCam.GetComponent<CinemachineBasicMultiChannelPerlin>();
+            noise = mainCam.GetComponent<CinemachineBasicMultiChannelPerlin>();
             axisCtrl = mainCam.GetComponent<CinemachineInputAxisController>();
 
             if (noise != null && walkNoiseProfile != null)
                 noise.NoiseProfile = walkNoiseProfile;
 
-            baseFOV   = mainCam.Lens.FieldOfView;
+            baseFOV = mainCam.Lens.FieldOfView;
             baseDutch = mainCam.Lens.Dutch;
         }
 
@@ -125,27 +143,56 @@ public class PlayerController : MonoBehaviour
         ActualizarMareo();
         AplicarShakeCamara();
 
+        // Toggle de pausa (Esc / Start) usando Input System
+        if (pauseAction != null && pauseAction.action.WasPressedThisFrame())
+        {
+            PauseController.Instance?.TogglePauseMenu();
+        }
+
+        // Sincroniza si la cámara puede rotar (look) según estado actual
+        SyncCameraInputEnabled();
+
+        // Si el juego está pausado, no procesamos input de juego
+        if (GameController.Instance != null && GameController.Instance.IsPaused())
+            return;
+
         if (!controlesActivos || isFalling || GameFlowManager.Instance.IsInTransition) return;
 
         UpdateSensibilidad();
         MoverJugador();
     }
 
+
+    // Habilita/inhabilita el look de CM3 en función de pausa, caída, transiciones o controles
+    private void SyncCameraInputEnabled()
+    {
+        bool blocked =
+            !controlesActivos ||
+            isFalling ||
+            (GameController.Instance != null && GameController.Instance.IsPaused()) ||
+            GameFlowManager.Instance.IsInTransition;
+
+        if (axisCtrl != null) axisCtrl.enabled = !blocked;
+    }
+    
     // En CM3 la sensibilidad se configura en el CinemachineInputAxisController.
-    // Si más adelante querés escalar por eje, lo agregamos; por ahora lo dejamos estable.
     private void UpdateSensibilidad() { }
 
     private void MoverJugador()
     {
-        float inputX = Input.GetAxisRaw("Horizontal");
-        float inputZ = Input.GetAxisRaw("Vertical");
+        // Leer Vector2 desde el Input System (WASD / Left Stick)
+        Vector2 move = moveAction != null ? moveAction.action.ReadValue<Vector2>() : Vector2.zero;
+
+        // Deadzone suave para stick
+        const float dead = 0.15f;
+        if (move.sqrMagnitude < dead * dead) move = Vector2.zero;
 
         Vector3 forward = camTransform.forward;
-        Vector3 right   = camTransform.right;
+        Vector3 right = camTransform.right;
         forward.y = 0f; right.y = 0f;
         forward.Normalize(); right.Normalize();
 
-        Vector3 direction = right * inputX + forward * inputZ;
+        Vector3 direction = right * move.x + forward * move.y;
 
         float moveMul = 1f;
         if (isDizzy)
@@ -158,7 +205,7 @@ public class PlayerController : MonoBehaviour
         currentMove = Vector3.Lerp(currentMove, targetMove, Time.deltaTime * accelerationSpeed);
 
         if (controller.isGrounded) velocity.y = -2f;
-        else                       velocity.y += Physics.gravity.y * Time.deltaTime;
+        else velocity.y += Physics.gravity.y * Time.deltaTime;
 
         Vector3 finalMove = currentMove; finalMove.y = velocity.y;
         controller.Move(finalMove * Time.deltaTime);
@@ -209,7 +256,7 @@ public class PlayerController : MonoBehaviour
             if (mainCam != null)
             {
                 mainCam.Lens.FieldOfView = Mathf.Lerp(mainCam.Lens.FieldOfView, baseFOV, Time.deltaTime * 2f);
-                mainCam.Lens.Dutch       = Mathf.Lerp(mainCam.Lens.Dutch,       baseDutch, Time.deltaTime * 3f);
+                mainCam.Lens.Dutch = Mathf.Lerp(mainCam.Lens.Dutch, baseDutch, Time.deltaTime * 3f);
             }
 
             if (camTransform != null)
@@ -222,7 +269,7 @@ public class PlayerController : MonoBehaviour
                 );
             }
 
-            extraNoiseMul   = Mathf.Lerp(extraNoiseMul,   1f, Time.deltaTime * 2.5f);
+            extraNoiseMul = Mathf.Lerp(extraNoiseMul, 1f, Time.deltaTime * 2.5f);
             targetExtraFreq = Mathf.Lerp(targetExtraFreq, 1f, Time.deltaTime * 2.5f);
             return;
         }
@@ -262,8 +309,8 @@ public class PlayerController : MonoBehaviour
         }
 
         // Ruido de Cinemachine: sutil
-        extraNoiseMul   = Mathf.Lerp(extraNoiseMul, 1f + dizzyNoiseBoost * weight, Time.deltaTime * 3f);
-        targetExtraFreq = Mathf.Lerp(targetExtraFreq, 1f + 0.35f * weight,         Time.deltaTime * 3f);
+        extraNoiseMul = Mathf.Lerp(extraNoiseMul, 1f + dizzyNoiseBoost * weight, Time.deltaTime * 3f);
+        targetExtraFreq = Mathf.Lerp(targetExtraFreq, 1f + 0.35f * weight, Time.deltaTime * 3f);
 
         if (dizzyTimer >= dizzyDuration)
             isDizzy = false;
@@ -280,10 +327,13 @@ public class PlayerController : MonoBehaviour
     {
         controlesActivos = activos;
 
-        Cursor.lockState = activos ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = !activos;
 
         if (axisCtrl != null) axisCtrl.enabled = activos; // congelar/liberar rotación
+
+        // también bloqueamos el Move si hace falta
+        if (activos) moveAction?.action.Enable(); else moveAction?.action.Disable();
     }
 
     public void SetCamaraActiva(bool activa)
@@ -377,12 +427,12 @@ public class PlayerController : MonoBehaviour
         GameController.Instance.IsInspecting = true;
 
         // En lugar de cambiar de cámara, solo congelamos el movimiento de la cámara principal
-        if (axisCtrl != null) axisCtrl.enabled = false; // Desactivar controles de rotación
-        
+        if (axisCtrl != null) axisCtrl.enabled = false;
+
         // Activar Depth of Field para desenfocar el fondo
         if (usarDepthOfField)
             StartCoroutine(TransicionDepthOfField(true));
-        
+
         Debug.Log("Inspección activada - Movimiento de cámara desactivado");
     }
 
@@ -393,11 +443,11 @@ public class PlayerController : MonoBehaviour
 
         // Reactivar controles de rotación de la cámara principal
         if (axisCtrl != null) axisCtrl.enabled = true;
-        
+
         // Desactivar Depth of Field
         if (usarDepthOfField)
             StartCoroutine(TransicionDepthOfField(false));
-        
+
         Debug.Log("Inspección desactivada - Movimiento de cámara reactivado");
     }
 
@@ -411,29 +461,29 @@ public class PlayerController : MonoBehaviour
 
         float valorInicial = depthOfField.focusDistance.value;
         float valorFinal = activar ? depthOfFieldIntensidad : depthOfFieldOriginal;
-        
+
         // Si es la primera vez, guardamos el valor original
         if (activar && depthOfFieldOriginal == 0f)
             depthOfFieldOriginal = valorInicial;
 
         float tiempoTranscurrido = 0f;
-        
+
         // Activar el efecto
         depthOfField.active = true;
-        
+
         while (tiempoTranscurrido < transicionDepthOfField)
         {
             tiempoTranscurrido += Time.deltaTime;
             float progreso = tiempoTranscurrido / transicionDepthOfField;
-            
+
             float valorActual = Mathf.Lerp(valorInicial, valorFinal, progreso);
             depthOfField.focusDistance.value = valorActual;
-            
+
             yield return null;
         }
-        
+
         depthOfField.focusDistance.value = valorFinal;
-        
+
         // Si desactivamos y llegamos al valor original, desactivar el efecto
         if (!activar && Mathf.Approximately(valorFinal, depthOfFieldOriginal))
             depthOfField.active = false;

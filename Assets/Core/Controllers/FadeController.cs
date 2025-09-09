@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class FadeManager : MonoBehaviour
 {
@@ -11,10 +12,14 @@ public class FadeManager : MonoBehaviour
     [SerializeField] private Image blackImage;     // Imagen full-screen para parpadeos
     [SerializeField] private Image topBar;         // Barra superior para cierre de vista
     [SerializeField] private Image bottomBar;      // Barra inferior para cierre de vista
+    [SerializeField] private TextMeshProUGUI fadeText; // Texto para mostrar en pantalla
 
     [Header("Duraciones")]
     [SerializeField] private float blinkDuration = 1.5f;  // Tiempo de cada fase de parpadeo
     [SerializeField] private float blackImageDuration = 2f;  // Tiempo de espera con la pantalla en negro
+    
+    [Header("Configuración de Texto")]
+    [SerializeField] private float defaultTextSize = 32f;  // Tamaño de texto por defecto
     private void Awake()
     {
         if (Instance == null)
@@ -39,6 +44,12 @@ public class FadeManager : MonoBehaviour
             {
                 bottomBar.enabled = false;
                 bottomBar.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
+            }
+
+            if (fadeText != null)
+            {
+                fadeText.color = new Color(fadeText.color.r, fadeText.color.g, fadeText.color.b, 0);
+                fadeText.enabled = false;
             }
         }
         else
@@ -123,6 +134,45 @@ public class FadeManager : MonoBehaviour
         yield return StartCoroutine(FadeImage(blackImage, 1f, 0f, blinkDuration));
     }
 
+    /// <summary>
+    /// Muestra texto en pantalla con animaciones de fade
+    /// </summary>
+    /// <param name="text">Contenido del texto a mostrar</param>
+    /// <param name="fadeInDuration">Duración de aparición del texto</param>
+    /// <param name="displayDuration">Duración de permanencia del texto</param>
+    /// <param name="fadeOutDuration">Duración de desaparición del texto</param>
+    /// <param name="textSize">Tamaño del texto (opcional, por defecto usa defaultTextSize)</param>
+    public void ShowTextWithFade(string text, float fadeInDuration, float displayDuration, float fadeOutDuration, float textSize = -1f)
+    {
+        StartCoroutine(ShowTextWithFadeCoroutine(text, fadeInDuration, displayDuration, fadeOutDuration, textSize));
+    }
+
+    /// <summary>
+    /// Corrutina para mostrar texto con fade que puede ser esperada
+    /// </summary>
+    /// <param name="text">Contenido del texto a mostrar</param>
+    /// <param name="fadeInDuration">Duración de aparición del texto</param>
+    /// <param name="displayDuration">Duración de permanencia del texto</param>
+    /// <param name="fadeOutDuration">Duración de desaparición del texto</param>
+    /// <param name="textSize">Tamaño del texto (opcional, por defecto usa defaultTextSize)</param>
+    public IEnumerator ShowTextWithFadeCoroutine(string text, float fadeInDuration, float displayDuration, float fadeOutDuration, float textSize = -1f)
+    {
+        if (fadeText == null) yield break;
+
+        // Configurar el texto
+        fadeText.text = text;
+        fadeText.fontSize = textSize > 0 ? textSize : defaultTextSize;
+        
+        // Fade In del texto
+        yield return StartCoroutine(FadeText(fadeText, 0f, 1f, fadeInDuration));
+        
+        // Mantener el texto visible
+        yield return new WaitForSeconds(displayDuration);
+        
+        // Fade Out del texto
+        yield return StartCoroutine(FadeText(fadeText, 1f, 0f, fadeOutDuration));
+    }
+
     private IEnumerator BlinkCoroutine(float fromA, float toA, float duration)
     {
 
@@ -153,6 +203,35 @@ public class FadeManager : MonoBehaviour
         img.color = new Color(0, 0, 0, toA);
         if (Mathf.Approximately(toA, 0f))
             img.enabled = false;
+    }
+
+    private IEnumerator FadeText(TextMeshProUGUI textComponent, float fromA, float toA, float dur)
+    {
+        if (textComponent == null) yield break;
+
+        textComponent.enabled = true;
+        Color c = textComponent.color;
+        c.a = fromA;
+        textComponent.color = c;
+
+        float t = 0f;
+        while (t < dur)
+        {
+            t += Time.deltaTime;
+            float a = Mathf.Lerp(fromA, toA, t / dur);
+            Color newColor = textComponent.color;
+            newColor.a = a;
+            textComponent.color = newColor;
+            yield return null;
+        }
+
+        // asegurar alpha final
+        Color finalColor = textComponent.color;
+        finalColor.a = toA;
+        textComponent.color = finalColor;
+        
+        if (Mathf.Approximately(toA, 0f))
+            textComponent.enabled = false;
     }
 
     /*private IEnumerator BarsCloseCoroutine()

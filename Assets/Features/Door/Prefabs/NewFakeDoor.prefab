@@ -140,9 +140,9 @@ GameObject:
   - component: {fileID: 3214091731060873352}
   - component: {fileID: 829169944172780489}
   - component: {fileID: 3873567073923301779}
-  - component: {fileID: 6877836562704032721}
+  - component: {fileID: 1105731336855804634}
   m_Layer: 0
-  m_Name: SM_Puerta
+  m_Name: NewFakeDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -218,7 +218,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6877836562704032721
+--- !u!114 &1105731336855804634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -227,24 +227,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3469840335106721930}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f4fa30f7f7acd94d8429e3b4c0633ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 551332f3cc55a394993743fbbc667c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockingInterval: 3
-  customAudioSource: {fileID: 0}
-  openDoorClip: {fileID: 8300000, guid: feb746247f12f33478cce0801e56f9ae, type: 3}
-  closeDoorClip: {fileID: 8300000, guid: 05e7deca8bd7a5b4b8493d9ffbd24139, type: 3}
-  knockClip: {fileID: 8300000, guid: bce809ed651b07243ab1318d654c2bc0, type: 3}
-  slowCloseClip: {fileID: 8300000, guid: 6c882a2294278e648becb3e7fd93ec22, type: 3}
-  fastCloseClip: {fileID: 8300000, guid: c2aa7dd810909734398d7594586248be, type: 3}
-  fastCloseMixer: {fileID: 4507347325302408704, guid: 1992caae9c51c244abb1dc3bfe4b0971, type: 2}
-  type: 1
-  openDegreesY: 110
+  openDegreesY: 180
   openDuration: 1
-  knockAmount: 4
-  knockSpeed: 5
-  slowCloseDuration: 3
-  initialOpenDegrees: 110
-  fastCloseDuration: 0.5
-  blockInteractionWhileAnimating: 1
-  blockRaycastsWhileAnimating: 1
+  openSound: {fileID: 8300000, guid: feb746247f12f33478cce0801e56f9ae, type: 3}

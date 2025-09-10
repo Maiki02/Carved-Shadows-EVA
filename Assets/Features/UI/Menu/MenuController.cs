@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 
 public class MenuController : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class MenuController : MonoBehaviour
     [Header("Managers")]
     private IntroManager introManager;
     private MenuInitializer initializer;
+
+
+    [Header("Configuración")]
+    [SerializeField] private bool skipIntro = false; // Para saltar la intro en desarrollo
 
     private void Awake()
     {
@@ -37,8 +42,11 @@ public class MenuController : MonoBehaviour
         // 1. FADE OUT DEL MENÚ (pantalla negra)
         yield return StartCoroutine(FadeOutMenu());
 
-        // 2. EJECUTAR INTRO
-        yield return StartCoroutine(ExecuteIntro());
+        if (!skipIntro)
+        {
+            // 2. EJECUTAR INTRO
+            yield return StartCoroutine(ExecuteIntro());
+        }
         
         // 3. INICIAR JUEGO
         yield return StartCoroutine(StartGame());

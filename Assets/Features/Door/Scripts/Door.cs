@@ -4,13 +4,12 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(AudioSource))]
 public class Door : ObjectInteract
 {
     [Header("Knocking Loop")]
     [SerializeField] private float knockingInterval = 3f;
     private Coroutine knockingLoopCoroutine;
-
+    
     [Header("Audio Clips")]
     [SerializeField] private AudioClip openDoorClip;
     [SerializeField] private AudioClip closeDoorClip;
@@ -55,7 +54,8 @@ public class Door : ObjectInteract
     {
         base.Awake(); // Llamamos al Awake de la clase base para inicializar el objeto interactivo
         initialRotation = transform.rotation;
-        audioSource = GetComponent<AudioSource>();
+
+        this.FindAudioSource();
 
         // Guardar el mixer group original
         if (audioSource != null)
@@ -81,8 +81,19 @@ public class Door : ObjectInteract
         //this.StartSlowClosing();
     }
 
-    private void Update()
+    /// <summary>
+    /// Busca un AudioSource en los GameObjects hijos
+    /// </summary>
+    private void FindAudioSource()
     {
+        audioSource = GetComponentInChildren<AudioSource>();
+        if (audioSource != null)
+        {
+            return;
+        }
+
+        // Si no se encuentra ningún AudioSource, mostrar advertencia
+        Debug.LogWarning($"[Door] No se encontró ningún AudioSource en {gameObject.name} en sus hijos. Los sonidos no funcionarán.");
     }
 
     private void SetAnimating(bool value)

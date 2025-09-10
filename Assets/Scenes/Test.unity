@@ -1926,26 +1926,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: IntroController
       objectReference: {fileID: 0}
-    - target: {fileID: 2753451877748473215, guid: 418492c330d761b49897b19252a6a530, type: 3}
-      propertyPath: introText
-      value: Argentina, 1950. Casa de los Alighieri
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753451877748473215, guid: 418492c330d761b49897b19252a6a530, type: 3}
-      propertyPath: rainMaxVolume
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753451877748473215, guid: 418492c330d761b49897b19252a6a530, type: 3}
-      propertyPath: textFadeInDuration
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753451877748473215, guid: 418492c330d761b49897b19252a6a530, type: 3}
-      propertyPath: textDisplayDuration
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753451877748473215, guid: 418492c330d761b49897b19252a6a530, type: 3}
-      propertyPath: textFadeOutDuration
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 5163782167127659675, guid: 418492c330d761b49897b19252a6a530, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.5781572

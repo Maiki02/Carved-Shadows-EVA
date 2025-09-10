@@ -162,13 +162,13 @@ public class FadeManager : MonoBehaviour
         // Configurar el texto
         fadeText.text = text;
         fadeText.fontSize = textSize > 0 ? textSize : defaultTextSize;
-        
+
         // Fade In del texto
         yield return StartCoroutine(FadeText(fadeText, 0f, 1f, fadeInDuration));
         
         // Mantener el texto visible
         yield return new WaitForSeconds(displayDuration);
-        
+
         // Fade Out del texto
         yield return StartCoroutine(FadeText(fadeText, 1f, 0f, fadeOutDuration));
     }
@@ -185,6 +185,16 @@ public class FadeManager : MonoBehaviour
     {
         if (img == null) yield break;
 
+        // Validar duración - si es 0 o negativa, aplicar el valor final inmediatamente
+        if (dur <= 0f)
+        {
+            img.enabled = true;
+            img.color = new Color(0, 0, 0, toA);
+            if (Mathf.Approximately(toA, 0f))
+                img.enabled = false;
+            yield break;
+        }
+
         img.enabled = true;
         Color c = img.color;
         c.a = fromA;
@@ -194,7 +204,8 @@ public class FadeManager : MonoBehaviour
         while (t < dur)
         {
             t += Time.deltaTime;
-            float a = Mathf.Lerp(fromA, toA, t / dur);
+            float normalizedTime = Mathf.Clamp01(t / dur); // Clamp para evitar valores > 1
+            float a = Mathf.Lerp(fromA, toA, normalizedTime);
             img.color = new Color(0, 0, 0, a);
             yield return null;
         }
@@ -208,6 +219,20 @@ public class FadeManager : MonoBehaviour
     private IEnumerator FadeText(TextMeshProUGUI textComponent, float fromA, float toA, float dur)
     {
         if (textComponent == null) yield break;
+        Debug.Log($"[FadeText] === FUNCIÓN FADETEXT LLAMADA ===");
+        Debug.Log($"[FadeText] fromA = {fromA}, toA = {toA}, dur = {dur}");  
+        // Validar duración - si es 0 o negativa, aplicar el valor final inmediatamente
+        if (dur <= 0f)
+        {
+            textComponent.enabled = true;
+            Color immediateColor = textComponent.color;
+            immediateColor.a = toA;
+            textComponent.color = immediateColor;
+            
+            if (Mathf.Approximately(toA, 0f))
+                textComponent.enabled = false;
+            yield break;
+        }
 
         textComponent.enabled = true;
         Color c = textComponent.color;
@@ -218,7 +243,8 @@ public class FadeManager : MonoBehaviour
         while (t < dur)
         {
             t += Time.deltaTime;
-            float a = Mathf.Lerp(fromA, toA, t / dur);
+            float normalizedTime = Mathf.Clamp01(t / dur); // Clamp para evitar valores > 1
+            float a = Mathf.Lerp(fromA, toA, normalizedTime);
             Color newColor = textComponent.color;
             newColor.a = a;
             textComponent.color = newColor;

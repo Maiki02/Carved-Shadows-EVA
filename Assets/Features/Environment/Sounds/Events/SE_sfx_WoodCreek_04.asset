@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a4570424cc82cc4db5fc593aaeca324, type: 3}
+  m_Name: SE_sfx_WoodCreek_04
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 5b622e13c7140064e8a060d34d3e139c, type: 3}
+  volume: 1
+  spatialBlend: 1
+  mixerGroup: {fileID: 2045050525115538019, guid: 1992caae9c51c244abb1dc3bfe4b0971, type: 2}
+  loop: 0

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using UnityEngine.Audio;
+using System.Linq;
 
 public class SoundEventCreator : MonoBehaviour
 {
@@ -24,7 +25,10 @@ public class SoundEventCreator : MonoBehaviour
             AssetDatabase.Refresh();
         }
 
-        string[] files = Directory.GetFiles(clipsFolder, "*.wav", SearchOption.TopDirectoryOnly);
+        string[] wavFiles = Directory.GetFiles(clipsFolder, "*.wav", SearchOption.TopDirectoryOnly);
+        string[] mp3Files = Directory.GetFiles(clipsFolder, "*.mp3", SearchOption.TopDirectoryOnly);
+
+        string[] files = wavFiles.Concat(mp3Files).ToArray();   
 
         foreach (string file in files)
         {

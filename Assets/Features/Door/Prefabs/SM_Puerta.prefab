@@ -231,11 +231,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockingInterval: 3
-  openDoorClip: {fileID: 8300000, guid: feb746247f12f33478cce0801e56f9ae, type: 3}
-  closeDoorClip: {fileID: 8300000, guid: 05e7deca8bd7a5b4b8493d9ffbd24139, type: 3}
+  openDoorClip: {fileID: 8300000, guid: f81b0b0ec6b23f4438a20f3c12a1ea16, type: 3}
+  closeDoorClip: {fileID: 8300000, guid: 0dace9370d4223340b48070e48ef781e, type: 3}
   knockClip: {fileID: 8300000, guid: bce809ed651b07243ab1318d654c2bc0, type: 3}
-  slowCloseClip: {fileID: 8300000, guid: 6c882a2294278e648becb3e7fd93ec22, type: 3}
-  fastCloseClip: {fileID: 8300000, guid: c2aa7dd810909734398d7594586248be, type: 3}
+  slowCloseClip: {fileID: 8300000, guid: 58f3f84bfd5311b4abc10374a96eb008, type: 3}
+  fastCloseClip: {fileID: 8300000, guid: deb712402556e734ca72a33903feec77, type: 3}
   fastCloseMixer: {fileID: 4507347325302408704, guid: 1992caae9c51c244abb1dc3bfe4b0971, type: 2}
   closedDoorDialogData: {fileID: 11400000, guid: 14e93fa64008e8f4faffa16cd7a60031, type: 2}
   type: 1

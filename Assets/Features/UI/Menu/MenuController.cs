@@ -156,7 +156,7 @@ public class MenuController : MonoBehaviour
             // Hacer fade in para mostrar el juego usando el FadeManager
             if (FadeManager.Instance != null)
             {
-                yield return StartCoroutine(FadeManager.Instance.FadeInCoroutine(1f));
+                yield return StartCoroutine(FadeManager.Instance.FadeInCoroutine(3f));
             }
             
             // NUEVA FUNCIONALIDAD: Iniciar secuencia de despertar del protagonista

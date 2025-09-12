@@ -352,17 +352,38 @@ public class Door : ObjectInteract
         PlayDoorAudio(slowCloseClip);
 
         Quaternion startRot = transform.rotation;
-        Quaternion targetRot = initialRotation;
+        
+        // Obtener el ángulo Y actual y forzar que vaya hacia 0 en la dirección correcta
+        float startAngleY = transform.eulerAngles.y;
+        float targetAngleY = 0f;
+        
+        // Si el ángulo es mayor a 180, convertirlo a negativo para rotación más natural
+        if (startAngleY > 180f)
+            startAngleY -= 360f;
+            
         float elapsed = 0f;
 
         while (elapsed < slowCloseDuration)
         {
             float t = Mathf.Clamp01(elapsed / slowCloseDuration);
-            transform.rotation = Quaternion.Slerp(startRot, targetRot, Mathf.SmoothStep(0f, 1f, t));
+            float smoothT = Mathf.SmoothStep(0f, 1f, t);
+            
+            // Interpolar directamente el ángulo Y
+            float currentAngleY = Mathf.Lerp(startAngleY, targetAngleY, smoothT);
+            
+            // Aplicar la rotación manteniendo X y Z originales
+            Vector3 currentEuler = startRot.eulerAngles;
+            currentEuler.y = currentAngleY;
+            transform.rotation = Quaternion.Euler(currentEuler);
+            
             elapsed += Time.deltaTime;
             yield return null;
         }
-        transform.rotation = targetRot;
+        
+        // Asegurar que termine exactamente en Y = 0
+        Vector3 finalEuler = startRot.eulerAngles;
+        finalEuler.y = 0f;
+        transform.rotation = Quaternion.Euler(finalEuler);
 
         SetAnimating(false);
     }

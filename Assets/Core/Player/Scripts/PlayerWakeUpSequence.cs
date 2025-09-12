@@ -36,7 +36,7 @@ public class PlayerWakeUpSequence : MonoBehaviour
     };
     
     private bool hasTriggered = false;
-    
+
     private void Awake()
     {
         // Validar referencias críticas
@@ -44,12 +44,18 @@ public class PlayerWakeUpSequence : MonoBehaviour
         {
             Debug.LogError("[PlayerWakeUpSequence] PlayerController no asignado en el Inspector!");
         }
-        
+
         if (doorToClose == null)
         {
             Debug.LogError("[PlayerWakeUpSequence] Door To Close no asignado en el Inspector!");
         }
-        
+        else
+        {
+            // Cambiar tipo a SlowClosing y ejecutar cierre lento
+            doorToClose.SetType(TypeDoorInteract.SlowClosing);
+            
+        }
+
         // Buscar AudioSource si no está asignado
         if (playerAudioSource == null)
         {
@@ -57,13 +63,14 @@ public class PlayerWakeUpSequence : MonoBehaviour
             if (playerAudioSource == null)
                 Debug.LogWarning("[PlayerWakeUpSequence] No se encontró AudioSource. Los sonidos no funcionarán.");
         }
-        
+
         // Buscar WakeUpEffects si no está asignado (opcional)
         if (wakeUpEffects == null)
         {
             wakeUpEffects = GetComponent<PlayerWakeUpEffects>();
             // No mostrar warning porque es opcional
         }
+        
     }
     
     /// <summary>
@@ -158,11 +165,16 @@ public class PlayerWakeUpSequence : MonoBehaviour
         {
             Debug.Log("[PlayerWakeUpSequence] Cerrando puerta lentamente...");
             
-            // Cambiar tipo a SlowClosing y ejecutar cierre lento
-            doorToClose.SetType(TypeDoorInteract.SlowClosing);
             doorToClose.StartSlowClosing();
             
             Debug.Log($"[PlayerWakeUpSequence] Puerta iniciando cierre lento (duración: {doorToClose.SlowCloseDuration}s)");
+            
+            // Esperar a que termine el cierre lento
+            yield return new WaitForSeconds(doorToClose.SlowCloseDuration);
+            
+            // Cambiar el tipo de la puerta a OpenAndClose para que sea interactuable
+            doorToClose.SetType(TypeDoorInteract.OpenAndClose);
+            Debug.Log("[PlayerWakeUpSequence] Puerta cambiada a tipo OpenAndClose - Ahora es interactuable");
         }
         else
         {

@@ -4,13 +4,12 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(AudioSource))]
 public class Door : ObjectInteract
 {
     [Header("Knocking Loop")]
     [SerializeField] private float knockingInterval = 3f;
     private Coroutine knockingLoopCoroutine;
-
+    
     [Header("Audio Clips")]
     [SerializeField] private AudioClip openDoorClip;
     [SerializeField] private AudioClip closeDoorClip;
@@ -20,6 +19,9 @@ public class Door : ObjectInteract
 
     [Header("Audio Mixer Groups")]
     [SerializeField] private UnityEngine.Audio.AudioMixerGroup fastCloseMixer;
+
+    [Header("Closed Door Configuration")]
+    [SerializeField] private ClosedDoorDialogData closedDoorDialogData;
 
     private AudioSource audioSource;
     private UnityEngine.Audio.AudioMixerGroup originalMixerGroup;
@@ -50,12 +52,18 @@ public class Door : ObjectInteract
 
     private Quaternion initialRotation;
     private Coroutine doorCoroutine;
+    
+    // Variables para puertas cerradas
+    private bool isPlayingClosedDoorSequence = false;
+    private bool hasCompletedClosedDoorSequence = false;
+    private Coroutine closedDoorSequenceCoroutine;
 
     protected override void Awake()
     {
         base.Awake(); // Llamamos al Awake de la clase base para inicializar el objeto interactivo
         initialRotation = transform.rotation;
-        audioSource = GetComponent<AudioSource>();
+
+        this.FindAudioSource();
 
         // Guardar el mixer group original
         if (audioSource != null)
@@ -81,8 +89,19 @@ public class Door : ObjectInteract
         //this.StartSlowClosing();
     }
 
-    private void Update()
+    /// <summary>
+    /// Busca un AudioSource en los GameObjects hijos
+    /// </summary>
+    private void FindAudioSource()
     {
+        audioSource = GetComponentInChildren<AudioSource>();
+        if (audioSource != null)
+        {
+            return;
+        }
+
+        // Si no se encuentra ningún AudioSource, mostrar advertencia
+        Debug.LogWarning($"[Door] No se encontró ningún AudioSource en {gameObject.name} en sus hijos. Los sonidos no funcionarán.");
     }
 
     private void SetAnimating(bool value)
@@ -108,22 +127,39 @@ public class Door : ObjectInteract
 
     public override void OnHoverEnter()
     {
-        if (type != TypeDoorInteract.OpenAndClose) return;
+        if (type != TypeDoorInteract.OpenAndClose && type != TypeDoorInteract.Close) return;
         if (isAnimating && blockInteractionWhileAnimating) return; // NO outline si anima
+        if(type== TypeDoorInteract.None) return;
         base.OnHoverEnter();
     }
 
     public override void OnHoverExit()
     {
-        if (type != TypeDoorInteract.OpenAndClose) return;
+        if (type != TypeDoorInteract.OpenAndClose && type != TypeDoorInteract.Close) return;
         base.OnHoverExit();
     }
 
     public override void OnInteract()
     {
         if (blockInteractionWhileAnimating && isAnimating) return;
+        
+        // Verificar si estamos reproduciendo una secuencia de puerta cerrada
+        if (isPlayingClosedDoorSequence && closedDoorDialogData != null && closedDoorDialogData.ShouldBlockInteractionDuringPlayback())
+        {
+            Debug.Log("[Door] Interacción bloqueada durante la reproducción de la secuencia de puerta cerrada");
+            return;
+        }
 
         ForceUnhover();
+        
+        // Manejar puerta cerrada
+        if (type == TypeDoorInteract.Close)
+        {
+            HandleClosedDoorInteraction();
+            return;
+        }
+        
+        // Comportamiento normal para puertas que se pueden abrir/cerrar
         isDoorOpen = !isDoorOpen;
         ValidateDoorWithAnimation();
     }
@@ -150,6 +186,21 @@ public class Door : ObjectInteract
     public void SetFastCloseClip(AudioClip clip)
     {
         fastCloseClip = clip;
+    }
+
+    /// <summary>
+    /// Reinicia el estado de la puerta cerrada para permitir nueva interacción
+    /// </summary>
+    public void ResetClosedDoorState()
+    {
+        hasCompletedClosedDoorSequence = false;
+        if (closedDoorSequenceCoroutine != null)
+        {
+            StopCoroutine(closedDoorSequenceCoroutine);
+            closedDoorSequenceCoroutine = null;
+        }
+        isPlayingClosedDoorSequence = false;
+        Debug.Log("[Door] Estado de puerta cerrada reiniciado");
     }
 
     /// Abre la puerta rotando en Y según el atributo openDegreesY
@@ -345,6 +396,106 @@ public class Door : ObjectInteract
         this.OpenOrCloseDoor(isDoorOpen);
 
 
+    }
+
+    /// <summary>
+    /// Maneja la interacción con una puerta cerrada
+    /// </summary>
+    private void HandleClosedDoorInteraction()
+    {
+        if (closedDoorDialogData == null)
+        {
+            // Comportamiento por defecto si no hay datos configurados
+            DialogController.Instance.ShowDialog("Esta puerta está cerrada.", 2f);
+            PlayDoorAudio(knockClip); // Usar el clip de knock como sonido por defecto
+            Debug.LogWarning($"[Door] No hay ClosedDoorDialogData configurado para la puerta {gameObject.name}");
+            return;
+        }
+
+        // Si ya está reproduciendo, no hacer nada
+        if (isPlayingClosedDoorSequence)
+        {
+            Debug.Log("[Door] Secuencia ya en progreso, ignorando interacción");
+            return;
+        }
+
+        // Si ya se completó y no se permite reinteracción, no hacer nada
+        if (hasCompletedClosedDoorSequence && !closedDoorDialogData.ShouldAllowReinteraction())
+        {
+            Debug.Log("[Door] Secuencia ya completada y no se permite reinteracción");
+            this.SetType(TypeDoorInteract.None);
+            return;
+        }
+
+        // Detener secuencia anterior si existe
+        if (closedDoorSequenceCoroutine != null)
+        {
+            StopCoroutine(closedDoorSequenceCoroutine);
+        }
+
+        // Iniciar nueva secuencia
+        closedDoorSequenceCoroutine = StartCoroutine(PlayClosedDoorSequence());
+    }
+
+    /// <summary>
+    /// Reproduce la secuencia completa de puerta cerrada: sonido + diálogos
+    /// </summary>
+    private IEnumerator PlayClosedDoorSequence()
+    {
+        isPlayingClosedDoorSequence = true;
+        
+        // 1. Reproducir sonido de puerta cerrada
+        AudioClip lockedClip = closedDoorDialogData.GetLockedDoorClip();
+        if (lockedClip != null)
+        {
+            PlayDoorAudio(lockedClip);
+            // Esperar a que termine el audio de la puerta cerrada
+            yield return new WaitForSeconds(lockedClip.length);
+        }
+        
+        // 2. Reproducir audio del diálogo (UN SOLO clip para toda la secuencia)
+        AudioClip dialogAudio = closedDoorDialogData.GetDialogAudioClip();
+        if (dialogAudio != null)
+        {
+            PlayDoorAudio(dialogAudio);
+            // Pequeña pausa para que no se solape
+            yield return new WaitForSeconds(0.2f);
+        }
+        
+        // 3. Reproducir secuencia de diálogos
+        DialogData[] messages = closedDoorDialogData.GetAllDialogMessages();
+        
+        for (int i = 0; i < messages.Length; i++)
+        {
+            DialogData message = messages[i];
+            
+            // Mostrar el diálogo
+            DialogController.Instance.ShowDialog(message.dialogText, message.duration);
+            Debug.Log($"[Door] Mostrando diálogo {i + 1}/{messages.Length}: '{message.dialogText}'");
+            
+            // Esperar la duración del diálogo
+            yield return new WaitForSeconds(message.duration);
+            
+            // Pequeña pausa entre diálogos si hay más de uno
+            if (i < messages.Length - 1)
+            {
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
+        
+        // Marcar como completada
+        hasCompletedClosedDoorSequence = true;
+        isPlayingClosedDoorSequence = false;
+        closedDoorSequenceCoroutine = null;
+        
+        // Si NO tiene allowReinteraction activado, cambiar el tipo a None
+        if (!closedDoorDialogData.ShouldAllowReinteraction())
+        {
+            type = TypeDoorInteract.None;
+            Debug.Log("[Door] Puerta cambiada a tipo 'None' después de completar secuencia con allowReinteraction desactivado");
+        }
+        
+        Debug.Log("[Door] Secuencia de puerta cerrada completada");
     }
 
     /*private void ValidateDoorWithNextLevel()

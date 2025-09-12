@@ -1,11 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class FakeDoor : MonoBehaviour
 {
     [Header("Apertura")]
-    [SerializeField] private float openDegreesY = 110f;
+    [SerializeField] private float openDegreesY = 180f;
     [SerializeField] private float openDuration = 1f;
 
     [Header("Audio")]
@@ -18,9 +17,23 @@ public class FakeDoor : MonoBehaviour
     private void Awake()
     {
         initialRotation = transform.rotation;
-        audioSource = GetComponent<AudioSource>();
+        this.FindAudioSource();
     }
 
+    /// <summary>
+    /// Busca un AudioSource en los GameObjects hijos
+    /// </summary>
+    private void FindAudioSource()
+    {
+        audioSource = GetComponentInChildren<AudioSource>();
+        if (audioSource != null)
+        {
+            return;
+        }
+
+        // Si no se encuentra ningún AudioSource, mostrar advertencia
+        Debug.LogWarning($"[Door] No se encontró ningún AudioSource en {gameObject.name} en sus hijos. Los sonidos no funcionarán.");
+    }
     /// <summary>
     /// Llamar a este método para abrir la puerta.
     /// </summary>

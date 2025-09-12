@@ -256,11 +256,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDistance: 2
   cameraChildren: {fileID: 0}
-  interactionDistance: 2
-  interactableLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  inspectionPoint: {fileID: 259565949994337923}
   interactAction: {fileID: -7959945963520857768, guid: 0a2e065721875144193c89c8b6c74407, type: 3}
 --- !u!81 &7351505797610958566
 AudioListener:
@@ -691,7 +686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clearColorMode: 1
-  backgroundColorHDR: {r: 0.025, g: 0.07, b: 0.19, a: 0}
+  backgroundColorHDR: {r: 0, g: 0, b: 0, a: 0}
   clearDepth: 1
   volumeLayerMask:
     serializedVersion: 2

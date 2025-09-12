@@ -37,6 +37,29 @@ public class MenuInitializer : MonoBehaviour
         StartCoroutine(StartGameCoroutine());
     }
 
+    /// <summary>
+    /// Función separada para hacer solo el fade out del menú sin iniciar el juego completo
+    /// </summary>
+    public IEnumerator FadeOutMenuOnly()
+    {
+        GameController.Instance.SetGameStarted(true);
+        AudioController.Instance.StopMusic();
+        FadeManager.Instance.FadeIn(fadeDuration);
+
+        if (menuRoot != null) menuRoot.SetActive(false);
+        if (menuCamera != null) menuCamera.SetActive(false);
+
+        GameFlowManager.Instance.SetTransitionStatus(true);
+
+        if (playerController != null)
+        {
+            playerController.SetControlesActivos(false);
+            playerController.SetCamaraActiva(false);
+        }
+
+        yield return new WaitForSeconds(1f); // Tiempo para que el fade comience
+    }
+
     private IEnumerator StartGameCoroutine()
     {
         GameController.Instance.SetGameStarted(true);

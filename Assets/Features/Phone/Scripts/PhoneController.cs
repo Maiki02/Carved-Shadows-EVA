@@ -20,7 +20,7 @@ public class PhoneController : MonoBehaviour
     
     [Space]
     [Tooltip("Secuencia de diálogos personalizada (solo si phoneMessages está vacío)")]
-    [SerializeField] private DialogMessage[] phoneDialogSequence;
+    [SerializeField] private DialogData[] phoneDialogSequence;
     
     [Header("Configuración")]
     [SerializeField] private float ringDuration = 5f; // Duración que suena el teléfono
@@ -121,7 +121,7 @@ public class PhoneController : MonoBehaviour
     /// <summary>
     /// Obtiene los diálogos a usar según la configuración
     /// </summary>
-    public DialogMessage[] GetDialogsToUse()
+    public DialogData[] GetDialogsToUse()
     {
         // Si hay PhoneMessages asignado, usar los predefinidos
         if (phoneMessages != null)

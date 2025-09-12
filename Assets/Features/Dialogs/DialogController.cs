@@ -5,14 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-// Estructura para un mensaje de diálogo con texto y duración
-[System.Serializable]
-public struct DialogMessage
-{
-
-    public string text;
-    public float duration;
-}
 
 
 public class DialogController : MonoBehaviour
@@ -56,19 +48,22 @@ public class DialogController : MonoBehaviour
     }
 
 
+    /// <summary>
     /// Muestra una secuencia de diálogos, cada uno con su propio tiempo
-    public void ShowDialogSequence(DialogMessage[] messages)
+    /// </summary>
+    public void ShowDialogSequence(DialogData[] messages)
     {
         StopAllCoroutines();
         StartCoroutine(ShowSequenceCoroutine(messages));
     }
 
-    private IEnumerator ShowSequenceCoroutine(DialogMessage[] messages)
+
+    private IEnumerator ShowSequenceCoroutine(DialogData[] messages)
     {
         dialogContainer.SetActive(true);
         foreach (var msg in messages)
         {
-            dialogText.text = msg.text;
+            dialogText.text = msg.dialogText;
             yield return new WaitForSeconds(msg.duration);
         }
         dialogContainer.SetActive(false);

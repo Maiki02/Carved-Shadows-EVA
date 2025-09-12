@@ -18,37 +18,37 @@ public class PhoneMessages : ScriptableObject
 {
     [Header("Primer Loop - Primer set de mensajes")]
     [Tooltip("Mensajes del primer loop del teléfono")]
-    public DialogMessage[] primerLoopMessages = new DialogMessage[]
+    public DialogData[] primerLoopMessages = new DialogData[]
     {
-        new DialogMessage { text = "", duration = 3f }
+        new DialogData("", 3f)
     };
 
     [Header("Segundo Loop - Segundo set de mensajes")]
     [Tooltip("Mensajes del segundo loop del teléfono")]
-    public DialogMessage[] segundoLoopMessages = new DialogMessage[]
+    public DialogData[] segundoLoopMessages = new DialogData[]
     {
-        new DialogMessage { text = "", duration = 3f },
-        new DialogMessage { text = "Buenos dias señora @&:$-&/", duration = 3f },
-        new DialogMessage { text = "llamo con el motivo de confirmarle la visita a su casa", duration = 3f },
-        new DialogMessage { text = "por parte del museo de las bellas artes para...", duration = 3f },
-        new DialogMessage { text = "¿cómo es que dijo usted?...", duration = 2.5f },
-        new DialogMessage { text = "¡Ah si! deshacerse de las obras de su espo...", duration = 4.5f },
-        new DialogMessage { text = "", duration = 2f },
-        new DialogMessage { text = "No olvides...", duration = 2f },
-        new DialogMessage { text = "", duration = 2f },
-        new DialogMessage { text = "Lo que hiciste...", duration = 2f },
-        new DialogMessage { text = "Ellas nunca te perdonarán...", duration = 4f },
-        new DialogMessage { text = "Nunca...", duration = 1.5f },
-        new DialogMessage { text = "te perdonaremos...", duration = 3.5f },
-        new DialogMessage { text = "", duration = 6f }
+        new DialogData("", 3f),
+        new DialogData("Buenos dias señora @&:$-&/", 3f),
+        new DialogData("llamo con el motivo de confirmarle la visita a su casa", 3f),
+        new DialogData("por parte del museo de las bellas artes para...", 3f),
+        new DialogData("¿cómo es que dijo usted?...", 2.5f),
+        new DialogData("¡Ah si! deshacerse de las obras de su espo...", 4.5f),
+        new DialogData("", 2f),
+        new DialogData("No olvides...", 2f),
+        new DialogData("", 2f),
+        new DialogData("Lo que hiciste...", 2f),
+        new DialogData("Ellas nunca te perdonarán...", 4f),
+        new DialogData("Nunca...", 1.5f),
+        new DialogData("te perdonaremos...", 3.5f),
+        new DialogData("", 6f)
     };
 
     /// <summary>
     /// Obtiene una copia de los mensajes del primer loop
     /// </summary>
-    public DialogMessage[] GetPrimerLoopMessages()
+    public DialogData[] GetPrimerLoopMessages()
     {
-        DialogMessage[] copy = new DialogMessage[primerLoopMessages.Length];
+        DialogData[] copy = new DialogData[primerLoopMessages.Length];
         System.Array.Copy(primerLoopMessages, copy, primerLoopMessages.Length);
         return copy;
     }
@@ -56,9 +56,9 @@ public class PhoneMessages : ScriptableObject
     /// <summary>
     /// Obtiene una copia de los mensajes del segundo loop
     /// </summary>
-    public DialogMessage[] GetSegundoLoopMessages()
+    public DialogData[] GetSegundoLoopMessages()
     {
-        DialogMessage[] copy = new DialogMessage[segundoLoopMessages.Length];
+        DialogData[] copy = new DialogData[segundoLoopMessages.Length];
         System.Array.Copy(segundoLoopMessages, copy, segundoLoopMessages.Length);
         return copy;
     }
@@ -66,7 +66,7 @@ public class PhoneMessages : ScriptableObject
     /// <summary>
     /// Obtiene una copia de los mensajes según el tipo especificado
     /// </summary>
-    public DialogMessage[] GetMessagesByType(PhoneLoopType type)
+    public DialogData[] GetMessagesByType(PhoneLoopType type)
     {
         switch (type)
         {
@@ -84,7 +84,7 @@ public class PhoneMessages : ScriptableObject
     /// </summary>
     public float GetTotalDuration(PhoneLoopType type)
     {
-        DialogMessage[] messages = GetMessagesByType(type);
+        DialogData[] messages = GetMessagesByType(type);
         float totalDuration = 0f;
         foreach (var msg in messages)
             totalDuration += msg.duration;

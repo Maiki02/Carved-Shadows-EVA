@@ -18,50 +18,50 @@ public class RadioMessages : ScriptableObject
 {
     [Header("Primer Loop - Presentación del Personaje")]
     [Tooltip("Mensajes del primer loop para la presentación del personaje")]
-    public DialogMessage[] primerLoopMessages = new DialogMessage[]
+    public DialogData[] primerLoopMessages = new DialogData[]
     {
-        new DialogMessage { text = "", duration = 13f },
-        new DialogMessage { text = "Siendo la una y un minuto,", duration = 3f },
-        new DialogMessage { text = "antes de continuar con la sección musical,", duration = 3f },
-        new DialogMessage { text = "vamos con la noticia del día", duration = 2.5f },
-        new DialogMessage { text = "", duration = 3.0f },
-        new DialogMessage { text = "El panorama artístico argentino", duration = 2f },
-        new DialogMessage { text = "ha dado un vuelco con la reciente obra", duration = 5f },
-        new DialogMessage { text = "", duration = 3f },
-        new DialogMessage { text = "un artista presuntamente desconocido", duration = 3.0f },
-        new DialogMessage { text = "aunque según pudimos confirmar,", duration = 3f },
-        new DialogMessage { text = "proviene de la famosa familia de artistas", duration = 3f }, //43
-        new DialogMessage { text = "", duration = 2.5f },
-        new DialogMessage { text = "De igual forma,", duration = 1.5f }, //47
-        new DialogMessage { text = "sea cual sea el motivo por el cual", duration = 3f },
-        new DialogMessage { text = "habría permanecido en el anonimato,", duration = 3f },
-        new DialogMessage { text = "su futuro parece ser prometedor", duration = 4f },
-        new DialogMessage { text = "y ahora si,", duration = 2.0f },
-        new DialogMessage { text = "con la sección musical", duration = 3.5f },
-        new DialogMessage { text = "", duration = 2.5f }
+        new DialogData { dialogText = "", duration = 13f },
+        new DialogData { dialogText = "Siendo la una y un minuto,", duration = 3f },
+        new DialogData { dialogText = "antes de continuar con la sección musical,", duration = 3f },
+        new DialogData { dialogText = "vamos con la noticia del día", duration = 2.5f },
+        new DialogData { dialogText = "", duration = 3.0f },
+        new DialogData { dialogText = "El panorama artístico argentino", duration = 2f },
+        new DialogData { dialogText = "ha dado un vuelco con la reciente obra", duration = 5f },
+        new DialogData { dialogText = "", duration = 3f },
+        new DialogData { dialogText = "un artista presuntamente desconocido", duration = 3.0f },
+        new DialogData { dialogText = "aunque según pudimos confirmar,", duration = 3f },
+        new DialogData { dialogText = "proviene de la famosa familia de artistas", duration = 3f }, //43
+        new DialogData { dialogText = "", duration = 2.5f },
+        new DialogData { dialogText = "De igual forma,", duration = 1.5f }, //47
+        new DialogData { dialogText = "sea cual sea el motivo por el cual", duration = 3f },
+        new DialogData { dialogText = "habría permanecido en el anonimato,", duration = 3f },
+        new DialogData { dialogText = "su futuro parece ser prometedor", duration = 4f },
+        new DialogData { dialogText = "y ahora si,", duration = 2.0f },
+        new DialogData { dialogText = "con la sección musical", duration = 3.5f },
+        new DialogData { dialogText = "", duration = 2.5f }
     };
 
     [Header("Segundo Loop - Decadencia del Personaje")]
     [Tooltip("Mensajes del segundo loop para contar la decadencia del personaje")]
-    public DialogMessage[] segundoLoopMessages = new DialogMessage[]
+    public DialogData[] segundoLoopMessages = new DialogData[]
     {
-        new DialogMessage { text = "", duration = 9.0f },
-        new DialogMessage { text = "Siendo las dos y dos minutos,", duration = 4.0f },
-        new DialogMessage { text = "y continuando con las noticias del día,", duration = 4.0f },
-        new DialogMessage { text = "", duration = 4.0f },
-        new DialogMessage { text = "las críticas han destruido al famoso escultor...", duration = 4.0f },
-        new DialogMessage { text = "", duration = 4.0f },
-        new DialogMessage { text = "y la sociedad...", duration = 2.0f },
-        new DialogMessage { text = "estaría conmocionada...", duration = 3.0f },
-        new DialogMessage { text = "Ampliaremos...", duration = 3.0f }
+        new DialogData { dialogText = "", duration = 9.0f },
+        new DialogData { dialogText = "Siendo las dos y dos minutos,", duration = 4.0f },
+        new DialogData { dialogText = "y continuando con las noticias del día,", duration = 4.0f },
+        new DialogData { dialogText = "", duration = 4.0f },
+        new DialogData { dialogText = "las críticas han destruido al famoso escultor...", duration = 4.0f },
+        new DialogData { dialogText = "", duration = 4.0f },
+        new DialogData { dialogText = "y la sociedad...", duration = 2.0f },
+        new DialogData { dialogText = "estaría conmocionada...", duration = 3.0f },
+        new DialogData { dialogText = "Ampliaremos...", duration = 3.0f }
     };
 
     /// <summary>
     /// Obtiene una copia de los mensajes del primer loop
     /// </summary>
-    public DialogMessage[] GetPrimerLoopMessages()
+    public DialogData[] GetPrimerLoopMessages()
     {
-        DialogMessage[] copy = new DialogMessage[primerLoopMessages.Length];
+        DialogData[] copy = new DialogData[primerLoopMessages.Length];
         System.Array.Copy(primerLoopMessages, copy, primerLoopMessages.Length);
         return copy;
     }
@@ -69,9 +69,9 @@ public class RadioMessages : ScriptableObject
     /// <summary>
     /// Obtiene una copia de los mensajes del segundo loop
     /// </summary>
-    public DialogMessage[] GetSegundoLoopMessages()
+    public DialogData[] GetSegundoLoopMessages()
     {
-        DialogMessage[] copy = new DialogMessage[segundoLoopMessages.Length];
+        DialogData[] copy = new DialogData[segundoLoopMessages.Length];
         System.Array.Copy(segundoLoopMessages, copy, segundoLoopMessages.Length);
         return copy;
     }
@@ -79,7 +79,7 @@ public class RadioMessages : ScriptableObject
     /// <summary>
     /// Obtiene una copia de los mensajes según el tipo especificado
     /// </summary>
-    public DialogMessage[] GetMessagesByType(RadioLoopType type)
+    public DialogData[] GetMessagesByType(RadioLoopType type)
     {
         switch (type)
         {
@@ -97,7 +97,7 @@ public class RadioMessages : ScriptableObject
     /// </summary>
     public float GetTotalDuration(RadioLoopType type)
     {
-        DialogMessage[] messages = GetMessagesByType(type);
+        DialogData[] messages = GetMessagesByType(type);
         float totalDuration = 0f;
         foreach (var msg in messages)
             totalDuration += msg.duration;

@@ -46,17 +46,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5b07078ec0be0498c57fde372ee145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  introText: Argentina, 1950. Casa de los Alighieri
-  textFadeInDuration: 5
-  textDisplayDuration: 5
+  introText: No todos los viajes tienen diferentes caminos A veces es una historia
+    y solo queda el final Depende de cada uno aceptarlo o no
+  textFadeInDuration: 7
+  textDisplayDuration: 7
   textFadeOutDuration: 10
   textSize: 64
-  rainStartDelay: 2
+  rainStartDelay: 5
   rainAudioSource: {fileID: 8932069938529326433}
   rainClip: {fileID: 8300000, guid: 148a303afbc706d4c941f30cfc2c5242, type: 3}
   rainFadeInDuration: 2
   rainMaxVolume: 0.5
-  screamsStartDelay: 6
+  screamsStartDelay: 8
   screamsAudioSource: {fileID: 7319101199267503499}
   womanScreamClip: {fileID: 8300000, guid: 335c6138fa4c9474697625fad4f069c5, type: 3}
   childScreamClip: {fileID: 0}

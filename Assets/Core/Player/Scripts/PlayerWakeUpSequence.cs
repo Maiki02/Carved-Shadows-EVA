@@ -7,11 +7,12 @@ using UnityEngine;
 /// </summary>
 public class PlayerWakeUpSequence : MonoBehaviour
 {
-    [Header("Referencias")]
-    [SerializeField] private PlayerController playerController;
-    [SerializeField] private Door doorToClose; // La puerta que se cierra lentamente
-    [SerializeField] private GameObject playerGameObject; // Para obtener PlayerController si no está asignado
-    [SerializeField] private PlayerWakeUpEffects wakeUpEffects; // Efectos adicionales opcionales
+    [Header("Referencias del Player")]
+    [SerializeField] private PlayerController playerController; // REQUERIDO: Asignar en Inspector
+    [SerializeField] private PlayerWakeUpEffects wakeUpEffects; // OPCIONAL: Efectos adicionales
+    
+    [Header("Puerta a Cerrar")]
+    [SerializeField] private Door doorToClose; // REQUERIDO: Asignar la puerta específica que se cierra
     
     [Header("Configuración del Despertar")]
     [SerializeField] private float wakeUpDizzyDuration = 3f;
@@ -38,27 +39,30 @@ public class PlayerWakeUpSequence : MonoBehaviour
     
     private void Awake()
     {
-        // Buscar referencias automáticamente si no están asignadas
+        // Validar referencias críticas
         if (playerController == null)
         {
-            if (playerGameObject != null)
-                playerController = playerGameObject.GetComponent<PlayerController>();
-            else
-                playerController = FindFirstObjectByType<PlayerController>();
+            Debug.LogError("[PlayerWakeUpSequence] PlayerController no asignado en el Inspector!");
         }
         
+        if (doorToClose == null)
+        {
+            Debug.LogError("[PlayerWakeUpSequence] Door To Close no asignado en el Inspector!");
+        }
+        
+        // Buscar AudioSource si no está asignado
         if (playerAudioSource == null)
         {
             playerAudioSource = GetComponent<AudioSource>();
-            if (playerAudioSource == null && playerController != null)
-                playerAudioSource = playerController.GetComponent<AudioSource>();
+            if (playerAudioSource == null)
+                Debug.LogWarning("[PlayerWakeUpSequence] No se encontró AudioSource. Los sonidos no funcionarán.");
         }
         
+        // Buscar WakeUpEffects si no está asignado (opcional)
         if (wakeUpEffects == null)
         {
             wakeUpEffects = GetComponent<PlayerWakeUpEffects>();
-            if (wakeUpEffects == null && playerController != null)
-                wakeUpEffects = playerController.GetComponent<PlayerWakeUpEffects>();
+            // No mostrar warning porque es opcional
         }
     }
     
@@ -195,14 +199,6 @@ public class PlayerWakeUpSequence : MonoBehaviour
     }
     
     /// <summary>
-    /// Método público para configurar diálogos desde el inspector o código
-    /// </summary>
-    public void SetInitialDialogs(DialogData[] dialogs)
-    {
-        initialDialogs = dialogs;
-    }
-    
-    /// <summary>
     /// Permite resetear la secuencia para testing
     /// </summary>
     [ContextMenu("Reset Wake Up Sequence")]
@@ -212,19 +208,22 @@ public class PlayerWakeUpSequence : MonoBehaviour
         Debug.Log("[PlayerWakeUpSequence] Secuencia reseteada para testing");
     }
     
-    /// <summary>
-    /// Configurar la puerta a cerrar
-    /// </summary>
-    public void SetDoorToClose(Door door)
-    {
-        doorToClose = door;
-    }
-    
     private void OnValidate()
     {
         // Validaciones en el editor
         if (wakeUpDizzyIntensity < 0f) wakeUpDizzyIntensity = 0f;
         if (wakeUpDizzyIntensity > 1f) wakeUpDizzyIntensity = 1f;
         if (wakeUpDizzyDuration < 0f) wakeUpDizzyDuration = 0f;
+        
+        // Mostrar warnings en el inspector si faltan referencias críticas
+        if (playerController == null)
+        {
+            Debug.LogWarning("[PlayerWakeUpSequence] PlayerController debe ser asignado en el Inspector");
+        }
+        
+        if (doorToClose == null)
+        {
+            Debug.LogWarning("[PlayerWakeUpSequence] Door To Close debe ser asignado en el Inspector");
+        }
     }
 }

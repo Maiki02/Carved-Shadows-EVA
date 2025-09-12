@@ -63,6 +63,7 @@ AudioMixerGroupController:
   - {fileID: 5860465563952899111}
   - {fileID: -4998076693900373076}
   - {fileID: -760057819958209120}
+  - {fileID: 1813158166956164775}
   m_Volume: b367f8d7f7308b345b69ddb7391bd33f
   m_Pitch: e1de80a257095e346907b05d23c5f809
   m_Send: 00000000000000000000000000000000
@@ -72,6 +73,20 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!244 &-8359403410815090446
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: f22816fa7f9eccf42a3fef8c8ed52170
+  m_EffectName: Attenuation
+  m_MixLevel: a4babde7e1c99154c9b3bbccb909e5d1
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!243 &-8032927590939556340
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -159,25 +174,6 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
---- !u!243 &-4998076693900373076
-AudioMixerGroupController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Lampara
-  m_AudioMixer: {fileID: 24100000}
-  m_GroupID: 7953beae2dba6244eb930339a90fa88f
-  m_Children: []
-  m_Volume: 2b98acf8c3411c04195f3f8ebffd4efd
-  m_Pitch: badc8f020d0c1e24691c38b2d28df9bd
-  m_Send: 00000000000000000000000000000000
-  m_Effects:
-  - {fileID: 1615792892498720589}
-  m_UserColorIndex: 0
-  m_Mute: 0
-  m_Solo: 0
-  m_BypassEffects: 0
 --- !u!243 &-5965888477337191226
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -193,6 +189,25 @@ AudioMixerGroupController:
   m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: 730942664692445068}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!243 &-4998076693900373076
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Lampara
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 7953beae2dba6244eb930339a90fa88f
+  m_Children: []
+  m_Volume: 2b98acf8c3411c04195f3f8ebffd4efd
+  m_Pitch: badc8f020d0c1e24691c38b2d28df9bd
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: 1615792892498720589}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -403,32 +418,7 @@ AudioMixerController:
   m_AudioMixerGroupViews:
   - guids:
     - cbbf0610e1fd851499d38979228c9d49
-    - 577fbe82024c0c542a992491d0b986f3
-    - a199d76fad44ef744948cfc66430158c
-    - 77ff8970906357f4d92b0a0cd799fcab
-    - abc2260ffab115a43bfb950f8f43adb9
-    - 53e2f4d9b0e8a9a4497ab1e2009e9257
-    - 3f9efd5013ed6284c9a524bda9a98ed1
-    - 886f5c55cbb1c154ba753392f506d12d
-    - d410e56c9e1fac74bac66db4c37cc000
-    - 1bf226ba717c1e94090b00bbcd5804a0
-    - 05b985d0474067e4bb20debb804c4941
-    - e355b705002b4444ab44f476052150d7
-    - aaf5e78befba2de44ac6467b0d436f6f
-    - 156bec3dbcf829c43a3bbd5909c7530e
-    - 17be4f589a48edc488e9495795304bf0
-    - 19bb0ae9dd82dc4439e69b158aa3d666
-    - ea1469b64ab178049bb69fa2722a2094
-    - e012abfe28b65dd45aa5dc5c9e7bd93b
-    - 51a2ba96f0ac17f4f8f21800bab9b2ab
-    - 06a96eebe00211f43a9c39e4420e34a8
-    - b6583a508c80e7d4f96994a0a01ee4dc
-    - 38004631b4f324c4cb8e34a586514bc6
-    - cf6ea0b9d02a08c4fabe86e2af7d8f25
-    - 7953beae2dba6244eb930339a90fa88f
-    - 9f7c67caf2f2042479738b55d70857a8
-    - 5b74d4be0a36a61468e2c5e43f68bf5d
-    - 733701a68bee1ab4cabe13da658d287d
+    - b47ec27e5bd80f145880e3061c3ee276
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -647,6 +637,25 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!243 &1813158166956164775
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PlayerVoice
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: b47ec27e5bd80f145880e3061c3ee276
+  m_Children: []
+  m_Volume: c45de1f49e45b7d46b08c3ee8570db30
+  m_Pitch: 9b2744b08464806428b83705ea65457f
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -8359403410815090446}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!243 &1846491867746648369
 AudioMixerGroupController:
   m_ObjectHideFlags: 0

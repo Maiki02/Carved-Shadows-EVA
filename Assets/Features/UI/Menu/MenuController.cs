@@ -160,31 +160,17 @@ public class MenuController : MonoBehaviour
             }
             
             // NUEVA FUNCIONALIDAD: Iniciar secuencia de despertar del protagonista
-            GameObject wakeUpGO = GameObject.Find("PlayerWakeUpSequence");
-            if (wakeUpGO == null)
+            if (playerGO != null)
             {
-                // Buscar en el player si no está como objeto separado
-                if (playerGO != null)
-                {
-                    var wakeUpComponent = playerGO.GetComponent("PlayerWakeUpSequence");
-                    if (wakeUpComponent != null)
-                    {
-                        Debug.Log("[MenuController] Iniciando secuencia de despertar del protagonista");
-                        wakeUpComponent.SendMessage("StartWakeUpSequence", SendMessageOptions.DontRequireReceiver);
-                    }
-                    else
-                    {
-                        Debug.LogWarning("[MenuController] PlayerWakeUpSequence no encontrado en el Player");
-                    }
-                }
-            }
-            else
-            {
-                var wakeUpComponent = wakeUpGO.GetComponent("PlayerWakeUpSequence");
+                var wakeUpComponent = playerGO.GetComponent<PlayerWakeUpSequence>();
                 if (wakeUpComponent != null)
                 {
                     Debug.Log("[MenuController] Iniciando secuencia de despertar del protagonista");
-                    wakeUpComponent.SendMessage("StartWakeUpSequence", SendMessageOptions.DontRequireReceiver);
+                    wakeUpComponent.StartWakeUpSequence();
+                }
+                else
+                {
+                    Debug.LogWarning("[MenuController] PlayerWakeUpSequence no encontrado en el Player");
                 }
             }
         }

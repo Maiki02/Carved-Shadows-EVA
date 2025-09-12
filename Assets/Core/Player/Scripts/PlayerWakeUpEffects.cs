@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Unity.Cinemachine;
 
 /// <summary>
 /// Añade efectos adicionales al despertar del protagonista como movimiento de respiración,
@@ -8,19 +9,13 @@ using UnityEngine;
 public class PlayerWakeUpEffects : MonoBehaviour
 {
     [Header("Referencias")]
-    [SerializeField] private Camera playerCamera;
-    [SerializeField] private PlayerController playerController;
+    [SerializeField] private CinemachineCamera mainCamera; // REQUERIDO: Cámara principal de Cinemachine
     
     [Header("Efectos de Respiración")]
     [SerializeField] private bool enableBreathingEffect = true;
     [SerializeField] private float breathingDuration = 5f;
     [SerializeField] private float breathingIntensity = 0.02f;
     [SerializeField] private float breathingFrequency = 1.2f;
-    
-    [Header("Efectos de Visión")]
-    [SerializeField] private bool enableBlurEffect = false; // Requiere Post-Processing
-    [SerializeField] private float blurDuration = 3f;
-    [SerializeField] private AnimationCurve blurCurve = AnimationCurve.EaseInOut(0, 1, 1, 0);
     
     [Header("Efectos de FOV")]
     [SerializeField] private bool enableFOVEffect = true;
@@ -33,16 +28,18 @@ public class PlayerWakeUpEffects : MonoBehaviour
     
     private void Awake()
     {
-        if (playerCamera == null)
-            playerCamera = Camera.main;
-        
-        if (playerController == null)
-            playerController = FindFirstObjectByType<PlayerController>();
-            
-        if (playerCamera != null)
+        // Validar referencias críticas
+        if (mainCamera == null)
         {
-            originalFOV = playerCamera.fieldOfView;
-            originalCameraPosition = playerCamera.transform.localPosition;
+            Debug.LogError("[PlayerWakeUpEffects] Main Camera (CinemachineCamera) no asignado en el Inspector!");
+        }
+            
+        if (mainCamera != null)
+        {
+            originalFOV = mainCamera.Lens.FieldOfView;
+            // Para efectos de posición usaremos el transform del target de seguimiento
+            if (mainCamera.Follow != null)
+                originalCameraPosition = mainCamera.Follow.localPosition;
         }
     }
     
@@ -65,14 +62,11 @@ public class PlayerWakeUpEffects : MonoBehaviour
         Debug.Log("[PlayerWakeUpEffects] Iniciando efectos de despertar");
         
         // Iniciar efectos en paralelo
-        Coroutine breathingCoroutine = null;
-        Coroutine fovCoroutine = null;
-        
         if (enableBreathingEffect)
-            breathingCoroutine = StartCoroutine(BreathingEffectCoroutine());
+            StartCoroutine(BreathingEffectCoroutine());
             
         if (enableFOVEffect)
-            fovCoroutine = StartCoroutine(FOVEffectCoroutine());
+            StartCoroutine(FOVEffectCoroutine());
         
         // Esperar a que terminen los efectos
         float maxDuration = Mathf.Max(
@@ -83,10 +77,11 @@ public class PlayerWakeUpEffects : MonoBehaviour
         yield return new WaitForSeconds(maxDuration);
         
         // Asegurar que todo vuelva a la normalidad
-        if (playerCamera != null)
+        if (mainCamera != null)
         {
-            playerCamera.fieldOfView = originalFOV;
-            playerCamera.transform.localPosition = originalCameraPosition;
+            mainCamera.Lens.FieldOfView = originalFOV;
+            if (mainCamera.Follow != null)
+                mainCamera.Follow.localPosition = originalCameraPosition;
         }
         
         isPlayingEffects = false;
@@ -98,7 +93,7 @@ public class PlayerWakeUpEffects : MonoBehaviour
     /// </summary>
     private IEnumerator BreathingEffectCoroutine()
     {
-        if (playerCamera == null) yield break;
+        if (mainCamera == null || mainCamera.Follow == null) yield break;
         
         float elapsed = 0f;
         
@@ -111,14 +106,15 @@ public class PlayerWakeUpEffects : MonoBehaviour
             float breathOffset = Mathf.Sin(elapsed * breathingFrequency * 2f * Mathf.PI) * intensity;
             Vector3 newPosition = originalCameraPosition + Vector3.up * breathOffset;
             
-            playerCamera.transform.localPosition = newPosition;
+            mainCamera.Follow.localPosition = newPosition;
             
             elapsed += Time.deltaTime;
             yield return null;
         }
         
         // Volver a posición original
-        playerCamera.transform.localPosition = originalCameraPosition;
+        if (mainCamera.Follow != null)
+            mainCamera.Follow.localPosition = originalCameraPosition;
     }
     
     /// <summary>
@@ -126,16 +122,16 @@ public class PlayerWakeUpEffects : MonoBehaviour
     /// </summary>
     private IEnumerator FOVEffectCoroutine()
     {
-        if (playerCamera == null) yield break;
+        if (mainCamera == null) yield break;
         
         float elapsed = 0f;
-        float startFOV = playerCamera.fieldOfView;
+        float startFOV = mainCamera.Lens.FieldOfView;
         
         // Primera fase: ampliar FOV rápidamente
         while (elapsed < fovChangeDuration * 0.3f)
         {
             float t = elapsed / (fovChangeDuration * 0.3f);
-            playerCamera.fieldOfView = Mathf.Lerp(startFOV, targetFOV, t);
+            mainCamera.Lens.FieldOfView = Mathf.Lerp(startFOV, targetFOV, t);
             elapsed += Time.deltaTime;
             yield return null;
         }
@@ -148,12 +144,12 @@ public class PlayerWakeUpEffects : MonoBehaviour
         while (elapsed < fovChangeDuration * 0.3f)
         {
             float t = elapsed / (fovChangeDuration * 0.3f);
-            playerCamera.fieldOfView = Mathf.Lerp(targetFOV, originalFOV, t);
+            mainCamera.Lens.FieldOfView = Mathf.Lerp(targetFOV, originalFOV, t);
             elapsed += Time.deltaTime;
             yield return null;
         }
         
-        playerCamera.fieldOfView = originalFOV;
+        mainCamera.Lens.FieldOfView = originalFOV;
     }
     
     /// <summary>
@@ -163,10 +159,11 @@ public class PlayerWakeUpEffects : MonoBehaviour
     {
         StopAllCoroutines();
         
-        if (playerCamera != null)
+        if (mainCamera != null)
         {
-            playerCamera.fieldOfView = originalFOV;
-            playerCamera.transform.localPosition = originalCameraPosition;
+            mainCamera.Lens.FieldOfView = originalFOV;
+            if (mainCamera.Follow != null)
+                mainCamera.Follow.localPosition = originalCameraPosition;
         }
         
         isPlayingEffects = false;

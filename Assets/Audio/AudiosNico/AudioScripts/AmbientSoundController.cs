@@ -7,7 +7,7 @@ using UnityEngine.Audio;
 public class AmbientSound
 {
     public string name;
-    public AudioSource source;
+    public SoundEvent soundEvent;        // Antes era AudioSource
     public bool isEnabled;
     public float startDelay;
     public bool loop;
@@ -17,7 +17,8 @@ public class AmbientSound
     public float fadeOutStartTime = 0f;
     public float fadeOutDuration = 2f;
 
-
+    [HideInInspector]
+    public AudioSource runtimeSource;     // El AudioSource generado en runtime
 }
 
 public class AmbientSoundController : MonoBehaviour
@@ -28,15 +29,9 @@ public class AmbientSoundController : MonoBehaviour
     {
         foreach (var sound in ambientSounds)
         {
-            if (sound == null)
+            if (sound == null || sound.soundEvent == null)
             {
-                Debug.LogWarning("AmbientSoundController: Se encontró un AmbientSound nulo en la lista.");
-                continue;
-            }
-
-            if (sound.source == null)
-            {
-                Debug.LogWarning($"AmbientSoundController: El AudioSource es nulo para el sonido '{sound.name}'. Saltando este sonido.");
+                Debug.LogWarning("AmbientSoundController: AmbientSound o SoundEvent nulo en la lista.");
                 continue;
             }
 
@@ -49,30 +44,24 @@ public class AmbientSoundController : MonoBehaviour
 
     private IEnumerator PlayWithDelay(AmbientSound sound)
     {
-        // Validación adicional por si el AudioSource se hace null durante la ejecución
-        if (sound.source == null)
-        {
-            Debug.LogWarning($"AmbientSoundController: El AudioSource se volvió nulo para el sonido '{sound.name}' durante PlayWithDelay.");
-            yield break;
-        }
-
         float delay = sound.startDelay;
         if (sound.randomizeStart)
         {
-            delay += Random.Range(0f, 5f); // podés ajustar el rango
+            delay += Random.Range(0f, 5f);
         }
 
         yield return new WaitForSeconds(delay);
 
-        // Validación antes de reproducir
-        if (sound.source == null)
+        // Reproducir con el helper
+        sound.runtimeSource = SoundEventPlayer.Play(sound.soundEvent, transform);
+        if (sound.runtimeSource == null)
         {
-            Debug.LogWarning($"AmbientSoundController: El AudioSource se volvió nulo para el sonido '{sound.name}' después del retraso.");
+            Debug.LogWarning($"AmbientSoundController: No se pudo reproducir SoundEvent '{sound.name}'.");
             yield break;
         }
 
-        sound.source.loop = sound.loop;
-        sound.source.Play();
+        // Ajustar loop según configuración del AmbientSound (sobrescribe lo que venga del SO)
+        sound.runtimeSource.loop = sound.loop;
 
         if (sound.enableFadeOut)
         {
@@ -84,21 +73,10 @@ public class AmbientSoundController : MonoBehaviour
     {
         foreach (var sound in ambientSounds)
         {
-            if (sound == null)
+            if (sound == null || sound.runtimeSource == null) continue;
+            if (sound.runtimeSource.isPlaying)
             {
-                Debug.LogWarning("AmbientSoundController: Se encontró un AmbientSound nulo durante FadeOutAll.");
-                continue;
-            }
-
-            if (sound.source == null)
-            {
-                Debug.LogWarning($"AmbientSoundController: El AudioSource es nulo para el sonido '{sound.name}' durante FadeOutAll.");
-                continue;
-            }
-
-            if (sound.source.isPlaying)
-            {
-                StartCoroutine(FadeOut(sound.source, fadeTime));
+                StartCoroutine(FadeOut(sound.runtimeSource, fadeTime));
             }
         }
     }
@@ -120,14 +98,9 @@ public class AmbientSoundController : MonoBehaviour
     private IEnumerator HandleFadeOut(AmbientSound sound)
     {
         yield return new WaitForSeconds(sound.fadeOutStartTime);
-        
-        if (sound.source == null)
-        {
-            Debug.LogWarning($"AmbientSoundController: El AudioSource se volvió nulo para el sonido '{sound.name}' durante HandleFadeOut.");
-            yield break;
-        }
 
-        yield return FadeOut(sound.source, sound.fadeOutDuration);
+        if (sound.runtimeSource == null) yield break;
+
+        yield return FadeOut(sound.runtimeSource, sound.fadeOutDuration);
     }
-
 }

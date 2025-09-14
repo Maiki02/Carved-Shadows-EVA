@@ -303,7 +303,7 @@ MonoBehaviour:
   blackImage: {fileID: 6060154299076528455}
   topBar: {fileID: 0}
   bottomBar: {fileID: 0}
-  fadeText: {fileID: 483963066015579428}
+  fadeTextGameObject: {fileID: 2525055676714974459}
   blinkDuration: 1.5
   blackImageDuration: 2
   defaultTextSize: 120
@@ -341,8 +341,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1727.9517, y: 295.8766}
+  m_AnchoredPosition: {x: 0, y: 0.0000076293945}
+  m_SizeDelta: {x: 1247.602, y: 478.199}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6744491080076778379
 CanvasRenderer:

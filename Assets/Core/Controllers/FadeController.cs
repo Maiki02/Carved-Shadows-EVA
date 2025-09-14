@@ -12,7 +12,8 @@ public class FadeManager : MonoBehaviour
     [SerializeField] private Image blackImage;     // Imagen full-screen para parpadeos
     [SerializeField] private Image topBar;         // Barra superior para cierre de vista
     [SerializeField] private Image bottomBar;      // Barra inferior para cierre de vista
-    [SerializeField] private TextMeshProUGUI fadeText; // Texto para mostrar en pantalla
+    private TextMeshProUGUI fadeText; // Texto para mostrar en pantalla
+    [SerializeField] private GameObject fadeTextGameObject; // GameObject del texto para activar/desactivar
 
     [Header("Duraciones")]
     [SerializeField] private float blinkDuration = 1.5f;  // Tiempo de cada fase de parpadeo
@@ -46,10 +47,19 @@ public class FadeManager : MonoBehaviour
                 bottomBar.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
             }
 
-            if (fadeText != null)
+            if (fadeTextGameObject != null)
             {
-                fadeText.color = new Color(fadeText.color.r, fadeText.color.g, fadeText.color.b, 0);
-                fadeText.enabled = false;
+                fadeText = fadeTextGameObject.GetComponent<TextMeshProUGUI>();
+                if (fadeText == null)
+                {
+                    Debug.LogError("[FadeManager] No TextMeshProUGUI component found on fadeTextGameObject!");
+                }
+                else
+                {
+                    fadeText.text = "";
+                    fadeText.fontSize = defaultTextSize;
+                    fadeText.color = new Color(fadeText.color.r, fadeText.color.g, fadeText.color.b, 0);
+                }
             }
         }
         else
@@ -158,19 +168,21 @@ public class FadeManager : MonoBehaviour
     public IEnumerator ShowTextWithFadeCoroutine(string text, float fadeInDuration, float displayDuration, float fadeOutDuration, float textSize = -1f)
     {
         if (fadeText == null) yield break;
-
+        this.fadeTextGameObject.SetActive(true);
         // Configurar el texto
         fadeText.text = text;
         fadeText.fontSize = textSize > 0 ? textSize : defaultTextSize;
 
         // Fade In del texto
         yield return StartCoroutine(FadeText(fadeText, 0f, 1f, fadeInDuration));
-        
+
         // Mantener el texto visible
         yield return new WaitForSeconds(displayDuration);
 
         // Fade Out del texto
         yield return StartCoroutine(FadeText(fadeText, 1f, 0f, fadeOutDuration));
+        
+        this.fadeTextGameObject.SetActive(false);
     }
 
     private IEnumerator BlinkCoroutine(float fromA, float toA, float duration)
@@ -219,8 +231,8 @@ public class FadeManager : MonoBehaviour
     private IEnumerator FadeText(TextMeshProUGUI textComponent, float fromA, float toA, float dur)
     {
         if (textComponent == null) yield break;
-        Debug.Log($"[FadeText] === FUNCIÓN FADETEXT LLAMADA ===");
-        Debug.Log($"[FadeText] fromA = {fromA}, toA = {toA}, dur = {dur}");  
+        
+
         // Validar duración - si es 0 o negativa, aplicar el valor final inmediatamente
         if (dur <= 0f)
         {
@@ -228,7 +240,7 @@ public class FadeManager : MonoBehaviour
             Color immediateColor = textComponent.color;
             immediateColor.a = toA;
             textComponent.color = immediateColor;
-            
+
             if (Mathf.Approximately(toA, 0f))
                 textComponent.enabled = false;
             yield break;

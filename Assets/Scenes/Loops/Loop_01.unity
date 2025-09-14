@@ -659,15 +659,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: IntroController
       objectReference: {fileID: 0}
-    - target: {fileID: 2753451877748473215, guid: 418492c330d761b49897b19252a6a530, type: 3}
-      propertyPath: textSize
-      value: 54
-      objectReference: {fileID: 0}
-    - target: {fileID: 2753451877748473215, guid: 418492c330d761b49897b19252a6a530, type: 3}
-      propertyPath: introText
-      value: No todos los viajes tienen diferentes caminos. \nA veces es una historia
-        y solo queda el final. \nDepende de cada uno aceptarlo o no.
-      objectReference: {fileID: 0}
     - target: {fileID: 5163782167127659675, guid: 418492c330d761b49897b19252a6a530, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.5781572

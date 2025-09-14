@@ -46,12 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be5b07078ec0be0498c57fde372ee145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  introText: No todos los viajes tienen diferentes caminos A veces es una historia
-    y solo queda el final Depende de cada uno aceptarlo o no
+  introText: No todos los viajes tienen diferentes caminos \nA veces es una historia
+    y solo queda el final \nDepende de cada uno aceptarlo o no
   textFadeInDuration: 3
   textDisplayDuration: 5
   textFadeOutDuration: 6
-  textSize: 64
+  textSize: 54
   rainStartDelay: 5
   rainAudioSource: {fileID: 8932069938529326433}
   rainClip: {fileID: 8300000, guid: 148a303afbc706d4c941f30cfc2c5242, type: 3}

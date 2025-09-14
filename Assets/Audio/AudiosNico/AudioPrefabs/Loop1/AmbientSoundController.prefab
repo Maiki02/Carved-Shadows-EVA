@@ -64,8 +64,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ambientSounds:
+  - name: Lluvia
+    soundEvent: {fileID: 11400000, guid: 7a9699ef6628e70429089b740bbb9444, type: 2}
+    isEnabled: 1
+    startDelay: 5
+    loop: 1
+    randomizeStart: 0
+    enableFadeOut: 0
+    fadeOutStartTime: 0
+    fadeOutDuration: 2
+    runtimeSource: {fileID: 0}
   - name: Viento Suave
-    source: {fileID: 4459472168194443462}
+    soundEvent: {fileID: 11400000, guid: dffe45ccb154f1449a3cf7fe7f299035, type: 2}
     isEnabled: 1
     startDelay: 5
     loop: 1
@@ -73,8 +83,9 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 0
     fadeOutDuration: 0
+    runtimeSource: {fileID: 0}
   - name: Viento Medio
-    source: {fileID: 4151123207681975769}
+    soundEvent: {fileID: 11400000, guid: 95e677fa72ba55a4b8180f958f090662, type: 2}
     isEnabled: 0
     startDelay: 0
     loop: 0
@@ -82,8 +93,9 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 0
     fadeOutDuration: 2
+    runtimeSource: {fileID: 0}
   - name: Viento Fuerte
-    source: {fileID: 2907865489420105447}
+    soundEvent: {fileID: 11400000, guid: 92cb87956e5e53340a58b1fb826ce089, type: 2}
     isEnabled: 0
     startDelay: 0
     loop: 0
@@ -91,8 +103,19 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 0
     fadeOutDuration: 2
+    runtimeSource: {fileID: 0}
+  - name: FuegoOficina
+    soundEvent: {fileID: 0}
+    isEnabled: 1
+    startDelay: 0
+    loop: 1
+    randomizeStart: 0
+    enableFadeOut: 0
+    fadeOutStartTime: 0
+    fadeOutDuration: 2
+    runtimeSource: {fileID: 0}
   - name: Radio
-    source: {fileID: 3673099699755841980}
+    soundEvent: {fileID: 0}
     isEnabled: 0
     startDelay: 27
     loop: 0
@@ -100,8 +123,9 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 0
     fadeOutDuration: 2
+    runtimeSource: {fileID: 0}
   - name: "L\xE1mpara"
-    source: {fileID: 8425031382615743038}
+    soundEvent: {fileID: 0}
     isEnabled: 1
     startDelay: 10
     loop: 1
@@ -109,8 +133,9 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 0
     fadeOutDuration: 0
+    runtimeSource: {fileID: 0}
   - name: Trueno Suave
-    source: {fileID: 5667857529314905058}
+    soundEvent: {fileID: 11400000, guid: 6b554d6874c86a042902b0edaf198318, type: 2}
     isEnabled: 0
     startDelay: 45
     loop: 1
@@ -118,8 +143,9 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 5
     fadeOutDuration: 2
+    runtimeSource: {fileID: 0}
   - name: Trueno Fuerte
-    source: {fileID: 5237519218835668252}
+    soundEvent: {fileID: 11400000, guid: d883785388605f145b05d81417064c3c, type: 2}
     isEnabled: 0
     startDelay: 29
     loop: 1
@@ -127,8 +153,9 @@ MonoBehaviour:
     enableFadeOut: 1
     fadeOutStartTime: 7
     fadeOutDuration: 3
+    runtimeSource: {fileID: 0}
   - name: "Cer\xE1mica"
-    source: {fileID: 6117602283333076881}
+    soundEvent: {fileID: 0}
     isEnabled: 0
     startDelay: 0
     loop: 0
@@ -136,8 +163,9 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 0
     fadeOutDuration: 2
+    runtimeSource: {fileID: 0}
   - name: Radio Segundo Loop
-    source: {fileID: 7775956240546790175}
+    soundEvent: {fileID: 0}
     isEnabled: 0
     startDelay: 17
     loop: 0
@@ -145,8 +173,9 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 0
     fadeOutDuration: 2
+    runtimeSource: {fileID: 0}
   - name: Reloj 1
-    source: {fileID: 5408864618793235782}
+    soundEvent: {fileID: 0}
     isEnabled: 1
     startDelay: 0
     loop: 1
@@ -154,8 +183,9 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 0
     fadeOutDuration: 0.5
+    runtimeSource: {fileID: 0}
   - name: Reloj 2
-    source: {fileID: 530938798267075596}
+    soundEvent: {fileID: 0}
     isEnabled: 1
     startDelay: 0
     loop: 1
@@ -163,8 +193,9 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 3
     fadeOutDuration: 5
+    runtimeSource: {fileID: 0}
   - name: Reloj 3
-    source: {fileID: 0}
+    soundEvent: {fileID: 0}
     isEnabled: 0
     startDelay: 0
     loop: 0
@@ -172,8 +203,9 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 0
     fadeOutDuration: 2
+    runtimeSource: {fileID: 0}
   - name: Reloj 4
-    source: {fileID: 0}
+    soundEvent: {fileID: 0}
     isEnabled: 0
     startDelay: 0
     loop: 0
@@ -181,8 +213,9 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 0
     fadeOutDuration: 2
+    runtimeSource: {fileID: 0}
   - name: Reloj 5
-    source: {fileID: 0}
+    soundEvent: {fileID: 0}
     isEnabled: 0
     startDelay: 0
     loop: 0
@@ -190,8 +223,9 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 0
     fadeOutDuration: 2
+    runtimeSource: {fileID: 0}
   - name: "Respiraci\xF3n base"
-    source: {fileID: 4992094666358863222}
+    soundEvent: {fileID: 0}
     isEnabled: 1
     startDelay: 6
     loop: 0
@@ -199,8 +233,9 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 0
     fadeOutDuration: 2
+    runtimeSource: {fileID: 0}
   - name: "Respiraci\xF3n fuerte"
-    source: {fileID: 650196679546425067}
+    soundEvent: {fileID: 0}
     isEnabled: 0
     startDelay: 20
     loop: 0
@@ -208,8 +243,9 @@ MonoBehaviour:
     enableFadeOut: 1
     fadeOutStartTime: 12
     fadeOutDuration: 5
+    runtimeSource: {fileID: 0}
   - name: Interferencia
-    source: {fileID: 3083471170178664356}
+    soundEvent: {fileID: 0}
     isEnabled: 1
     startDelay: 23
     loop: 0
@@ -217,17 +253,9 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 0
     fadeOutDuration: 0
-  - name: FuegoOficina
-    source: {fileID: 286838659846718676}
-    isEnabled: 1
-    startDelay: 0
-    loop: 1
-    randomizeStart: 0
-    enableFadeOut: 0
-    fadeOutStartTime: 0
-    fadeOutDuration: 2
+    runtimeSource: {fileID: 0}
   - name: FuegoPiano
-    source: {fileID: 4192050265403767168}
+    soundEvent: {fileID: 0}
     isEnabled: 1
     startDelay: 0
     loop: 1
@@ -235,8 +263,9 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 0
     fadeOutDuration: 2
+    runtimeSource: {fileID: 0}
   - name: "M\xFAsica"
-    source: {fileID: 5126293773035693894}
+    soundEvent: {fileID: 0}
     isEnabled: 1
     startDelay: 0
     loop: 1
@@ -244,8 +273,9 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 0
     fadeOutDuration: 2
+    runtimeSource: {fileID: 0}
   - name: FuegoSub
-    source: {fileID: 2923427220840468233}
+    soundEvent: {fileID: 0}
     isEnabled: 1
     startDelay: 0
     loop: 1
@@ -253,15 +283,7 @@ MonoBehaviour:
     enableFadeOut: 0
     fadeOutStartTime: 0
     fadeOutDuration: 2
-  - name: Lluvia
-    source: {fileID: 8912463850472626688}
-    isEnabled: 1
-    startDelay: 5
-    loop: 1
-    randomizeStart: 0
-    enableFadeOut: 0
-    fadeOutStartTime: 0
-    fadeOutDuration: 2
+    runtimeSource: {fileID: 0}
 --- !u!1 &1888242775872788856
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,7 +327,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: d648da4c519030040b699c0229b98c52, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 365d990f077495d4ea8c1279f94ff98a, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 365d990f077495d4ea8c1279f94ff98a, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -486,7 +509,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: c56095aa359a43a488a50c7b5ef8cfd9, type: 2}
-  m_audioClip: {fileID: 8300000, guid: f946fc06b613207448c99647bf544016, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: f946fc06b613207448c99647bf544016, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -667,7 +691,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: c56095aa359a43a488a50c7b5ef8cfd9, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 09a1f12bf73021c41b7c093007734456, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 09a1f12bf73021c41b7c093007734456, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -848,7 +873,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: c56095aa359a43a488a50c7b5ef8cfd9, type: 2}
-  m_audioClip: {fileID: 8300000, guid: f8d8dba392eff064f89b4238074518e8, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: f8d8dba392eff064f89b4238074518e8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1029,7 +1055,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: c56095aa359a43a488a50c7b5ef8cfd9, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 0c529c948731c3f428d28b09adc7338b, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 0c529c948731c3f428d28b09adc7338b, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1210,7 +1237,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: c56095aa359a43a488a50c7b5ef8cfd9, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 625fbae77c6bb914bab6fde3aa8ed409, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 625fbae77c6bb914bab6fde3aa8ed409, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1391,7 +1419,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: c56095aa359a43a488a50c7b5ef8cfd9, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 6bdd5744a3a264a48a77207164d43f17, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 6bdd5744a3a264a48a77207164d43f17, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1572,7 +1601,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 177c787453ae69448b5ecc6b41e3aa9f, type: 2}
-  m_audioClip: {fileID: 8300000, guid: c9ccfec7d3cde934d9dbdd2737f15d60, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: c9ccfec7d3cde934d9dbdd2737f15d60, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1753,7 +1783,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: d648da4c519030040b699c0229b98c52, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 14e74254f63b82642a64752729bcfc19, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 14e74254f63b82642a64752729bcfc19, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.757
   m_Pitch: 1
@@ -1934,7 +1965,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 916c0e0ec585fa343b64ef9f91aacebb, type: 2}
-  m_audioClip: {fileID: 8300000, guid: e83ec263b620e204aa1710f7970abae3, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: e83ec263b620e204aa1710f7970abae3, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2115,7 +2147,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: d648da4c519030040b699c0229b98c52, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 14e74254f63b82642a64752729bcfc19, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 14e74254f63b82642a64752729bcfc19, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.757
   m_Pitch: 1
@@ -2296,7 +2329,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 177c787453ae69448b5ecc6b41e3aa9f, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 6e7be2ea146c24c4c9ccff1b7531a2ea, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 6e7be2ea146c24c4c9ccff1b7531a2ea, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2477,7 +2511,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: c56095aa359a43a488a50c7b5ef8cfd9, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 6f8493ee78da6fd4a82914e62fe0a3fd, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 6f8493ee78da6fd4a82914e62fe0a3fd, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2658,7 +2693,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: d648da4c519030040b699c0229b98c52, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 14e74254f63b82642a64752729bcfc19, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 14e74254f63b82642a64752729bcfc19, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.757
   m_Pitch: 1
@@ -2839,7 +2875,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: c56095aa359a43a488a50c7b5ef8cfd9, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 94fdb95707949134f9704ea49d380d86, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 94fdb95707949134f9704ea49d380d86, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -3020,7 +3057,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: c56095aa359a43a488a50c7b5ef8cfd9, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 2e8965fdbf666d544b6fb4411925b5a8, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 2e8965fdbf666d544b6fb4411925b5a8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.138
   m_Pitch: 1
@@ -3201,7 +3239,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: c56095aa359a43a488a50c7b5ef8cfd9, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 65844fb665050214c9e409032f0c45f0, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 65844fb665050214c9e409032f0c45f0, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -3382,7 +3421,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: d648da4c519030040b699c0229b98c52, type: 2}
-  m_audioClip: {fileID: 8300000, guid: ba4480ffe8058c54bbbf97ba2176a3c5, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: ba4480ffe8058c54bbbf97ba2176a3c5, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.757
   m_Pitch: 1
@@ -3563,7 +3603,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: c56095aa359a43a488a50c7b5ef8cfd9, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 4e1c9f242fde42f4b9ab13319ffee77d, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 4e1c9f242fde42f4b9ab13319ffee77d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

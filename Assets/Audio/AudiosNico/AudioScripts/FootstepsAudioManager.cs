@@ -5,21 +5,17 @@ using UnityEngine.Audio;
 
 public class FootstepAudioManager : MonoBehaviour
 {
-    [Header("Clips de pasos")]
-    public List<AudioClip> pasos;
-    public List<AudioClip> beats;
+    [Header("Sound Events de pasos")]
+    public List<SoundEvent> pasos;
+    public List<SoundEvent> beats;
 
-    [Header("Clips de pasos para alfombra")]
-    public List<AudioClip> alfombraPasos;
-    public List<AudioClip> alfombraBeats;
+    [Header("Sound Events de pasos para alfombra")]
+    public List<SoundEvent> alfombraPasos;
+    public List<SoundEvent> alfombraBeats;
 
-    [Header("Audio Sources")]
+    [Header("Audio Sources para control de loop/pitch (opcional)")]
     public AudioSource pasosSource;
     public AudioSource beatsSource;
-
-    [Header("Audio Mixer")]
-    public AudioMixerGroup pasosMixer;
-    public AudioMixerGroup beatsMixer;
 
     [Header("Configuración de pasos")]
     public float stepInterval = 0.5f;
@@ -33,8 +29,8 @@ public class FootstepAudioManager : MonoBehaviour
     private CharacterController characterController;
 
     [Header("Escaleras")]
-    public float stairStepInterval = 0.2f; // Intervalo cuando baja escaleras
-    public float stairPitchBoost = 1.05f;  // Opcional: le subimos un poquito el pitch
+    public float stairStepInterval = 0.2f;
+    public float stairPitchBoost = 1.05f;
 
     private float defaultStepInterval;
     private bool enEscaleras = false;
@@ -42,17 +38,8 @@ public class FootstepAudioManager : MonoBehaviour
     void Start()
     {
         characterController = GetComponentInParent<CharacterController>();
-
         if (characterController == null)
-        {
             Debug.LogError("No se encontró CharacterController en el objeto padre.");
-        }
-
-        if (pasosSource != null && pasosMixer != null)
-            pasosSource.outputAudioMixerGroup = pasosMixer;
-
-        if (beatsSource != null && beatsMixer != null)
-            beatsSource.outputAudioMixerGroup = beatsMixer;
 
         defaultStepInterval = stepInterval;
     }
@@ -65,13 +52,11 @@ public class FootstepAudioManager : MonoBehaviour
 
         if (enEscaleras)
         {
-            // En escaleras usamos la velocidad total (incluye Y) para no cortar pasos al bajar
             isWalking = characterController.velocity.magnitude > 0.1f && characterController.isGrounded;
-            stepInterval = stairStepInterval; // siempre ritmo rápido en escaleras
+            stepInterval = stairStepInterval;
         }
         else
         {
-            // En suelo plano/alfombra usamos solo velocidad horizontal
             Vector3 horizontalVelocity = new Vector3(characterController.velocity.x, 0, characterController.velocity.z);
             isWalking = horizontalVelocity.magnitude > 0.1f && characterController.isGrounded;
             stepInterval = defaultStepInterval;
@@ -97,8 +82,8 @@ public class FootstepAudioManager : MonoBehaviour
 
     void PlayRandomStepPair()
     {
-        List<AudioClip> currentPasos = sobreAlfombra ? alfombraPasos : pasos;
-        List<AudioClip> currentBeats = sobreAlfombra ? alfombraBeats : beats;
+        List<SoundEvent> currentPasos = sobreAlfombra ? alfombraPasos : pasos;
+        List<SoundEvent> currentBeats = sobreAlfombra ? alfombraBeats : beats;
 
         if (currentPasos.Count == 0 || currentBeats.Count == 0) return;
 
@@ -110,21 +95,22 @@ public class FootstepAudioManager : MonoBehaviour
         lastIndex = index;
 
         float basePitch = Random.Range(0.95f, 1.05f);
-        if (enEscaleras) basePitch *= stairPitchBoost; // Un poco más agudo en escaleras
+        if (enEscaleras) basePitch *= stairPitchBoost;
 
-        pasosSource.pitch = basePitch;
-        beatsSource.pitch = basePitch;
+        // Reproducir con helper
+        var pasoSrc = SoundEventPlayer.Play(currentPasos[index]);
+        var beatSrc = SoundEventPlayer.Play(currentBeats[index]);
+        Debug.Log("Reproduciendo paso: " + currentPasos[index].name + " / beat: " + currentBeats[index].name);
 
-        pasosSource.clip = currentPasos[index];
-        beatsSource.clip = currentBeats[index];
 
-        pasosSource.Play();
-        beatsSource.Play();
+        // Ajustar pitch y loop si se desea (opcional)
+        if (pasoSrc != null) pasoSrc.pitch = basePitch;
+        if (beatSrc != null) beatSrc.pitch = basePitch;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        /*if (other.CompareTag("Alfombra"))
+        if (other.CompareTag("Alfombra"))
         {
             sobreAlfombra = true;
         }
@@ -132,11 +118,11 @@ public class FootstepAudioManager : MonoBehaviour
         {
             enEscaleras = true;
             stepInterval = stairStepInterval;
-        }*/
+        }
     }
 
     private void OnTriggerExit(Collider other)
-    {/*
+    { 
         if (other.CompareTag("Alfombra"))
         {
             sobreAlfombra = false;
@@ -145,6 +131,6 @@ public class FootstepAudioManager : MonoBehaviour
         {
             enEscaleras = false;
             stepInterval = defaultStepInterval;
-        }*/
+        }
     }
 }

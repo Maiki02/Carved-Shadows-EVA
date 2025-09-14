@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9a47be95b1a0104ea9e88b7ba340a48, type: 3}
-  m_Name: PuertaDespacho
+  m_Name: L02_PuertaDespacho
   m_EditorClassIdentifier: 
   lockedDoorClip: {fileID: 8300000, guid: ccc5bcaaf08f3d44d9c7f5e5a05e4db8, type: 3}
   dialogAudioClip: {fileID: 0}

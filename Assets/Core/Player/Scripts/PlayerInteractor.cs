@@ -51,7 +51,6 @@ public class PlayerInteractor : MonoBehaviour
             }
         }
 
-        Debug.Log($"[PlayerInteractor] Hits: {hits.Length}, Found: {found}");
         
         if (found != null)
         {

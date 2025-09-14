@@ -44,6 +44,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -8564563561667906843, guid: e3f5f3b673833a24da3a4055d11eea17, type: 2}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -143,10 +144,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occlusionWallMask:
     serializedVersion: 2
-    m_Bits: 63
+    m_Bits: 55
   obstructionWallMask:
     serializedVersion: 2
-    m_Bits: 63
+    m_Bits: 55
   occlusionRayUpdateTime: 1
   obstructionRayUpdateTime: 1
   clipIsPlaying: 0
@@ -228,29 +229,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pasos:
-  - {fileID: 8300000, guid: c87fcc0943303d84685e727d35b6f1ed, type: 3}
-  - {fileID: 8300000, guid: 9f0eec462361f0d4395eb7996c274c8b, type: 3}
-  - {fileID: 8300000, guid: d190ec97d657b60439559bef753cb228, type: 3}
-  - {fileID: 8300000, guid: 9077ec10bfc43fe47977520ff0dd3fe8, type: 3}
+  - {fileID: 11400000, guid: e9a71354ad6ae5c47b9afa722e89077a, type: 2}
+  - {fileID: 11400000, guid: f955aab3ac2220745a1391d0b483f2b8, type: 2}
+  - {fileID: 11400000, guid: 1fbb04d85b58ff14ea961edcf3c29c70, type: 2}
+  - {fileID: 11400000, guid: 9d119ae3467632446a5fa7a6d74e62dd, type: 2}
+  - {fileID: 11400000, guid: 7b02941f9b198604993d17d1a883af38, type: 2}
   beats:
-  - {fileID: 8300000, guid: a33b8226ade830d40bedf5fde5989e2e, type: 3}
-  - {fileID: 8300000, guid: 1144353b90de41f45acf0abe87e04c53, type: 3}
-  - {fileID: 8300000, guid: f273d106fa411b548aba17707fd17839, type: 3}
-  - {fileID: 8300000, guid: a37d481b40d95304c9345e3b0260e248, type: 3}
+  - {fileID: 11400000, guid: af5765e9c0ae0b84f89b964638984ccd, type: 2}
+  - {fileID: 11400000, guid: 8a13abf44f4dd2e4598d52f91e425731, type: 2}
+  - {fileID: 11400000, guid: 33d4eae258369334785c1308d10aafc8, type: 2}
+  - {fileID: 11400000, guid: a542705bf8d84ef4897430673a6196a8, type: 2}
+  - {fileID: 11400000, guid: 20bc727e90c121a47aa160a0d54daa73, type: 2}
   alfombraPasos:
-  - {fileID: 8300000, guid: 1144353b90de41f45acf0abe87e04c53, type: 3}
-  - {fileID: 8300000, guid: a37d481b40d95304c9345e3b0260e248, type: 3}
-  - {fileID: 8300000, guid: 1144353b90de41f45acf0abe87e04c53, type: 3}
+  - {fileID: 11400000, guid: 89dbf51557808f741bbc15b9cc91d151, type: 2}
+  - {fileID: 11400000, guid: ea096affdeb89904faa172e54ddcb912, type: 2}
+  - {fileID: 11400000, guid: 03ad9eee866b36a4abb223b1dd6cfabd, type: 2}
   alfombraBeats:
-  - {fileID: 8300000, guid: 2e6d9e5111ce9444d8d722414a9830f7, type: 3}
-  - {fileID: 8300000, guid: a1d33a76370a919408cbfdb5a5454522, type: 3}
-  - {fileID: 8300000, guid: 5d01910c693ed0f49a609f8e6b447d86, type: 3}
+  - {fileID: 11400000, guid: dee20bff242ff1141b6408936750568b, type: 2}
+  - {fileID: 11400000, guid: f25a8dab327c74243b2594083d3f07a0, type: 2}
+  - {fileID: 11400000, guid: b43648dfdb9eaba49b6db9b3cd715320, type: 2}
   pasosSource: {fileID: 3109698849566582107}
   beatsSource: {fileID: 1655232409326674215}
-  pasosMixer: {fileID: -8311540754041167246, guid: e3f5f3b673833a24da3a4055d11eea17, type: 2}
-  beatsMixer: {fileID: -8564563561667906843, guid: e3f5f3b673833a24da3a4055d11eea17, type: 2}
   stepInterval: 0.7
   minMovementTime: 0.32
+  stairStepInterval: 0.2
+  stairPitchBoost: 1.05
 --- !u!1 &6598969528999202768
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,6 +298,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -8311540754041167246, guid: e3f5f3b673833a24da3a4055d11eea17, type: 2}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -394,10 +398,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   occlusionWallMask:
     serializedVersion: 2
-    m_Bits: 63
+    m_Bits: 55
   obstructionWallMask:
     serializedVersion: 2
-    m_Bits: 63
+    m_Bits: 55
   occlusionRayUpdateTime: 1
   obstructionRayUpdateTime: 1
   clipIsPlaying: 0

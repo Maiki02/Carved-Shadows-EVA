@@ -583,8 +583,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8037780393427549748}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.22543943, y: 0.43264207, z: -0.112675674, w: 0.8656224}
-  m_LocalPosition: {x: 22.265003, y: -2.2255557, z: -11.175001}
+  m_LocalRotation: {x: 0.0018738239, y: -0.9978165, z: 0.032552343, w: 0.05743772}
+  m_LocalPosition: {x: 0, y: 0.51900005, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -653,11 +653,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 30
+  near clip plane: 0.1
+  far clip plane: 5000
+  field of view: 60
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1069,6 +1069,22 @@ PrefabInstance:
     - target: {fileID: 6268973076133264169, guid: 253c6dcd439c54f4d8c86cdb1efc58e2, type: 3}
       propertyPath: m_Name
       value: Footsteps
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021381263986534308, guid: 253c6dcd439c54f4d8c86cdb1efc58e2, type: 3}
+      propertyPath: occlusionWallMask.m_Bits
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 7021381263986534308, guid: 253c6dcd439c54f4d8c86cdb1efc58e2, type: 3}
+      propertyPath: obstructionWallMask.m_Bits
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 7361734744472113306, guid: 253c6dcd439c54f4d8c86cdb1efc58e2, type: 3}
+      propertyPath: occlusionWallMask.m_Bits
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 7361734744472113306, guid: 253c6dcd439c54f4d8c86cdb1efc58e2, type: 3}
+      propertyPath: obstructionWallMask.m_Bits
+      value: 55
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

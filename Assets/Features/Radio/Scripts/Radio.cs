@@ -41,7 +41,7 @@ public class Radio : MonoBehaviour
     /// <param name="audioDuration">Duración del audio</param>
     /// <param name="dialogSequence">Secuencia de diálogos</param>
     /// <param name="playerController">Referencia al PlayerController</param>
-    public void PlayRadioWithParameters(AudioClip audioClip, float audioDuration, DialogMessage[] dialogSequence)
+    public void PlayRadioWithParameters(AudioClip audioClip, float audioDuration, DialogData[] dialogSequence)
     {
         if (radioReproducida)
         {
@@ -61,7 +61,7 @@ public class Radio : MonoBehaviour
         Debug.Log("[Radio] PlayRadio() llamado sin parámetros - usar PlayRadio con parámetros desde RadioController");
     }
 
-    private IEnumerator PlayRadioCoroutine(AudioClip audioClip, float audioDuration, DialogMessage[] dialogSequence)
+    private IEnumerator PlayRadioCoroutine(AudioClip audioClip, float audioDuration, DialogData[] dialogSequence)
     {
         // Configurar el clip de audio
         if (audioClip != null)
@@ -122,7 +122,7 @@ public class Radio : MonoBehaviour
     }
 
     // Corrutina para mostrar la secuencia de diálogos en paralelo
-    private IEnumerator ShowDialogSequenceParallel(DialogMessage[] dialogSequence)
+    private IEnumerator ShowDialogSequenceParallel(DialogData[] dialogSequence)
     {
         Debug.Log("[Radio] Iniciando secuencia de diálogos paralela. " + dialogSequence.Length);
         DialogController.Instance.ShowDialogSequence(dialogSequence);

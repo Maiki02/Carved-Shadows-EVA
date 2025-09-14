@@ -25,7 +25,7 @@ public class RadioController : MonoBehaviour
 
     [Space]
     [Tooltip("Secuencia de diálogos personalizada (solo si radioMessages está vacío)")]
-    [SerializeField] private DialogMessage[] radioDialogSequence;
+    [SerializeField] private DialogData[] radioDialogSequence;
 
     [Header("Trigger Settings")]
     [SerializeField] private bool triggerOnce = true; // Solo se activa una vez
@@ -77,7 +77,7 @@ public class RadioController : MonoBehaviour
             Debug.Log("[RadioController] Iniciando secuencia de radio...");
 
             // Obtener los diálogos a usar
-            DialogMessage[] dialogsToUse = GetDialogsToUse();
+            DialogData[] dialogsToUse = GetDialogsToUse();
 
             radio.PlayRadioWithParameters(radioClip, audioDuration, dialogsToUse);
 
@@ -94,7 +94,7 @@ public class RadioController : MonoBehaviour
     /// <summary>
     /// Obtiene los diálogos a usar según la configuración
     /// </summary>
-    private DialogMessage[] GetDialogsToUse()
+    private DialogData[] GetDialogsToUse()
     {
         // Si hay RadioMessages asignado, usar los predefinidos
         if (radioMessages != null)

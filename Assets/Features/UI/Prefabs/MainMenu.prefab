@@ -1237,7 +1237,7 @@ MonoBehaviour:
   menuRoot: {fileID: 179840488814598880}
   fadeImage: {fileID: 8455960098098430883}
   menuFadeOutDuration: 2
-  introManager: {fileID: 2753451877748473215, guid: 418492c330d761b49897b19252a6a530, type: 3}
+  skipIntro: 1
 --- !u!1001 &4812940542348629490
 PrefabInstance:
   m_ObjectHideFlags: 0

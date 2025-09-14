@@ -153,7 +153,7 @@ public class PhoneClose : ObjectInteract
             if (phoneController != null)
             {
                 AudioClip phoneCallClip = phoneController.GetPhoneCallClip();
-                DialogMessage[] phoneDialogs = phoneController.GetDialogsToUse();
+                DialogData[] phoneDialogs = phoneController.GetDialogsToUse();
                 phoneOpenScript.StartCallWithParameters(phoneCallClip, phoneDialogs);
             }
             else

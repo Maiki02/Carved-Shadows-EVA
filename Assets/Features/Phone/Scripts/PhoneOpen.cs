@@ -14,7 +14,7 @@ public class PhoneOpen : MonoBehaviour
 
     [Header("Phone Call Settings")]
     [Tooltip("Secuencia de diálogos de la llamada telefónica")]
-    [SerializeField] private DialogMessage[] callDialogSequence;
+    [SerializeField] private DialogData[] callDialogSequence;
 
     [Header("Camera Settings")]
     [Tooltip("Priority to set for the phone camera during the call.")]
@@ -128,7 +128,7 @@ public class PhoneOpen : MonoBehaviour
         StartCoroutine(StartCallWithFadeInRoutine());
     }
 
-    public void StartCallWithParameters(AudioClip phoneCallClip, DialogMessage[] phoneDialogs)
+    public void StartCallWithParameters(AudioClip phoneCallClip, DialogData[] phoneDialogs)
     {
         if (isCalling) return;
 

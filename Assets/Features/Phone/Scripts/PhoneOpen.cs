@@ -32,7 +32,7 @@ public class PhoneOpen : MonoBehaviour
     private CinemachineBrain cinemachineBrain;
     private AudioSource audioSource;
     private bool isCalling = false;
-
+    private bool isWithCall = false;
 
     private void Awake()
     {
@@ -128,8 +128,9 @@ public class PhoneOpen : MonoBehaviour
         StartCoroutine(StartCallWithFadeInRoutine());
     }
 
-    public void StartCallWithParameters(AudioClip phoneCallClip, DialogData[] phoneDialogs)
+    public void StartCallWithParameters(AudioClip phoneCallClip, DialogData[] phoneDialogs, bool isWithCall)
     {
+        this.isWithCall = isWithCall;
         if (isCalling) return;
 
         if (phoneCallClip != null) callClip = phoneCallClip;
@@ -217,14 +218,15 @@ public class PhoneOpen : MonoBehaviour
 
             var phoneCloseScript = phoneCloseGameObject.GetComponent<PhoneClose>();
             if (phoneCloseScript != null)
-                phoneCloseScript.OnHangUp();
+                phoneCloseScript.OnHangUp(isWithCall);
         }
 
         // 6) Notificar al controlador principal
         if (callController != null)
-            callController.OnCallCompleted();
+            callController.OnCallCompleted(isWithCall);
 
         isCalling = false;
+        isWithCall = false;
 
         // 7) Desactivar este GO al final
         gameObject.SetActive(false);

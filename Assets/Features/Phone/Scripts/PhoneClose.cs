@@ -73,6 +73,8 @@ public class PhoneClose : ObjectInteract
 
     public override void OnInteract()
     {        
+        if (!canInteract) return;
+
         if (isRinging)
         {
             // Si está sonando, atender la llamada entrante
@@ -192,7 +194,7 @@ public class PhoneClose : ObjectInteract
                 {
                     AudioClip phoneCallClip = callController.GetPhoneCallClip();
                     DialogData[] phoneDialogs = callController.GetCallDialogs();
-                    phoneOpenScript.StartCallWithParameters(phoneCallClip, phoneDialogs);
+                    phoneOpenScript.StartCallWithParameters(phoneCallClip, phoneDialogs, true);
                 }
                 else
                 {
@@ -203,7 +205,7 @@ public class PhoneClose : ObjectInteract
             else
             {
                 // Llamada saliente - usar el clip de "sin contestar"
-                phoneOpenScript.StartCallWithParameters(noAnswerToneClip, null);
+                phoneOpenScript.StartCallWithParameters(noAnswerToneClip, null, false);
             }
         }
         
@@ -214,15 +216,15 @@ public class PhoneClose : ObjectInteract
     /// <summary>
     /// Función llamada cuando se cuelga desde PhoneOpen
     /// </summary>
-    public void OnHangUp()
+    public void OnHangUp(bool wasWithCall)
     {
-        StartCoroutine(HangUpRoutine());
+        StartCoroutine(HangUpRoutine(wasWithCall));
     }
 
     /// <summary>
     /// Corrutina que maneja el colgado de la llamada
     /// </summary>
-    private IEnumerator HangUpRoutine()
+    private IEnumerator HangUpRoutine(bool wasWithCall)
     {
         // Cambiar prioridad de cámara de vuelta al player
         // (Esto se maneja desde PhoneOpen antes de llamar OnHangUp)
@@ -240,7 +242,7 @@ public class PhoneClose : ObjectInteract
 
         if (callController != null)
         {
-            callController.FinishCall();
+            callController.FinishCall(wasWithCall);
         }
 
     }

@@ -104,8 +104,9 @@ public class Call_Loop_01 : MonoBehaviour
     /// <summary>
     /// Llamado por PhoneOpen cuando la llamada se completa exitosamente
     /// </summary>
-    public void OnCallCompleted()
+    public void OnCallCompleted(bool isWithCall)
     {
+        if(!isWithCall) return; // Si no hubo llamada, no hacer nada
         callCompleted = true;
         Debug.Log("[Call_Loop_01] Llamada completada. Ejecutando secuencia post-llamada...");
         
@@ -276,13 +277,13 @@ public class Call_Loop_01 : MonoBehaviour
     /// <summary>
     /// Método público para ser llamado desde PhoneOpen cuando termine la llamada
     /// </summary>
-    public void FinishCall()
+    public void FinishCall(bool isWithCall)
     {
         // Solo ejecutar la secuencia post-llamada si había una llamada activa
         // (si el trigger se había activado y había una llamada en progreso)
-        if (hasTriggered)
+        if (hasTriggered && isWithCall)
         {
-            OnCallCompleted();
+            OnCallCompleted(isWithCall);
         }
         else
         {

@@ -23,6 +23,9 @@ public class Call_Loop_01 : MonoBehaviour
     [Header("Configuración")]
     [SerializeField] private float ringDuration = 10f; // Duración que suena el teléfono
     [SerializeField] private bool triggerOnce = true; // Solo se activa una vez
+
+    [Header("Luces a apagar")]
+    [SerializeField] private Candle[] lightsToControl; // Luces que se apagarán (si se implementa)
     
     private bool hasTriggered = false;
     private bool callCompleted = false; // Bandera para saber si ya se completó la llamada

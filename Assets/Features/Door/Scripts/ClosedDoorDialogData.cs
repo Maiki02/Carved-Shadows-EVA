@@ -21,7 +21,7 @@ public class ClosedDoorDialogData : ScriptableObject
     {
         if (dialogMessages == null || dialogMessages.Length == 0)
         {
-            return new DialogData[] { new DialogData("Esta puerta está cerrada.", 2f) };
+            return new DialogData[0]; //new DialogData[] { new DialogData("Esta puerta está cerrada.", 2f) };
         }
         
         return dialogMessages;

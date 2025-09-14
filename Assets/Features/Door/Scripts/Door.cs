@@ -427,7 +427,7 @@ public class Door : ObjectInteract
         if (closedDoorDialogData == null)
         {
             // Comportamiento por defecto si no hay datos configurados
-            DialogController.Instance.ShowDialog("Esta puerta está cerrada.", 2f);
+            //DialogController.Instance.ShowDialog("Esta puerta está cerrada.", 2f);
             PlayDoorAudio(knockClip); // Usar el clip de knock como sonido por defecto
             Debug.LogWarning($"[Door] No hay ClosedDoorDialogData configurado para la puerta {gameObject.name}");
             return;

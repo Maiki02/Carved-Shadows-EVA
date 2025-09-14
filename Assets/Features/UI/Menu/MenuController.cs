@@ -126,7 +126,7 @@ public class MenuController : MonoBehaviour
             // Configurar estados del juego
             GameController.Instance.SetGameStarted(true);
             GameFlowManager.Instance.SetTransitionStatus(true);
-            
+
             // Configurar jugador
             var playerGO = GameObject.FindWithTag("Player");
             if (playerGO != null)
@@ -134,31 +134,26 @@ public class MenuController : MonoBehaviour
                 var playerController = playerGO.GetComponent<PlayerController>();
                 if (playerController != null)
                 {
-                    playerController.SetControlesActivos(true);
                     playerController.SetCamaraActiva(true);
                 }
             }
-            
+
             // Activar canvas del juego
             initializer.ShowCanvasToActivate();
-            
-            // Configurar cursor
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            
+
             // Desactivar cámara del menú
             var menuCamera = GameObject.Find("MenuCamera");
             if (menuCamera != null)
                 menuCamera.SetActive(false);
-            
+
             GameFlowManager.Instance.SetTransitionStatus(false);
-            
+
             // Hacer fade in para mostrar el juego usando el FadeManager
-            if (FadeManager.Instance != null)
+            /*      if (FadeManager.Instance != null)
             {
                 yield return StartCoroutine(FadeManager.Instance.FadeInCoroutine(3f));
-            }
-            
+            }*/
+
             // NUEVA FUNCIONALIDAD: Iniciar secuencia de despertar del protagonista
             if (playerGO != null)
             {
@@ -173,6 +168,8 @@ public class MenuController : MonoBehaviour
                     Debug.LogWarning("[MenuController] PlayerWakeUpSequence no encontrado en el Player");
                 }
             }
+
+            yield return    null;
         }
         
     }

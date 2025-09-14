@@ -111,6 +111,7 @@ public class PlayerWakeUpSequence : MonoBehaviour
         // 4. DISPARAR DIÁLOGOS
         yield return StartCoroutine(TriggerInitialDialogs());
         
+        this.playerController.SetControlesActivos(true);
         Debug.Log("[PlayerWakeUpSequence] Secuencia de despertar completada");
     }
     

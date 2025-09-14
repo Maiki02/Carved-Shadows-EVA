@@ -1,12 +1,29 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Maneja la interacción con el teléfono en estado cerrado.
+/// 
+/// Funcionalidad:
+/// - SIEMPRE permite interacción independientemente del estado
+/// - Si está sonando (llamada entrante): reproduce la llamada del Call_Loop_01
+/// - Si NO está sonando: reproduce tono de "sin contestar" (noAnswerToneClip)
+/// 
+/// Audio Clips:
+/// - ringClip: Sonido del teléfono sonando (llamadas entrantes)
+/// - pickupClip: Sonido de levantar el auricular 
+/// - noAnswerToneClip: Tono que se escucha cuando no hay llamada entrante
+/// 
+/// Controladores:
+/// - callController (Call_Loop_01): Maneja llamadas específicas del primer loop
+/// </summary>
 [RequireComponent(typeof(AudioSource))]
 public class PhoneClose : ObjectInteract
 {
     [Header("Audio Configuration")]
     [SerializeField] private AudioClip ringClip; // Clip del teléfono sonando
     [SerializeField] private AudioClip pickupClip; // Clip de atender la llamada
+    [SerializeField] private AudioClip noAnswerToneClip; // Clip de tono de llamada sin contestar
     
     [Header("Phone Objects Reference")]
     [SerializeField] private PhoneOpen phoneOpenScript; // Referencia al script del teléfono abierto
@@ -16,11 +33,11 @@ public class PhoneClose : ObjectInteract
     [SerializeField] private PlayerController playerController; // Referencia opcional al PlayerController
 
     [Header("Call Controller")]
-    [SerializeField] private PhoneController phoneController; // Referencia al controlador del teléfono
+    [SerializeField] private Call_Loop_01 callController; // Referencia al controlador específico de llamadas
 
     private AudioSource audioSource;
     private bool isRinging = false;
-    private bool canInteract = false;
+    private bool canInteract = true; // Siempre se puede interactuar
 
     protected override void Awake()
     {
@@ -45,31 +62,27 @@ public class PhoneClose : ObjectInteract
 
     public override void OnHoverEnter()
     {
-        
-        // Solo mostrar outline si está sonando y se puede interactuar
-        if (!isRinging || !canInteract) 
-        {
-            return;
-        }
-        
+        // Siempre mostrar outline cuando se puede interactuar
         base.OnHoverEnter();
     }
 
     public override void OnHoverExit()
     {
-        if (!canInteract) return;
-
         base.OnHoverExit();
     }
 
     public override void OnInteract()
     {        
-        if (!isRinging || !canInteract) 
+        if (isRinging)
         {
-            return;
+            // Si está sonando, atender la llamada entrante
+            AnswerCall();
         }
-
-        AnswerCall();
+        else
+        {
+            // Si no está sonando, hacer una llamada saliente (sin contestar)
+            MakeOutgoingCall();
+        }
     }
 
     /// <summary>
@@ -80,7 +93,7 @@ public class PhoneClose : ObjectInteract
         if (isRinging) return;
         
         isRinging = true;
-        canInteract = true;
+        // canInteract sigue siendo true siempre
         
         if (audioSource != null && ringClip != null)
         {
@@ -114,7 +127,7 @@ public class PhoneClose : ObjectInteract
     {
         
         StopRinging();
-        canInteract = false;
+        // canInteract sigue siendo true para permitir futuras interacciones
         
         // Desactivar controles del player al atender
         if (playerController != null)
@@ -130,13 +143,36 @@ public class PhoneClose : ObjectInteract
             audioSource.Play();
         }
         
-        StartCoroutine(TransitionToPhoneOpen());
+        StartCoroutine(TransitionToPhoneOpen(true)); // true = llamada entrante
+    }
+
+    /// <summary>
+    /// Realiza una llamada saliente (sin contestar)
+    /// </summary>
+    private void MakeOutgoingCall()
+    {
+        // Desactivar controles del player
+        if (playerController != null)
+        {
+            playerController.SetControlesActivos(false);
+        }
+        
+        // Reproducir sonido de atender (pickup)
+        if (audioSource != null && pickupClip != null)
+        {
+            audioSource.clip = pickupClip;
+            audioSource.loop = false;
+            audioSource.Play();
+        }
+        
+        StartCoroutine(TransitionToPhoneOpen(false)); // false = llamada saliente
     }
 
     /// <summary>
     /// Corrutina que maneja la transición al teléfono abierto
     /// </summary>
-    private IEnumerator TransitionToPhoneOpen()
+    /// <param name="isIncomingCall">True si es una llamada entrante, False si es una llamada saliente</param>
+    private IEnumerator TransitionToPhoneOpen(bool isIncomingCall = true)
     {
         
         // 1. Fade out
@@ -149,17 +185,25 @@ public class PhoneClose : ObjectInteract
         // 3. Llamar a la función del teléfono abierto para continuar
         if (phoneOpenScript != null)
         {
-            // Obtener parámetros del PhoneController si está disponible
-            if (phoneController != null)
+            if (isIncomingCall)
             {
-                AudioClip phoneCallClip = phoneController.GetPhoneCallClip();
-                DialogData[] phoneDialogs = phoneController.GetDialogsToUse();
-                phoneOpenScript.StartCallWithParameters(phoneCallClip, phoneDialogs);
+                // Llamada entrante - usar parámetros del Call_Loop_01 si está disponible
+                if (callController != null)
+                {
+                    AudioClip phoneCallClip = callController.GetPhoneCallClip();
+                    DialogData[] phoneDialogs = callController.GetCallDialogs();
+                    phoneOpenScript.StartCallWithParameters(phoneCallClip, phoneDialogs);
+                }
+                else
+                {
+                    // Fallback al método anterior si no hay callController
+                    phoneOpenScript.StartCallWithFadeIn();
+                }
             }
             else
             {
-                // Fallback al método anterior si no hay PhoneController
-                phoneOpenScript.StartCallWithFadeIn();
+                // Llamada saliente - usar el clip de "sin contestar"
+                phoneOpenScript.StartCallWithParameters(noAnswerToneClip, null);
             }
         }
         
@@ -194,9 +238,9 @@ public class PhoneClose : ObjectInteract
             playerController.SetControlesActivos(true);
         }
 
-        if (phoneController != null)
+        if (callController != null)
         {
-            phoneController.FinishCall();
+            callController.FinishCall();
         }
 
     }
@@ -211,6 +255,9 @@ public class PhoneClose : ObjectInteract
         
         if (pickupClip == null)
             Debug.LogWarning("[PhoneClose] Pickup clip no asignado");
+        
+        if (noAnswerToneClip == null)
+            Debug.LogWarning("[PhoneClose] No answer tone clip no asignado");
         
         if (phoneOpenScript == null)
             Debug.LogWarning("[PhoneClose] PhoneOpen script no asignado");

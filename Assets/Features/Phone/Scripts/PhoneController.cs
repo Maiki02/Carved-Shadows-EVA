@@ -1,6 +1,15 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// [LEGACY] Controlador genérico de teléfono.
+/// 
+/// NOTA: Este controlador está siendo reemplazado por controladores específicos como Call_Loop_01.
+/// Se mantiene como fallback para compatibilidad, pero se recomienda usar controladores específicos
+/// para nuevas implementaciones.
+/// 
+/// Para el primer loop, usar Call_Loop_01 en su lugar.
+/// </summary>
 [RequireComponent(typeof(Collider))]
 public class PhoneController : MonoBehaviour
 {

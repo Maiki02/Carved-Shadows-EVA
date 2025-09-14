@@ -51,6 +51,8 @@ public class PlayerInteractor : MonoBehaviour
             }
         }
 
+        Debug.Log($"[PlayerInteractor] Hits: {hits.Length}, Found: {found}");
+        
         if (found != null)
         {
             // Si cambió el objetivo, refrescá el hover
@@ -58,6 +60,7 @@ public class PlayerInteractor : MonoBehaviour
             {
                 // currentInteractable?.OnHoverExit(); // si lo usás
                 currentInteractable = found;
+                
                 // currentInteractable.OnHoverEnter(); // si lo usás
                 CrosshairAnimator.Instance?.StartInteractionAnimation();
             }

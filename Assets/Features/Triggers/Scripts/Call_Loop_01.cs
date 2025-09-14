@@ -272,7 +272,18 @@ public class Call_Loop_01 : MonoBehaviour
     /// </summary>
     public void FinishCall()
     {
-        OnCallCompleted();
+        // Solo ejecutar la secuencia post-llamada si había una llamada activa
+        // (si el trigger se había activado y había una llamada en progreso)
+        if (hasTriggered)
+        {
+            OnCallCompleted();
+        }
+        else
+        {
+            // Si no había llamada previa (interacción directa sin llamada entrante),
+            // no hacer nada especial - el teléfono simplemente se cuelga
+            Debug.Log("[Call_Loop_01] Llamada colgada sin contexto de llamada entrante");
+        }
     }
 
     /// <summary>

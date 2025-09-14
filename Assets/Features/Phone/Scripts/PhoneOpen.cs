@@ -23,7 +23,7 @@ public class PhoneOpen : MonoBehaviour
     public int playerCameraPriority = 10;
 
     [Header("Controller Reference")]
-    [SerializeField] private PhoneController phoneController;
+    [SerializeField] private Call_Loop_01 callController;
     [SerializeField] private GameObject phoneCloseGameObject;
 
     // CM3
@@ -221,8 +221,8 @@ public class PhoneOpen : MonoBehaviour
         }
 
         // 6) Notificar al controlador principal
-        if (phoneController != null)
-            phoneController.OnCallCompleted();
+        if (callController != null)
+            callController.OnCallCompleted();
 
         isCalling = false;
 
@@ -253,7 +253,7 @@ public class PhoneOpen : MonoBehaviour
         if (hangupClip == null) Debug.LogWarning("[PhoneOpen] Hangup clip no asignado");
         if (callDialogSequence == null || callDialogSequence.Length == 0)
             Debug.LogWarning("[PhoneOpen] Secuencia de diálogos no asignada");
-        if (phoneController == null) Debug.LogWarning("[PhoneOpen] PhoneController no asignado");
+        if (callController == null) Debug.LogWarning("[PhoneOpen] Call Controller no asignado");
         if (phoneCamera == null) Debug.LogWarning("[PhoneOpen] Phone camera no encontrada");
         if (playerCamera == null) Debug.LogWarning("[PhoneOpen] Player camera no encontrada");
         if (phoneCloseGameObject == null) Debug.LogWarning("[PhoneOpen] PhoneClose GameObject no asignado");

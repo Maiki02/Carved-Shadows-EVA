@@ -50,16 +50,10 @@ public class FadeManager : MonoBehaviour
             if (fadeTextGameObject != null)
             {
                 fadeText = fadeTextGameObject.GetComponent<TextMeshProUGUI>();
-                if (fadeText == null)
-                {
-                    Debug.LogError("[FadeManager] No TextMeshProUGUI component found on fadeTextGameObject!");
-                }
-                else
-                {
-                    fadeText.text = "";
-                    fadeText.fontSize = defaultTextSize;
-                    fadeText.color = new Color(fadeText.color.r, fadeText.color.g, fadeText.color.b, 0);
-                }
+                fadeText.text = "";
+                fadeText.fontSize = defaultTextSize;
+                fadeText.color = new Color(fadeText.color.r, fadeText.color.g, fadeText.color.b, 0);
+                fadeTextGameObject.SetActive(false);
             }
         }
         else

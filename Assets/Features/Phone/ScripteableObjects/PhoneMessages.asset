@@ -13,34 +13,60 @@ MonoBehaviour:
   m_Name: PhoneMessages
   m_EditorClassIdentifier: 
   primerLoopMessages:
-  - text: 
+  - dialogText: 
     duration: 3
-  segundoLoopMessages:
-  - text: 
-    duration: 3
-  - text: "Buenos dias se\xF1ora @&:$-&/"
-    duration: 3
-  - text: llamo con el motivo de confirmarle la visita a su casa
-    duration: 3
-  - text: por parte del museo de las bellas artes para...
-    duration: 3
-  - text: "\xBFc\xF3mo es que dijo usted?..."
-    duration: 2.5
-  - text: "\xA1Ah si! deshacerse de las obras de su espo..."
-    duration: 4.5
-  - text: 
-    duration: 2
-  - text: No olvides...
-    duration: 2
-  - text: 
-    duration: 2
-  - text: Lo que hiciste...
-    duration: 2
-  - text: "Ellas nunca te perdonar\xE1n..."
-    duration: 4
-  - text: Nunca...
+  - dialogText: "Euridice: Perd\xF3n por llamar a estas horas"
+    duration: 1
+  - dialogText: 'Euri, yo.. '
+    duration: 0.5
+  - dialogText: "Eur\xEDdice: Tambi\xE9n perd\xF3n por no avisar que nos fuimos."
     duration: 1.5
-  - text: te perdonaremos...
+  - dialogText: "Euri, hola, \xBFme escuchas?"
+    duration: 1.5
+  - dialogText: "Euri, hola, \xBFme escuchas?"
+    duration: 1.5
+  - dialogText: "Eur\xEDdice: Es que te vimos durmiendo y no quisimos despertarte.
+      Hoy tampoco vamos a pasar la noche en casa, creo que todav\xEDa necesitamos\u2026
+      Todav\xEDa necesito algo m\xE1s de tiempo."
+    duration: 3
+  - dialogText: "Eur\xEDdice: Es que te vimos durmiendo y no quisimos despertarte.
+      Hoy tampoco vamos a pasar la noche en casa, creo que todav\xEDa necesitamos\u2026
+      Todav\xEDa necesito algo m\xE1s de tiempo."
+    duration: 2
+  - dialogText: "Alice: \xBFEst\xE1s hablando con papi? "
+    duration: 1
+  - dialogText: "Euridice: Si hija, estoy hablando con papi. Anda a acostarte que
+      ya es tarde coraz\xF3n. Perd\xF3n Jorge, se por lo que est\xE1s pasando y todo
+      lo que has hecho pero yo\u2026 "
+    duration: 3
+  - dialogText: "\xBFEuri? \xBFAlice? \xBFHola?"
+    duration: 2
+  segundoLoopMessages:
+  - dialogText: 
+    duration: 3
+  - dialogText: "Buenos dias se\xF1ora @&:$-&/"
+    duration: 3
+  - dialogText: llamo con el motivo de confirmarle la visita a su casa
+    duration: 3
+  - dialogText: por parte del museo de las bellas artes para...
+    duration: 3
+  - dialogText: "\xBFc\xF3mo es que dijo usted?..."
+    duration: 2.5
+  - dialogText: "\xA1Ah si! deshacerse de las obras de su espo..."
+    duration: 4.5
+  - dialogText: 
+    duration: 2
+  - dialogText: No olvides...
+    duration: 2
+  - dialogText: 
+    duration: 2
+  - dialogText: Lo que hiciste...
+    duration: 2
+  - dialogText: "Ellas nunca te perdonar\xE1n..."
+    duration: 4
+  - dialogText: Nunca...
+    duration: 1.5
+  - dialogText: te perdonaremos...
     duration: 3.5
-  - text: 
+  - dialogText: 
     duration: 6

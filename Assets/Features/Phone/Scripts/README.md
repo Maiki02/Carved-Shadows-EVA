@@ -1,14 +1,27 @@
-# Sistema de Mensajes del Teléfono
+# Sistema de Teléfono - Carved Shadows EVA
 
-Este sistema permite configurar mensajes predefinidos para las llamadas telefónicas, similar al sistema de la radio.
+Este sistema maneja las interacciones del teléfono en el juego, incluyendo llamadas entrantes, salientes y diálogos.
 
 ## Archivos Principales
 
 - **PhoneMessages.cs**: ScriptableObject que contiene los mensajes predefinidos
 - **PhoneMessagesUtility.cs**: Utilidades de editor para crear y gestionar assets de PhoneMessages
-- **PhoneController.cs**: Controller principal que maneja la configuración de mensajes
+- **PhoneController.cs**: [LEGACY] Controller genérico - mantenido como fallback
+- **Call_Loop_01.cs**: Controller específico para el primer loop de llamadas
 - **PhoneClose.cs**: Maneja la interacción con el teléfono cerrado
 - **PhoneOpen.cs**: Maneja la llamada telefónica y los diálogos
+
+## Funcionalidad Principal
+
+### PhoneClose - Teléfono Cerrado
+- **Interacción SIEMPRE disponible** independientemente del estado
+- **Llamada entrante** (teléfono sonando): Reproduce clip y diálogos del Call_Loop_01
+- **Llamada saliente** (sin llamada previa): Reproduce tono de "sin contestar"
+
+### Audio Clips Requeridos
+- `ringClip`: Sonido del teléfono sonando
+- `pickupClip`: Sonido de levantar el auricular  
+- `noAnswerToneClip`: Tono cuando no hay llamada entrante
 
 ## Configuración
 
@@ -16,7 +29,14 @@ Este sistema permite configurar mensajes predefinidos para las llamadas telefón
 - Ir a menú `Phone > Create Default Phone Messages Asset`
 - Configurar los mensajes para cada loop (PrimerLoop y SegundoLoop)
 
-### 2. Configurar PhoneController
+### 2. Configurar Call_Loop_01 (Recomendado)
+- Asignar referencia a Door
+- Asignar referencia a PhoneClose
+- Asignar `phoneCallClip` para el audio de la llamada
+- Asignar asset de `PhoneMessages` o usar diálogos hardcodeados
+- Configurar `ringDuration` (duración del timbrado)
+
+### 3. Configurar PhoneController (Legacy - Solo como Fallback)
 - Asignar el asset de `PhoneMessages`
 - Seleccionar el `PhoneLoopType` (PrimerLoop o SegundoLoop)
 - Asignar el `AudioClip` de la llamada telefónica

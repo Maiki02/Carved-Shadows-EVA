@@ -784,7 +784,7 @@ GameObject:
   m_Component:
   - component: {fileID: 939626753955992579}
   - component: {fileID: 328571866927592042}
-  - component: {fileID: 1747761211008884}
+  - component: {fileID: 4073016717897690079}
   m_Layer: 0
   m_Name: SM_OldPhoneDescolgado
   m_TagString: Untagged
@@ -930,7 +930,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1747761211008884
+--- !u!114 &4073016717897690079
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -942,13 +942,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23555530ac812ac40a140f03bd66c37d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  callClip: {fileID: 8300000, guid: 417bd82da1f5ba046a4daa98e1f1e88b, type: 3}
+  callClip: {fileID: 8300000, guid: 190a34df21a506f4692a35501fea5f2c, type: 3}
   hangupClip: {fileID: 8300000, guid: 70459690829e0e14f93e42495695816b, type: 3}
   callDialogSequence:
-  - text: "\xBFEn serio? \xBFOtra vez?"
-    duration: 3
-  - text: "\xA1NO! \xA1SUELTA ESO!"
-    duration: 3
+  - dialogText: ...
+    duration: 2
   phoneCameraPriority: 20
   playerCameraPriority: 10
   phoneController: {fileID: 0}

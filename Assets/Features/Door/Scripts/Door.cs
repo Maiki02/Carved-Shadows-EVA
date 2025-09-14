@@ -16,6 +16,7 @@ public class Door : ObjectInteract
     [SerializeField] private AudioClip knockClip;
     [SerializeField] private AudioClip slowCloseClip;
     [SerializeField] private AudioClip fastCloseClip;
+    [SerializeField] private AudioClip lockedDoorClip;
 
     [Header("Audio Mixer Groups")]
     [SerializeField] private UnityEngine.Audio.AudioMixerGroup fastCloseMixer;
@@ -353,13 +354,10 @@ public class Door : ObjectInteract
 
         Quaternion startRot = transform.rotation;
         
-        // Obtener el ángulo Y actual y forzar que vaya hacia 0 en la dirección correcta
-        float startAngleY = transform.eulerAngles.y;
-        float targetAngleY = 0f;
-        
-        // Si el ángulo es mayor a 180, convertirlo a negativo para rotación más natural
-        if (startAngleY > 180f)
-            startAngleY -= 360f;
+        // Crear la rotación objetivo (Y = 0, manteniendo X y Z originales)
+        Vector3 targetEuler = startRot.eulerAngles;
+        targetEuler.y = 0f;
+        Quaternion targetRot = Quaternion.Euler(targetEuler);
             
         float elapsed = 0f;
 
@@ -368,22 +366,15 @@ public class Door : ObjectInteract
             float t = Mathf.Clamp01(elapsed / slowCloseDuration);
             float smoothT = Mathf.SmoothStep(0f, 1f, t);
             
-            // Interpolar directamente el ángulo Y
-            float currentAngleY = Mathf.Lerp(startAngleY, targetAngleY, smoothT);
-            
-            // Aplicar la rotación manteniendo X y Z originales
-            Vector3 currentEuler = startRot.eulerAngles;
-            currentEuler.y = currentAngleY;
-            transform.rotation = Quaternion.Euler(currentEuler);
+            // Usar Slerp para interpolación suave de quaternions (toma el camino más corto)
+            transform.rotation = Quaternion.Slerp(startRot, targetRot, smoothT);
             
             elapsed += Time.deltaTime;
             yield return null;
         }
         
-        // Asegurar que termine exactamente en Y = 0
-        Vector3 finalEuler = startRot.eulerAngles;
-        finalEuler.y = 0f;
-        transform.rotation = Quaternion.Euler(finalEuler);
+        // Asegurar que termine exactamente en la rotación objetivo
+        transform.rotation = targetRot;
 
         SetAnimating(false);
     }
@@ -424,13 +415,10 @@ public class Door : ObjectInteract
     /// </summary>
     private void HandleClosedDoorInteraction()
     {
-        if (closedDoorDialogData == null)
+        // SIEMPRE reproducir el sonido de puerta cerrada
+        if (lockedDoorClip != null)
         {
-            // Comportamiento por defecto si no hay datos configurados
-            //DialogController.Instance.ShowDialog("Esta puerta está cerrada.", 2f);
-            PlayDoorAudio(knockClip); // Usar el clip de knock como sonido por defecto
-            Debug.LogWarning($"[Door] No hay ClosedDoorDialogData configurado para la puerta {gameObject.name}");
-            return;
+            PlayDoorAudio(lockedDoorClip);
         }
 
         // Si ya está reproduciendo, no hacer nada
@@ -465,16 +453,13 @@ public class Door : ObjectInteract
     {
         isPlayingClosedDoorSequence = true;
         
-        // 1. Reproducir sonido de puerta cerrada
-        AudioClip lockedClip = closedDoorDialogData.GetLockedDoorClip();
-        if (lockedClip != null)
+        // Pequeña pausa para que no se solape con el lockedDoorClip que ya se reprodujo
+        if (lockedDoorClip != null)
         {
-            PlayDoorAudio(lockedClip);
-            // Esperar a que termine el audio de la puerta cerrada
-            yield return new WaitForSeconds(lockedClip.length);
+            yield return new WaitForSeconds(lockedDoorClip.length);
         }
         
-        // 2. Reproducir audio del diálogo (UN SOLO clip para toda la secuencia)
+        // 1. Reproducir audio del diálogo (UN SOLO clip para toda la secuencia)
         AudioClip dialogAudio = closedDoorDialogData.GetDialogAudioClip();
         if (dialogAudio != null)
         {
@@ -483,7 +468,7 @@ public class Door : ObjectInteract
             yield return new WaitForSeconds(0.2f);
         }
         
-        // 3. Reproducir secuencia de diálogos
+        // 2. Reproducir secuencia de diálogos
         DialogData[] messages = closedDoorDialogData.GetAllDialogMessages();
         
         for (int i = 0; i < messages.Length; i++)
@@ -519,21 +504,6 @@ public class Door : ObjectInteract
         Debug.Log("[Door] Secuencia de puerta cerrada completada");
     }
 
-    /*private void ValidateDoorWithNextLevel()
-    {
-        if (type != TypeDoorInteract.NextLevel) return; // Si no es del tipo NextLevel, no hacemos nada
-        isDoorOpen = true; // Forzamos la apertura de la puerta para el siguiente nivel
-
-        if (isDoorOpen)
-        {
-            GameFlowManager.Instance.GoToNextLevel(); // Subimos el nivel, (para activar otra room)
-        }
-        else
-        {
-            DialogController.Instance.ShowDialog("La puerta está cerrada. Necesitas abrirla para continuar.", 2f);
-        }
-    }*/
-
     public void OpenOrCloseDoor(bool open)
     {
         if (blockInteractionWhileAnimating && isAnimating) return;
@@ -553,40 +523,4 @@ public class Door : ObjectInteract
             PlayDoorAudio(closeDoorClip);
         }
     }
-
-    /*private void ValidateDoorWithTeleport()
-    {
-        if (type != TypeDoorInteract.Key) { return; } //Si no es del tipo Key, no hacemos nada
-
-        //Debug.Log("Tiene key: " + TieneObjetoEnInventario());
-
-        if (inventarioHotbar != null && inventarioHotbar.TieneObjetoSeleccionado(objetoRequerido))
-        {
-
-            isDoorOpen = true;
-            inventarioHotbar.RemoveSelectedPiece(); // Quitamos la pieza del inventario
-            GameFlowManager.Instance.GoToNextLevel(); // Subimos el nivel, (para activar otra room)
-        }
-        else
-        {
-            DialogController.Instance.ShowDialog("La puerta está cerrada. Necesitas una llave.", 2f);
-        }
-    }*/
-
-    /*private bool TieneObjetoEnInventario()
-    {
-        if (inventarioHotbar == null || objetoRequerido == null)
-            return false;
-
-        PuzzlePiece[] piezas = inventarioHotbar.ObtenerPiezas();
-        foreach (PuzzlePiece pieza in piezas)
-        {
-            if (pieza != null && pieza == objetoRequerido)
-            {
-                return true;
-            }
-        }
-        return false;
-    }*/
-
 }

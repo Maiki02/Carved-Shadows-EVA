@@ -6140,6 +6140,10 @@ PrefabInstance:
       propertyPath: phoneCloseGameObject
       value: 
       objectReference: {fileID: 1286338491223358208}
+    - target: {fileID: 5762725551707139617, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
+      propertyPath: Priority.m_Value
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11848,6 +11852,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Puerta (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6877836562704032721, guid: afb32564ac5550b4f98e00bfac8bb708, type: 3}
+      propertyPath: lockedDoorClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ccc5bcaaf08f3d44d9c7f5e5a05e4db8, type: 3}
+    - target: {fileID: 6877836562704032721, guid: afb32564ac5550b4f98e00bfac8bb708, type: 3}
+      propertyPath: closedDoorDialogData
+      value: 
+      objectReference: {fileID: 11400000, guid: ec68b73e5e40e1147bf215ec5ddda187, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

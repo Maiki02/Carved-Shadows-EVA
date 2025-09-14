@@ -4,7 +4,6 @@ using UnityEngine;
 public class ClosedDoorDialogData : ScriptableObject
 {
     [Header("Audio Configuration")]
-    [SerializeField] private AudioClip lockedDoorClip;
     [SerializeField] private AudioClip dialogAudioClip; // UN SOLO clip de audio para todos los diálogos
     
     [Header("Dialog Messages")]
@@ -25,14 +24,6 @@ public class ClosedDoorDialogData : ScriptableObject
         }
         
         return dialogMessages;
-    }
-    
-    /// <summary>
-    /// Obtiene el clip de audio de puerta cerrada
-    /// </summary>
-    public AudioClip GetLockedDoorClip()
-    {
-        return lockedDoorClip;
     }
     
     /// <summary>

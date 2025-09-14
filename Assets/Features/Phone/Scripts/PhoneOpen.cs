@@ -105,6 +105,35 @@ public class PhoneOpen : MonoBehaviour
         StartCoroutine(RestoreBlendAfterFrame(originalBlend));
     }
 
+    /// <summary>
+    /// Desactiva completamente una cámara virtual para asegurar que no se quede en "Live"
+    /// </summary>
+    private void DisableCameraCompletely(CinemachineCamera camera)
+    {
+        if (camera == null) return;
+        
+        // Primero bajar prioridad a 0
+        camera.Priority = 0;
+        
+        // Luego desactivar el GameObject completamente
+        // Esto fuerza al Brain a recalcular las cámaras activas
+        camera.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Reactiva una cámara virtual que fue desactivada completamente
+    /// </summary>
+    private void EnableCameraCompletely(CinemachineCamera camera, int priority)
+    {
+        if (camera == null) return;
+        
+        // Reactivar el GameObject
+        camera.gameObject.SetActive(true);
+        
+        // Asignar la prioridad deseada
+        camera.Priority = priority;
+    }
+
     private IEnumerator RestoreBlendAfterFrame(CinemachineBlendDefinition originalBlend)
     {
         yield return null; // 1 frame
@@ -116,7 +145,13 @@ public class PhoneOpen : MonoBehaviour
     {
         if (isCalling) return;
 
-        if (phoneCamera != null) phoneCamera.Priority = phoneCameraPriority;
+        // Forzar corte instantáneo ANTES de cambiar prioridades
+        ForceInstantCameraCut();
+
+        // Activar cámara del teléfono con alta prioridad
+        EnableCameraCompletely(phoneCamera, phoneCameraPriority);
+        
+        // Bajar prioridad de la cámara del player (pero no desactivarla)
         if (playerCamera != null) playerCamera.Priority = 0;
 
         StartCoroutine(PhoneCallRoutine());
@@ -144,8 +179,10 @@ public class PhoneOpen : MonoBehaviour
         // 1) Corte instantáneo
         ForceInstantCameraCut();
 
-        // 2) Subir prioridad de la cámara del teléfono
-        if (phoneCamera != null) phoneCamera.Priority = phoneCameraPriority;
+        // 2) Activar cámara del teléfono con alta prioridad
+        EnableCameraCompletely(phoneCamera, phoneCameraPriority);
+        
+        // Bajar prioridad de la cámara del player (pero no desactivarla)
         if (playerCamera != null) playerCamera.Priority = 0;
 
         // 3) Esperar un frame para que el Brain cambie
@@ -204,9 +241,9 @@ public class PhoneOpen : MonoBehaviour
         // 2) Corte instantáneo para volver
         ForceInstantCameraCut();
 
-        // 3) Volver a la cámara del jugador
+        // 3) CAMBIO IMPORTANTE: Restaurar cámara del player y DESACTIVAR completamente la del teléfono
         if (playerCamera != null) playerCamera.Priority = playerCameraPriority;
-        if (phoneCamera != null) phoneCamera.Priority = 0;
+        DisableCameraCompletely(phoneCamera); // Esto desactiva el GameObject completamente
 
         // 4) Un frame para que el Brain procese
         yield return null;

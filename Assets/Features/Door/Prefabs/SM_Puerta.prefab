@@ -236,6 +236,7 @@ MonoBehaviour:
   knockClip: {fileID: 8300000, guid: bce809ed651b07243ab1318d654c2bc0, type: 3}
   slowCloseClip: {fileID: 8300000, guid: 58f3f84bfd5311b4abc10374a96eb008, type: 3}
   fastCloseClip: {fileID: 8300000, guid: deb712402556e734ca72a33903feec77, type: 3}
+  lockedDoorClip: {fileID: 8300000, guid: ccc5bcaaf08f3d44d9c7f5e5a05e4db8, type: 3}
   fastCloseMixer: {fileID: 4507347325302408704, guid: 1992caae9c51c244abb1dc3bfe4b0971, type: 2}
   closedDoorDialogData: {fileID: 11400000, guid: 14e93fa64008e8f4faffa16cd7a60031, type: 2}
   type: 1

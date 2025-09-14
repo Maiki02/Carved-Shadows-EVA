@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
+using Unity.Cinemachine;
+using BlendStyle = Unity.Cinemachine.CinemachineBlendDefinition.Styles;
 
 public class MenuController : MonoBehaviour
 {
@@ -9,6 +11,13 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject menuRoot;
     [SerializeField] private Image fadeImage; // Imagen negra para fade out del menú
     [SerializeField] private float menuFadeOutDuration = 2f;
+    
+    [Header("Cámaras Cinemachine")]
+    [SerializeField] private CinemachineCamera menuVirtualCamera;
+    [SerializeField] private CinemachineCamera playerVirtualCamera;
+    [SerializeField] private CinemachineBrain cinemachineBrain;
+    [SerializeField] private int menuCameraPriority = 20;
+    [SerializeField] private int playerCameraPriority = 10;
     
     [Header("Managers")]
     private IntroManager introManager;
@@ -23,12 +32,86 @@ public class MenuController : MonoBehaviour
         initializer = FindFirstObjectByType<MenuInitializer>();
         introManager = FindFirstObjectByType<IntroManager>();
 
+        // Inicializar referencias de Cinemachine si no están asignadas
+        InitializeCinemachineReferences();
+
         // Asegurar que la imagen de fade esté inicialmente invisible
         if (fadeImage != null)
         {
             fadeImage.color = new Color(0, 0, 0, 0);
             fadeImage.enabled = false;
         }
+    }
+
+    private void InitializeCinemachineReferences()
+    {
+        // Buscar CinemachineBrain en la cámara principal
+        if (cinemachineBrain == null)
+        {
+            var mainCamera = Camera.main;
+            if (mainCamera != null)
+            {
+                cinemachineBrain = mainCamera.GetComponent<CinemachineBrain>();
+            }
+        }
+
+        // Buscar cámara virtual del menú (debe tener un tag específico o nombre)
+        if (menuVirtualCamera == null)
+        {
+            var menuCameraGO = GameObject.Find("MenuCamera");
+            if (menuCameraGO != null)
+            {
+                menuVirtualCamera = menuCameraGO.GetComponent<CinemachineCamera>();
+            }
+        }
+
+        // Buscar cámara virtual del player
+        if (playerVirtualCamera == null)
+        {
+            var playerGO = GameObject.FindWithTag("Player");
+            if (playerGO != null)
+            {
+                var playerController = playerGO.GetComponent<PlayerController>();
+                if (playerController != null)
+                {
+                    // Acceder a la mainCam del PlayerController a través de reflexión o hacer la propiedad pública
+                    var mainCamField = typeof(PlayerController).GetField("mainCam", 
+                        System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    if (mainCamField != null)
+                    {
+                        playerVirtualCamera = mainCamField.GetValue(playerController) as CinemachineCamera;
+                    }
+                }
+            }
+        }
+
+        if (cinemachineBrain == null)
+            Debug.LogWarning("[MenuController] CinemachineBrain no encontrado");
+        if (menuVirtualCamera == null)
+            Debug.LogWarning("[MenuController] Cámara virtual del menú no encontrada");
+        if (playerVirtualCamera == null)
+            Debug.LogWarning("[MenuController] Cámara virtual del player no encontrada");
+    }
+
+    /// <summary>
+    /// Fuerza un corte instantáneo en Cinemachine sin transición
+    /// </summary>
+    private void ForceInstantCameraCut()
+    {
+        if (cinemachineBrain == null) return;
+
+        var originalBlend = cinemachineBrain.DefaultBlend;
+        var cutBlend = new CinemachineBlendDefinition(BlendStyle.Cut, 0f);
+        cinemachineBrain.DefaultBlend = cutBlend;
+
+        StartCoroutine(RestoreBlendAfterFrame(originalBlend));
+    }
+
+    private IEnumerator RestoreBlendAfterFrame(CinemachineBlendDefinition originalBlend)
+    {
+        yield return null; // Esperar 1 frame
+        if (cinemachineBrain != null)
+            cinemachineBrain.DefaultBlend = originalBlend;
     }
 
     public void OnStartButton()
@@ -127,6 +210,11 @@ public class MenuController : MonoBehaviour
             GameController.Instance.SetGameStarted(true);
             GameFlowManager.Instance.SetTransitionStatus(true);
 
+            // NUEVA FUNCIONALIDAD: Cambio instantáneo de cámaras usando Cinemachine
+            SwitchToPlayerCameraInstantly();
+
+            Debug.Log("[MenuController] Cambiando a cámara del player sin transición");
+            
             // Configurar jugador
             var playerGO = GameObject.FindWithTag("Player");
             if (playerGO != null)
@@ -138,13 +226,9 @@ public class MenuController : MonoBehaviour
                 }
             }
 
+            Debug.Log("[MenuController] Activando canvas del juego y comenzando secuencia de despertar");
             // Activar canvas del juego
             initializer.ShowCanvasToActivate();
-
-            // Desactivar cámara del menú
-            var menuCamera = GameObject.Find("MenuCamera");
-            if (menuCamera != null)
-                menuCamera.SetActive(false);
 
             GameFlowManager.Instance.SetTransitionStatus(false);
 
@@ -169,9 +253,38 @@ public class MenuController : MonoBehaviour
                 }
             }
 
-            yield return    null;
+            yield return null;
         }
-        
+    }
+
+    /// <summary>
+    /// Cambia instantáneamente de la cámara del menú a la del player usando prioridades de Cinemachine
+    /// </summary>
+    private void SwitchToPlayerCameraInstantly()
+    {
+        // Forzar corte instantáneo
+        ForceInstantCameraCut();
+
+        // Cambiar prioridades de las cámaras
+        if (menuVirtualCamera != null)
+        {
+            menuVirtualCamera.Priority = 0; // Baja prioridad
+            Debug.Log("[MenuController] Prioridad de cámara del menú cambiada a 0");
+        }
+
+        if (playerVirtualCamera != null)
+        {
+            playerVirtualCamera.Priority = playerCameraPriority; // Alta prioridad
+            Debug.Log($"[MenuController] Prioridad de cámara del player cambiada a {playerCameraPriority}");
+        }
+
+        // Desactivar el GameObject de la cámara del menú si existe (por compatibilidad)
+        var menuCamera = GameObject.Find("MenuCamera");
+        if (menuCamera != null)
+        {
+            menuCamera.SetActive(false);
+            Debug.Log("[MenuController] GameObject MenuCamera desactivado");
+        }
     }
 
     public void OnConfigurationButton()

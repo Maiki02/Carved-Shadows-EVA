@@ -1,0 +1,172 @@
+fileFormatVersion: 2
+guid: 52f7b81a11630b34ea89090c3ed6ff48
+timeCreated: 1502411185
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Box016
+    100002: Box017
+    100004: Burner004
+    100006: Cylinder051
+    100008: Cylinder052
+    100010: Cylinder055
+    100012: Cylinder056
+    100014: Cylinder057
+    100016: Cylinder058
+    100018: Cylinder059
+    100020: Cylinder061
+    100022: //RootNode
+    100024: Line002
+    100026: Object013
+    100028: Sphere020
+    100030: Sphere021
+    100032: Sphere022
+    100034: VialRound02
+    100036: VialRound03
+    100038: VialRoundLiquid
+    400000: Box016
+    400002: Box017
+    400004: Burner004
+    400006: Cylinder051
+    400008: Cylinder052
+    400010: Cylinder055
+    400012: Cylinder056
+    400014: Cylinder057
+    400016: Cylinder058
+    400018: Cylinder059
+    400020: Cylinder061
+    400022: //RootNode
+    400024: Line002
+    400026: Object013
+    400028: Sphere020
+    400030: Sphere021
+    400032: Sphere022
+    400034: VialRound02
+    400036: VialRound03
+    400038: VialRoundLiquid
+    2300000: Box016
+    2300002: Box017
+    2300004: Burner004
+    2300006: Cylinder051
+    2300008: Cylinder052
+    2300010: Cylinder055
+    2300012: Cylinder056
+    2300014: Cylinder057
+    2300016: Cylinder058
+    2300018: Cylinder059
+    2300020: Cylinder061
+    2300022: Line002
+    2300024: Object013
+    2300026: Sphere020
+    2300028: Sphere021
+    2300030: Sphere022
+    2300032: VialRound03
+    2300034: VialRoundLiquid
+    3300000: Box016
+    3300002: Box017
+    3300004: Burner004
+    3300006: Cylinder051
+    3300008: Cylinder052
+    3300010: Cylinder055
+    3300012: Cylinder056
+    3300014: Cylinder057
+    3300016: Cylinder058
+    3300018: Cylinder059
+    3300020: Cylinder061
+    3300022: Line002
+    3300024: Object013
+    3300026: Sphere020
+    3300028: Sphere021
+    3300030: Sphere022
+    3300032: VialRound03
+    3300034: VialRoundLiquid
+    4300000: VialRoundLiquid
+    4300002: Box016
+    4300004: Cylinder051
+    4300006: Cylinder052
+    4300008: Box017
+    4300010: Cylinder055
+    4300012: Cylinder056
+    4300014: Sphere021
+    4300016: Cylinder057
+    4300018: Cylinder058
+    4300020: Sphere022
+    4300022: Cylinder059
+    4300024: Cylinder061
+    4300026: Line002
+    4300028: Object013
+    4300030: Sphere020
+    4300032: VialRound03
+    4300034: Burner004
+    9500000: //RootNode
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

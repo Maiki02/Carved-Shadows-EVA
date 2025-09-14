@@ -405,7 +405,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5176233440103258459, guid: babc10837413aaa46b5eebc8c208b7d6, type: 3}
       propertyPath: skipIntro
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5176233440103258459, guid: babc10837413aaa46b5eebc8c208b7d6, type: 3}
       propertyPath: cinemachineBrain
@@ -793,6 +793,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 611305025604340269, guid: 7b159c39aec80cc48a30426b8b98630c, type: 3}
+      propertyPath: openDegreesY
+      value: -110
+      objectReference: {fileID: 0}
     - target: {fileID: 3166042205531529292, guid: 7b159c39aec80cc48a30426b8b98630c, type: 3}
       propertyPath: callController
       value: 
@@ -845,6 +849,10 @@ PrefabInstance:
       propertyPath: playerController
       value: 
       objectReference: {fileID: 687310666}
+    - target: {fileID: 7288015453873023657, guid: 7b159c39aec80cc48a30426b8b98630c, type: 3}
+      propertyPath: openDegreesY
+      value: -110
+      objectReference: {fileID: 0}
     - target: {fileID: 7312044126362136653, guid: 7b159c39aec80cc48a30426b8b98630c, type: 3}
       propertyPath: m_Name
       value: Base
@@ -965,7 +973,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6816899274346510257, guid: 1c592a8676fb81a4c9e1a9efdcc160b0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -167,13 +167,13 @@ public class PhoneClose : ObjectInteract
             audioSource.Play();
         }
         
-        StartCoroutine(TransitionToPhoneOpen(false)); // false = llamada saliente
+        StartCoroutine(TransitionToPhoneOpen(false)); // false = sin llamada saliente
     }
 
     /// <summary>
     /// Corrutina que maneja la transición al teléfono abierto
     /// </summary>
-    /// <param name="isIncomingCall">True si es una llamada entrante, False si es una llamada saliente</param>
+    /// <param name="isIncomingCall">True si es una llamada entrante, False si es sin llamada</param>
     private IEnumerator TransitionToPhoneOpen(bool isIncomingCall = true)
     {
         
@@ -205,7 +205,7 @@ public class PhoneClose : ObjectInteract
             else
             {
                 // Llamada saliente - usar el clip de "sin contestar"
-                phoneOpenScript.StartCallWithParameters(noAnswerToneClip, null, false);
+                phoneOpenScript.StartCallWithParameters(noAnswerToneClip, new DialogData[1] { new DialogData("...", 3f) }, false);
             }
         }
         

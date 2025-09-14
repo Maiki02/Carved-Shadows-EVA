@@ -53,6 +53,7 @@ public class PlayerWakeUpSequence : MonoBehaviour
         {
             // Cambiar tipo a SlowClosing y ejecutar cierre lento
             doorToClose.SetType(TypeDoorInteract.SlowClosing);
+            //doorToClose.transform = rotación en 110 grados
             
         }
 

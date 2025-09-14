@@ -721,11 +721,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2196754075836293008, guid: 7b159c39aec80cc48a30426b8b98630c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.182869
+      value: 14.673
+      objectReference: {fileID: 0}
+    - target: {fileID: 2196754075836293008, guid: 7b159c39aec80cc48a30426b8b98630c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2196754075836293008, guid: 7b159c39aec80cc48a30426b8b98630c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.2453747
+      value: 4.341
       objectReference: {fileID: 0}
     - target: {fileID: 2196754075836293008, guid: 7b159c39aec80cc48a30426b8b98630c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -750,6 +754,10 @@ PrefabInstance:
     - target: {fileID: 2967875379458872117, guid: 7b159c39aec80cc48a30426b8b98630c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 14.673
+      objectReference: {fileID: 0}
+    - target: {fileID: 2967875379458872117, guid: 7b159c39aec80cc48a30426b8b98630c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2967875379458872117, guid: 7b159c39aec80cc48a30426b8b98630c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -832,10 +840,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 615712171}
     - target: {fileID: 5724004547395607792, guid: 7b159c39aec80cc48a30426b8b98630c, type: 3}
-      propertyPath: noAnswerToneClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 190a34df21a506f4692a35501fea5f2c, type: 3}
-    - target: {fileID: 5724004547395607792, guid: 7b159c39aec80cc48a30426b8b98630c, type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 687310666}
@@ -858,6 +862,10 @@ PrefabInstance:
     - target: {fileID: 7230014318245472283, guid: 7b159c39aec80cc48a30426b8b98630c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 110
+      objectReference: {fileID: 0}
+    - target: {fileID: 7288015453873023657, guid: 7b159c39aec80cc48a30426b8b98630c, type: 3}
+      propertyPath: closedDoorDialogData
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7312044126362136653, guid: 7b159c39aec80cc48a30426b8b98630c, type: 3}
       propertyPath: m_Name
@@ -923,13 +931,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1452030051}
     - target: {fileID: 5392928778976670511, guid: 1c592a8676fb81a4c9e1a9efdcc160b0, type: 3}
+      propertyPath: doorToClose
+      value: 
+      objectReference: {fileID: 1452030050}
+    - target: {fileID: 5392928778976670511, guid: 1c592a8676fb81a4c9e1a9efdcc160b0, type: 3}
       propertyPath: ringDuration
       value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 5392928778976670511, guid: 1c592a8676fb81a4c9e1a9efdcc160b0, type: 3}
       propertyPath: phoneCallClip
       value: 
-      objectReference: {fileID: 8300000, guid: 190a34df21a506f4692a35501fea5f2c, type: 3}
+      objectReference: {fileID: 8300000, guid: 265381b74c46c0e4298df467301de75c, type: 3}
     - target: {fileID: 5392928778976670511, guid: 1c592a8676fb81a4c9e1a9efdcc160b0, type: 3}
       propertyPath: phoneMessages
       value: 

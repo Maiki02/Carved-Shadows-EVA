@@ -15,7 +15,7 @@ MonoBehaviour:
   lockedDoorClip: {fileID: 8300000, guid: ccc5bcaaf08f3d44d9c7f5e5a05e4db8, type: 3}
   dialogAudioClip: {fileID: 0}
   dialogMessages:
-  - dialogText: "Quiz\xE1s es tarde para  volver."
+  - dialogText: "Quiz\xE1s es tarde para volver."
     duration: 2
   allowReinteraction: 0
   blockInteractionDuringPlayback: 1

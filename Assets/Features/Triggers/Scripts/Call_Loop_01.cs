@@ -10,7 +10,7 @@ using UnityEngine;
 public class Call_Loop_01 : MonoBehaviour
 {
     [Header("Referencias")]
-    [SerializeField] private Door door; // Puerta que se cerrará y luego se abrirá
+    [SerializeField] private Door doorToClose; // Puerta que se cerrará y luego se abrirá
     [SerializeField] private PhoneClose phoneClose; // Script del teléfono cerrado
     
     [Header("Audio Configuration")]
@@ -36,9 +36,15 @@ public class Call_Loop_01 : MonoBehaviour
         {
             triggerCollider.isTrigger = true;
         }
-        
+
         // Validar referencias
         ValidateReferences();
+
+        if(doorToClose != null)
+        {
+            // Asegurar que la puerta empieza en modo cerrado
+            doorToClose.SetType(TypeDoorInteract.Close);
+        }
     }
 
     private void Start()
@@ -189,15 +195,15 @@ public class Call_Loop_01 : MonoBehaviour
         Debug.Log("[Call_Loop_01] Iniciando secuencia de llamada del pasillo 2");
         
         // 1. Activar el cierre de la puerta
-        if (door != null)
+        /*if (door != null)
         {
-            Debug.Log("[Call_Loop_01] Cerrando puerta del hall de entrada...");
-            door.StartSlowClosing(); // Usar el método de cierre lento
+            //Debug.Log("[Call_Loop_01] Cerrando puerta del hall de entrada...");
+            //door.StartSlowClosing(); // Usar el método de cierre lento
             
             // Esperar a que termine el cierre de la puerta
-            yield return new WaitForSeconds(door.SlowCloseDuration);
+            //yield return new WaitForSeconds(door.SlowCloseDuration);
             Debug.Log("[Call_Loop_01] Puerta cerrada completamente");
-        }
+        }*/
         
         // 2. Empezar a sonar el teléfono
         if (phoneClose != null)
@@ -244,9 +250,9 @@ public class Call_Loop_01 : MonoBehaviour
         }
         
         // 3. Abrir la puerta para permitir el paso
-        if (door != null)
+        if (doorToClose != null)
         {
-            door.SetType(TypeDoorInteract.OpenAndClose);
+            doorToClose.SetType(TypeDoorInteract.OpenAndClose);
             Debug.Log("[Call_Loop_01] Puerta configurada para permitir interacción");
         }
         
@@ -291,7 +297,7 @@ public class Call_Loop_01 : MonoBehaviour
     /// </summary>
     private void ValidateReferences()
     {
-        if (door == null)
+        if (doorToClose == null)
             Debug.LogWarning("[Call_Loop_01] Puerta no asignada");
 
         if (phoneClose == null)

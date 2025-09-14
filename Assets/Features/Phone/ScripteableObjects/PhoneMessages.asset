@@ -13,31 +13,26 @@ MonoBehaviour:
   m_Name: PhoneMessages
   m_EditorClassIdentifier: 
   primerLoopMessages:
-  - dialogText: 
-    duration: 3
   - dialogText: "Euridice: Perd\xF3n por llamar a estas horas"
-    duration: 1
+    duration: 4
   - dialogText: 'Euri, yo.. '
-    duration: 0.5
-  - dialogText: "Eur\xEDdice: Tambi\xE9n perd\xF3n por no avisar que nos fuimos."
-    duration: 1.5
-  - dialogText: "Euri, hola, \xBFme escuchas?"
-    duration: 1.5
-  - dialogText: "Euri, hola, \xBFme escuchas?"
-    duration: 1.5
-  - dialogText: "Eur\xEDdice: Es que te vimos durmiendo y no quisimos despertarte.
-      Hoy tampoco vamos a pasar la noche en casa, creo que todav\xEDa necesitamos\u2026
-      Todav\xEDa necesito algo m\xE1s de tiempo."
-    duration: 3
-  - dialogText: "Eur\xEDdice: Es que te vimos durmiendo y no quisimos despertarte.
-      Hoy tampoco vamos a pasar la noche en casa, creo que todav\xEDa necesitamos\u2026
-      Todav\xEDa necesito algo m\xE1s de tiempo."
     duration: 2
+  - dialogText: "Eur\xEDdice: Tambi\xE9n perd\xF3n por no avisar que nos fuimos."
+    duration: 2
+  - dialogText: "Euri, hola, \xBFme escuchas?"
+    duration: 1.5
+  - dialogText: "Eur\xEDdice: Es que te vimos durmiendo y no quisimos despertarte."
+    duration: 3
+  - dialogText: "Eur\xEDdice: Hoy tampoco vamos a pasar la noche en casa, creo que
+      todav\xEDa necesitamos\u2026 Todav\xEDa necesito algo m\xE1s de tiempo."
+    duration: 3
   - dialogText: "Alice: \xBFEst\xE1s hablando con papi? "
-    duration: 1
+    duration: 2
   - dialogText: "Euridice: Si hija, estoy hablando con papi. Anda a acostarte que
-      ya es tarde coraz\xF3n. Perd\xF3n Jorge, se por lo que est\xE1s pasando y todo
-      lo que has hecho pero yo\u2026 "
+      ya es tarde coraz\xF3n. "
+    duration: 3
+  - dialogText: "Euridice: Perd\xF3n Jorge, se por lo que est\xE1s pasando y todo
+      lo que has hecho pero yo\u2026"
     duration: 3
   - dialogText: "\xBFEuri? \xBFAlice? \xBFHola?"
     duration: 2

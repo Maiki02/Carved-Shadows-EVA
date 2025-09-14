@@ -699,6 +699,7 @@ GameObject:
   - component: {fileID: 939626753955992579}
   - component: {fileID: 8325424052316344288}
   - component: {fileID: 7734233809439841222}
+  - component: {fileID: 5562929358336731340}
   m_Layer: 0
   m_Name: SM_OldPhone
   m_TagString: Untagged
@@ -856,10 +857,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ringClip: {fileID: 8300000, guid: d311b1b232376a44388b544a0f5b2198, type: 3}
   pickupClip: {fileID: 8300000, guid: c15a1549a3b00aa4ea94a91b18e5db47, type: 3}
+  noAnswerToneClip: {fileID: 8300000, guid: 190a34df21a506f4692a35501fea5f2c, type: 3}
   phoneOpenScript: {fileID: 0}
   phoneOpenGameObject: {fileID: 0}
   playerController: {fileID: 0}
-  phoneController: {fileID: 0}
+  callController: {fileID: 0}
+--- !u!65 &5562929358336731340
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3883164362092952630}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.17434755, y: 0.22132501, z: 0.16239722}
+  m_Center: {x: 0.00913302, y: 0.10953456, z: 0.0003226598}
 --- !u!1 &4631296582648164721
 GameObject:
   m_ObjectHideFlags: 0

@@ -48,9 +48,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   introText: No todos los viajes tienen diferentes caminos A veces es una historia
     y solo queda el final Depende de cada uno aceptarlo o no
-  textFadeInDuration: 7
-  textDisplayDuration: 7
-  textFadeOutDuration: 10
+  textFadeInDuration: 3
+  textDisplayDuration: 5
+  textFadeOutDuration: 6
   textSize: 64
   rainStartDelay: 5
   rainAudioSource: {fileID: 8932069938529326433}

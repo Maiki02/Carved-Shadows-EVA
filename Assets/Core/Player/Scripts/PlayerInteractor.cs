@@ -51,7 +51,7 @@ public class PlayerInteractor : MonoBehaviour
             }
         }
 
-        
+            
         if (found != null)
         {
             // Si cambió el objetivo, refrescá el hover

@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LoadingScene.unity
     guid: faad3c1aaa29180479901afa580a237d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Test.unity
     guid: 1b3fecefe95a2a946adc98482c2c83d3
   - enabled: 0
@@ -20,6 +20,18 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TutorialScene.unity
     guid: d0a450c418c09744981b5b9ec40e9fd7
+  - enabled: 1
+    path: Assets/Scenes/Loops/Loop_01.unity
+    guid: 90686f16a740c8a428fed6b0617cc06a
+  - enabled: 1
+    path: Assets/Scenes/Loops/Loop_02.unity
+    guid: 78d51f3128a59414a91a9a48bff5ffa4
+  - enabled: 1
+    path: Assets/Scenes/Loops/Loop_03.unity
+    guid: 12bba99f27971af448fe98f9d958f3b1
+  - enabled: 1
+    path: Assets/Scenes/Loops/Loop_04.unity
+    guid: a01b4979679056048892e3b44796ffe8
   - enabled: 1
     path: Assets/Scenes/GameOverScene.unity
     guid: 2ab0d43a0e33a684c9589a4b79c65616

@@ -100,6 +100,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputActionReference lookAction;   // Gameplay/Look (Vector2) - lo usa CM3
     [SerializeField] private InputActionReference pauseAction;  // Gameplay/Pause (Button)
 
+    // ---- NUEVO: soporte “hold to clear” ----
+    private Coroutine dizzyHoldCR;
+    private bool dizzyHoldActive;
+    private const float DIZZY_VERY_LONG = 9999f;
+
     void OnEnable()
     {
         moveAction?.action.Enable();
@@ -143,7 +148,7 @@ public class PlayerController : MonoBehaviour
         ActualizarMareo();
         AplicarShakeCamara();
 
-        // Toggle de pausa (Esc / Start) usando Input System
+        // Toggle de pausa (Esc / Start)
         if (pauseAction != null && pauseAction.action.WasPressedThisFrame())
         {
             PauseController.Instance?.TogglePauseMenu();
@@ -161,7 +166,6 @@ public class PlayerController : MonoBehaviour
         UpdateSensibilidad();
         MoverJugador();
     }
-
 
     // Habilita/inhabilita el look de CM3 en función de pausa, caída, transiciones o controles
     private void SyncCameraInputEnabled()
@@ -363,10 +367,6 @@ public class PlayerController : MonoBehaviour
         Vector3 flatFwd = liveCam.forward; flatFwd.y = 0f;
         if (flatFwd.sqrMagnitude > 0.0001f)
             transform.rotation = Quaternion.LookRotation(flatFwd.normalized, Vector3.up);
-
-        // Si tenés un pivot de cámara separado y querés igualar el pitch,
-        // podés ajustar aquí. En este setup la orientación de pitch la maneja CM,
-        // y con el look deshabilitado ya coincide visualmente, por eso no tocamos nada más.
     }
 
     public void SetCamaraActiva(bool activa)
@@ -533,5 +533,97 @@ public class PlayerController : MonoBehaviour
     {
         // En CM3 no existe VirtualCameraGameObject; para FPS alcanza con la cámara real
         return Camera.main != null ? Camera.main.transform : camTransform;
+    }
+    
+    /// <summary>
+    /// Inicia un mareo “infinito” que solo se limpia manteniendo [ESPACIO] durante 'holdSeconds'.
+    /// Muestra un diálogo persistente con el prompt (sin tocar tu DialogController).
+    /// </summary>
+    public void TriggerDizzinessHoldToClear(float intensity, float holdSeconds, string prompt = "Mantén apretado [ESPACIO] para calmarte")
+    {
+        // Si ya había uno en curso, lo reinicio
+        if (dizzyHoldCR != null)
+        {
+            StopCoroutine(dizzyHoldCR);
+            dizzyHoldCR = null;
+        }
+        dizzyHoldCR = StartCoroutine(DizzyHoldRoutine(Mathf.Clamp01(intensity), Mathf.Max(0.1f, holdSeconds), prompt));
+    }
+
+    /// Limpia inmediatamente el mareo y oculta el mensaje.
+    public void ForceClearDizziness()
+    {
+        isDizzy = false;
+        dizzyTimer = 0f;
+
+        // Detengo rutina de hold si estaba activa
+        if (dizzyHoldCR != null)
+        {
+            StopCoroutine(dizzyHoldCR);
+            dizzyHoldCR = null;
+            dizzyHoldActive = false;
+        }
+
+        // Restauros suaves por si acaso
+        if (mainCam != null)
+        {
+            mainCam.Lens.FieldOfView = baseFOV;
+            mainCam.Lens.Dutch = baseDutch;
+        }
+
+        // Ocultar mensaje si estaba en pantalla
+        if (DialogController.Instance != null)
+            DialogController.Instance.ShowDialog("", 0.01f);
+    }
+
+    private IEnumerator DizzyHoldRoutine(float intensity, float holdSeconds, string prompt)
+    {
+        dizzyHoldActive = true;
+
+        // “Mareo infinito”: uso una duración muy larga y dejo que el hold lo cancele
+        TriggerDizziness(DIZZY_VERY_LONG, intensity);
+
+        float holdTimer = 0f;
+
+        while (dizzyHoldActive)
+        {
+            bool paused = (GameController.Instance != null && GameController.Instance.IsPaused()) ||
+                          GameFlowManager.Instance.IsInTransition;
+
+            bool holding = !paused && Keyboard.current != null && Keyboard.current.spaceKey.isPressed;
+            if (holding) holdTimer += Time.deltaTime;
+            else holdTimer = 0f;
+
+            float remaining = Mathf.Max(0f, holdSeconds - holdTimer);
+
+            // Refresco “persistente” del mensaje
+            if (DialogController.Instance != null)
+            {
+                string txt = remaining > 0f
+                    ? $"{prompt}"
+                    : "Listo";
+                DialogController.Instance.ShowDialog(txt, 0.2f);
+            }
+
+            if (holdTimer >= holdSeconds)
+                break;
+
+            yield return null;
+        }
+
+        isDizzy = false;
+        dizzyTimer = 0f;
+
+        if (mainCam != null)
+        {
+            mainCam.Lens.FieldOfView = baseFOV;
+            mainCam.Lens.Dutch = baseDutch;
+        }
+
+        if (DialogController.Instance != null)
+            DialogController.Instance.ShowDialog("", 0.01f);
+
+        dizzyHoldActive = false;
+        dizzyHoldCR = null;
     }
 }

@@ -8,8 +8,13 @@ public class BasementArrivalTrigger : MonoBehaviour
     [SerializeField] private GameObject nextDoorGO;       // objeto Door_NextLoop (inicialmente inactivo)
 
     [Header("Dizziness")]
+    [Tooltip("Si está activo, el mareo se mantiene infinito hasta mantener la tecla (Space) por 'holdToClearSeconds'.")]
+    [SerializeField] private bool useHoldToClear = true;
+    [SerializeField] private float holdToClearSeconds = 3f;
+    [SerializeField, Range(0f,1f)] private float dizzyIntensity = 1f;
+
+    [Tooltip("Si NO usás hold-to-clear, usá una duración finita.")]
     [SerializeField] private float dizzyDuration = 6f;
-    [SerializeField] private float dizzyIntensity = 1f;
 
     [Header("Behavior")]
     [Tooltip("Si está activo, NextDoor se habilita recién cuando el jugador termine de 'revisar' la puerta cerrada.")]
@@ -25,7 +30,6 @@ public class BasementArrivalTrigger : MonoBehaviour
 
     private void OnEnable()
     {
-        // Por si entramos con la escena ya inicializada
         if (nextDoorGO != null && nextDoorGO.activeSelf)
             nextDoorGO.SetActive(false);
     }
@@ -44,7 +48,12 @@ public class BasementArrivalTrigger : MonoBehaviour
         // 1) Mareo al jugador
         var pc = playerObj.GetComponent<PlayerController>();
         if (pc != null)
-            pc.TriggerDizziness(dizzyDuration, dizzyIntensity);
+        {
+            if (useHoldToClear)
+                pc.TriggerDizzinessHoldToClear(dizzyIntensity, holdToClearSeconds);
+            else
+                pc.TriggerDizziness(dizzyDuration, dizzyIntensity);
+        }
 
         // 2) Cerrar puerta de atrás y ponerla en modo "Close"
         if (backDoor != null)
@@ -52,7 +61,6 @@ public class BasementArrivalTrigger : MonoBehaviour
             backDoor.SetType(TypeDoorInteract.Close);
             backDoor.StartFastClosing();
 
-            // 3) Si activamos NextDoor luego de revisar la puerta, nos suscribimos al evento
             if (activateNextDoorAfterReview)
                 backDoor.ClosedDoorSequenceCompleted += OnBackDoorReviewed;
         }
@@ -64,10 +72,8 @@ public class BasementArrivalTrigger : MonoBehaviour
 
     private void OnBackDoorReviewed()
     {
-        // Se invoca cuando la puerta cerrada terminó su secuencia de “está cerrada”
         ActivateNextDoor();
 
-        // Nos desuscribimos y opcionalmente desactivamos el trigger
         if (backDoor != null)
             backDoor.ClosedDoorSequenceCompleted -= OnBackDoorReviewed;
 

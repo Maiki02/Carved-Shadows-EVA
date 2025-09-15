@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 829169944172780489}
   - component: {fileID: 3873567073923301779}
   - component: {fileID: 6877836562704032721}
+  - component: {fileID: 3044877253980631754}
   m_Layer: 0
   m_Name: SM_Puerta
   m_TagString: Untagged
@@ -249,3 +250,27 @@ MonoBehaviour:
   fastCloseDuration: 0.5
   blockInteractionWhileAnimating: 1
   blockRaycastsWhileAnimating: 1
+  OnClosedDoorReviewedUnity:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!65 &3044877253980631754
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3469840335106721930}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 36.172226, y: 29.243437, z: 5.542924}
+  m_Center: {x: -17.742062, y: 14.621718, z: -0.002195716}

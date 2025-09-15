@@ -3845,7 +3845,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &875315563432023445
 Transform:
   m_ObjectHideFlags: 0
@@ -9268,11 +9268,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 939626753955992579, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.7496552
+      value: 0.814
       objectReference: {fileID: 0}
     - target: {fileID: 939626753955992579, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.2404358
+      value: 2.2029998
       objectReference: {fileID: 0}
     - target: {fileID: 939626753955992579, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9499,6 +9499,10 @@ PrefabInstance:
     - target: {fileID: 641861763013156480, guid: f710526ca3d25ef44a4d71fcff45f6cb, type: 3}
       propertyPath: m_Name
       value: SM_ExitSign
+      objectReference: {fileID: 0}
+    - target: {fileID: 641861763013156480, guid: f710526ca3d25ef44a4d71fcff45f6cb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1641694491960082109, guid: f710526ca3d25ef44a4d71fcff45f6cb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11036,11 +11040,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 939626753955992579, guid: a246cb96fce263542a4ed95754392866, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.7496552
+      value: 0.814
       objectReference: {fileID: 0}
     - target: {fileID: 939626753955992579, guid: a246cb96fce263542a4ed95754392866, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.2404358
+      value: 2.203
       objectReference: {fileID: 0}
     - target: {fileID: 939626753955992579, guid: a246cb96fce263542a4ed95754392866, type: 3}
       propertyPath: m_LocalRotation.w
@@ -11552,7 +11556,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4849431316403206, guid: 92caae8afe1371b45b3e7fa9442a75aa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.705
+      value: 14.059
       objectReference: {fileID: 0}
     - target: {fileID: 4849431316403206, guid: 92caae8afe1371b45b3e7fa9442a75aa, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11803,6 +11807,10 @@ PrefabInstance:
     - target: {fileID: 3469840335106721930, guid: afb32564ac5550b4f98e00bfac8bb708, type: 3}
       propertyPath: m_Name
       value: SM_Puerta (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877836562704032721, guid: afb32564ac5550b4f98e00bfac8bb708, type: 3}
+      propertyPath: type
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13622,6 +13630,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door_NextLoop
       objectReference: {fileID: 0}
+    - target: {fileID: 6062018077190977733, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6402614076841703343, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
       propertyPath: Priority.Enabled
       value: 1
@@ -15174,6 +15186,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Puerta (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6877836562704032721, guid: afb32564ac5550b4f98e00bfac8bb708, type: 3}
+      propertyPath: type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15317,6 +15333,10 @@ PrefabInstance:
     - target: {fileID: 3469840335106721930, guid: afb32564ac5550b4f98e00bfac8bb708, type: 3}
       propertyPath: m_Name
       value: SM_Puerta (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877836562704032721, guid: afb32564ac5550b4f98e00bfac8bb708, type: 3}
+      propertyPath: openDegreesY
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6877836562704032721, guid: afb32564ac5550b4f98e00bfac8bb708, type: 3}
       propertyPath: lockedDoorClip
@@ -16181,6 +16201,10 @@ PrefabInstance:
     - target: {fileID: 965978101671326803, guid: 8838263c145d5a84f893b27dbeec2abc, type: 3}
       propertyPath: m_Name
       value: SM_Escalera
+      objectReference: {fileID: 0}
+    - target: {fileID: 965978101671326803, guid: 8838263c145d5a84f893b27dbeec2abc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

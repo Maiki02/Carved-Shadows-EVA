@@ -161,21 +161,32 @@ public class FadeManager : MonoBehaviour
     /// <param name="textSize">Tamaño del texto (opcional, por defecto usa defaultTextSize)</param>
     public IEnumerator ShowTextWithFadeCoroutine(string text, float fadeInDuration, float displayDuration, float fadeOutDuration, float textSize = -1f)
     {
-        if (fadeText == null) yield break;
+        Debug.Log($"[FadeManager] ShowTextWithFadeCoroutine iniciado: fadeIn={fadeInDuration}s, display={displayDuration}s, fadeOut={fadeOutDuration}s");
+        
+        if (fadeText == null) 
+        {
+            Debug.LogError("[FadeManager] fadeText es null!");
+            yield break;
+        }
+        
         this.fadeTextGameObject.SetActive(true);
         // Configurar el texto
         fadeText.text = text;
         fadeText.fontSize = textSize > 0 ? textSize : defaultTextSize;
 
+        Debug.Log($"[FadeManager] Iniciando Fade In por {fadeInDuration}s...");
         // Fade In del texto
         yield return StartCoroutine(FadeText(fadeText, 0f, 1f, fadeInDuration));
 
+        Debug.Log($"[FadeManager] Fade In completado. Mostrando texto por {displayDuration}s...");
         // Mantener el texto visible
         yield return new WaitForSeconds(displayDuration);
 
+        Debug.Log($"[FadeManager] Iniciando Fade Out por {fadeOutDuration}s...");
         // Fade Out del texto
         yield return StartCoroutine(FadeText(fadeText, 1f, 0f, fadeOutDuration));
         
+        Debug.Log("[FadeManager] ShowTextWithFadeCoroutine completado");
         this.fadeTextGameObject.SetActive(false);
     }
 
@@ -226,10 +237,12 @@ public class FadeManager : MonoBehaviour
     {
         if (textComponent == null) yield break;
         
+        Debug.Log($"[FadeManager] FadeText iniciado: fromA={fromA}, toA={toA}, duration={dur}");
 
         // Validar duración - si es 0 o negativa, aplicar el valor final inmediatamente
         if (dur <= 0f)
         {
+            Debug.LogWarning($"[FadeManager] Duración inválida ({dur}), aplicando fade inmediato");
             textComponent.enabled = true;
             Color immediateColor = textComponent.color;
             immediateColor.a = toA;
@@ -246,16 +259,29 @@ public class FadeManager : MonoBehaviour
         textComponent.color = c;
 
         float t = 0f;
+        float startTime = Time.unscaledTime;
+        Debug.Log($"[FadeManager] Iniciando fade loop. Time.timeScale={Time.timeScale}");
+        
         while (t < dur)
         {
-            t += Time.deltaTime;
+            t += Time.unscaledDeltaTime; // Usar unscaledDeltaTime para que no se vea afectado por timeScale
             float normalizedTime = Mathf.Clamp01(t / dur); // Clamp para evitar valores > 1
             float a = Mathf.Lerp(fromA, toA, normalizedTime);
             Color newColor = textComponent.color;
             newColor.a = a;
             textComponent.color = newColor;
+            
+            // Debug cada segundo aproximadamente
+            if (Mathf.FloorToInt(t) != Mathf.FloorToInt(t - Time.unscaledDeltaTime))
+            {
+                Debug.Log($"[FadeManager] Fade progress: t={t:F2}s/{dur}s, alpha={a:F2}, unscaledDeltaTime={Time.unscaledDeltaTime:F4}");
+            }
+            
             yield return null;
         }
+
+        float totalTime = Time.unscaledTime - startTime;
+        Debug.Log($"[FadeManager] FadeText completado en {totalTime:F2}s (esperado: {dur}s)");
 
         // asegurar alpha final
         Color finalColor = textComponent.color;

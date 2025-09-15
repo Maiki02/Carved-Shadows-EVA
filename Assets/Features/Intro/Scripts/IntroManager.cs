@@ -39,7 +39,13 @@ public class IntroManager : MonoBehaviour
 
     public IEnumerator ShowIntroText()
     {
-        Debug.Log("Showing intro text: "+  textFadeInDuration);
+        Debug.Log($"[IntroManager] ShowIntroText iniciado. textFadeInDuration={textFadeInDuration}s");
+        
+        if (FadeManager.Instance == null)
+        {
+            Debug.LogError("[IntroManager] FadeManager.Instance es null!");
+            yield break;
+        }
         
         yield return FadeManager.Instance.ShowTextWithFadeCoroutine(
             introText,
@@ -48,6 +54,8 @@ public class IntroManager : MonoBehaviour
             textFadeOutDuration,
             textSize
         );
+        
+        Debug.Log("[IntroManager] ShowIntroText completado");
     }
 
     public void StopSounds() {

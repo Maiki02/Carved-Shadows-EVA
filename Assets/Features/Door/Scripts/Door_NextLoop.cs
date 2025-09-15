@@ -64,16 +64,33 @@ public class Door_NextLoop : ObjectInteract
         yield return null;
         yield return new WaitForSeconds(blendSeconds);
 
-        // Mover al jugador hasta el EntryPoint
+        // Mover al jugador hasta el EntryPoint (SOLO EN XZ)
         if (doorEntryPoint)
         {
-            while (Vector3.Distance(playerObj.transform.position, doorEntryPoint.position) > 0.05f)
+            float fixedY = playerObj.transform.position.y; // mantenemos la Y inicial del player
+
+            // Target en el plano XZ con Y fija
+            Vector3 targetXZ = new Vector3(doorEntryPoint.position.x, fixedY, doorEntryPoint.position.z);
+
+            // Distancia horizontal (ignora Y)
+            while (Vector2.Distance(
+                       new Vector2(playerObj.transform.position.x, playerObj.transform.position.z),
+                       new Vector2(doorEntryPoint.position.x, doorEntryPoint.position.z)) > 0.05f)
             {
-                playerObj.transform.position = Vector3.MoveTowards(
-                    playerObj.transform.position,
-                    doorEntryPoint.position,
-                    moveSpeed * Time.deltaTime
-                );
+                // Rotar suavemente hacia la puerta (solo yaw)
+                Vector3 lookDir = doorEntryPoint.position - playerObj.transform.position;
+                lookDir.y = 0f;
+                if (lookDir.sqrMagnitude > 0.0001f)
+                {
+                    Quaternion lookRot = Quaternion.LookRotation(lookDir.normalized, Vector3.up);
+                    playerObj.transform.rotation = Quaternion.Slerp(playerObj.transform.rotation, lookRot, 10f * Time.deltaTime);
+                }
+
+                // Avanzar solo en XZ y clamplear Y
+                Vector3 next = Vector3.MoveTowards(playerObj.transform.position, targetXZ, moveSpeed * Time.deltaTime);
+                next.y = fixedY;
+                playerObj.transform.position = next;
+
                 yield return null;
             }
         }

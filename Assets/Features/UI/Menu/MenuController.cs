@@ -238,7 +238,7 @@ public class MenuController : MonoBehaviour
                 introManager.gameObject.SetActive(true);
 
             Debug.Log("[MenuController] Iniciando todas las secuencias de intro EN PARALELO");
-
+            yield return new WaitForSeconds(introManager.blackImageDuration);
             // EJECUTAR TODO EN PARALELO - Sin yield return para que no esperen
             StartCoroutine(introManager.ShowIntroText());        // Texto: inmediato
             StartCoroutine(introManager.StartRainAfterDelay());  // Lluvia: después de 2s

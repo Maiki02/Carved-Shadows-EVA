@@ -6,9 +6,10 @@ public class IntroManager : MonoBehaviour
 {
     [Header("Configuración de Texto")]
     [SerializeField] private string introText = "La noche se oscurece... El día se aclara...";
-    [SerializeField] public float textFadeInDuration = 10f;
-    [SerializeField] private float textDisplayDuration = 10f;
-    [SerializeField] private float textFadeOutDuration = 5f;
+    [SerializeField] public float blackImageDuration = 2f;
+    [SerializeField] public float textFadeInDuration = 20f;
+    [SerializeField] private float textDisplayDuration = 1f;
+    [SerializeField] private float textFadeOutDuration = 2f;
     [SerializeField] private float textSize = 48f;
 
     [Header("Audio - Lluvia")]

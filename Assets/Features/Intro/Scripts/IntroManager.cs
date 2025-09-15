@@ -7,8 +7,8 @@ public class IntroManager : MonoBehaviour
     [Header("Configuración de Texto")]
     [SerializeField] private string introText = "La noche se oscurece... El día se aclara...";
     [SerializeField] public float textFadeInDuration = 10f;
-    [SerializeField] private float textDisplayDuration = 4f;
-    [SerializeField] private float textFadeOutDuration = 3f;
+    [SerializeField] private float textDisplayDuration = 10f;
+    [SerializeField] private float textFadeOutDuration = 5f;
     [SerializeField] private float textSize = 48f;
 
     [Header("Audio - Lluvia")]
@@ -39,7 +39,13 @@ public class IntroManager : MonoBehaviour
 
     public IEnumerator ShowIntroText()
     {
-        Debug.Log("Showing intro text: "+  textFadeInDuration);
+        Debug.Log($"[IntroManager] ShowIntroText iniciado. textFadeInDuration={textFadeInDuration}s");
+        
+        if (FadeManager.Instance == null)
+        {
+            Debug.LogError("[IntroManager] FadeManager.Instance es null!");
+            yield break;
+        }
         
         yield return FadeManager.Instance.ShowTextWithFadeCoroutine(
             introText,
@@ -48,6 +54,8 @@ public class IntroManager : MonoBehaviour
             textFadeOutDuration,
             textSize
         );
+        
+        Debug.Log("[IntroManager] ShowIntroText completado");
     }
 
     public void StopSounds() {
@@ -115,7 +123,7 @@ public class IntroManager : MonoBehaviour
         if (screamsAudioSource != null && screamsAudioSource.isPlaying)
         {
             float targetVolume = screamsMaxVolume * 1.5f; // Aumentar 50% más
-            yield return FadeAudioVolume(screamsAudioSource, screamsAudioSource.volume, targetVolume, 2f);
+            yield return FadeAudioVolume(rainAudioSource, rainAudioSource.volume, targetVolume, 2f);
         }
         
         yield return new WaitForSeconds(1f); // Esperar un poco más para el efecto dramático

@@ -680,7 +680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressBar: {fileID: 440047447}
   percentText: {fileID: 1800288157}
-  nextSceneName: Test
+  nextSceneName: Loop_01
 --- !u!1 &895068947
 GameObject:
   m_ObjectHideFlags: 0

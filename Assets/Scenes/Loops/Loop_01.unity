@@ -274,23 +274,28 @@ MonoBehaviour:
   - {fileID: 1452030054}
   - {fileID: 1452030053}
   - {fileID: 1452030052}
-  moonLight: {fileID: 0}
-  enableMoonLight: 1
-  createMoonLightIfMissing: 1
-  moonDirectionEuler: {x: 15, y: -35, z: 0}
-  moonCastShadows: 0
-  moonLightColor: {r: 0.75, g: 0.85, b: 1, a: 1}
-  moonLightIntensityLux: 0.6
   flickerSeconds: 1.1
   flickerMinInterval: 0.06
   flickerMaxInterval: 0.14
+  useCameraFill: 1
+  fillColor: {r: 0.7, g: 0.82, b: 1, a: 1}
+  fillIntensityLumens: 180
+  fillRange: 6.5
+  fillFadeSeconds: 0.25
+  useDirectionalMoon: 0
+  moonLight: {fileID: 0}
+  moonDirectionEuler: {x: 15, y: -35, z: 0}
+  moonLightColor: {r: 0.75, g: 0.85, b: 1, a: 1}
+  moonLightIntensityLux: 0.6
+  moonCastShadows: 1
+  moonFadeSeconds: 0.35
   globalVolume: {fileID: 1452030049}
   tweakAutoExposure: 1
   createExposureIfMissing: 1
+  exposureEaseSeconds: 0.25
   autoExposureMinEV: -3
   autoExposureMaxEV: 0.5
   exposureCompensation: 0.4
-  exposureEaseSeconds: 0.25
   sfxSource: {fileID: 0}
   sfxFlicker: {fileID: 0}
   sfxPowerDown: {fileID: 0}

@@ -174,7 +174,7 @@ public class PlayerController : MonoBehaviour
 
         if (axisCtrl != null) axisCtrl.enabled = !blocked;
     }
-    
+
     // En CM3 la sensibilidad se configura en el CinemachineInputAxisController.
     private void UpdateSensibilidad() { }
 
@@ -330,10 +330,43 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = !activos;
 
-        if (axisCtrl != null) axisCtrl.enabled = activos; // congelar/liberar rotación
+        // Habilitar/inhabilitar rotación de cámara
+        if (axisCtrl != null)
+        {
+            if (!activos)
+            {
+                axisCtrl.enabled = false;
+            }
+            else
+            {
+                // habilitar el look un frame después para evitar saltos
+                StartCoroutine(EnableLookNextFrame());
+            }
+        }
 
-        // también bloqueamos el Move si hace falta
+        // También bloqueamos el Move si hace falta
         if (activos) moveAction?.action.Enable(); else moveAction?.action.Disable();
+    }
+
+    private IEnumerator EnableLookNextFrame()
+    {
+        yield return null;
+        axisCtrl.enabled = true;
+    }
+
+    public void SnapToCurrentCamera()
+    {
+        Transform liveCam = GetActiveCameraTransform();
+        if (liveCam == null) return;
+
+        // Alinear YAW del jugador al forward de la cámara (plano XZ)
+        Vector3 flatFwd = liveCam.forward; flatFwd.y = 0f;
+        if (flatFwd.sqrMagnitude > 0.0001f)
+            transform.rotation = Quaternion.LookRotation(flatFwd.normalized, Vector3.up);
+
+        // Si tenés un pivot de cámara separado y querés igualar el pitch,
+        // podés ajustar aquí. En este setup la orientación de pitch la maneja CM,
+        // y con el look deshabilitado ya coincide visualmente, por eso no tocamos nada más.
     }
 
     public void SetCamaraActiva(bool activa)

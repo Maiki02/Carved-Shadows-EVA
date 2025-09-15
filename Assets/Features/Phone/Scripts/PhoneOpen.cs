@@ -19,7 +19,7 @@ public class PhoneOpen : MonoBehaviour
     [Header("Camera Settings")]
     [Tooltip("Priority to set for the phone camera during the call.")]
     public int phoneCameraPriority = 20;
-    [Tooltip("Priority of the player camera (to restore after call).")]
+    [Tooltip("Priority of the player camera (baseline). NO la bajo, la dejo fija.")]
     public int playerCameraPriority = 10;
 
     [Header("Controller Reference")]
@@ -33,6 +33,11 @@ public class PhoneOpen : MonoBehaviour
     private AudioSource audioSource;
     private bool isCalling = false;
     private bool isWithCall = false;
+
+    // Guardado de blends para "modo CUT"
+    private CinemachineBlendDefinition savedDefaultBlend;
+    private CinemachineBlenderSettings savedCustomBlends;
+    private bool cutModeActive = false;
 
     private void Awake()
     {
@@ -93,68 +98,39 @@ public class PhoneOpen : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    /// Fuerza un corte instantáneo en Cinemachine (CM3)
-    private void ForceInstantCameraCut()
+    // ================== UTILIDADES: MODO CUT SIN BLENDS ==================
+    private void BeginHardCut()
     {
-        if (cinemachineBrain == null) return;
+        if (cinemachineBrain == null || cutModeActive) return;
+        savedDefaultBlend = cinemachineBrain.DefaultBlend;
+        savedCustomBlends = cinemachineBrain.CustomBlends;
 
-        var originalBlend = cinemachineBrain.DefaultBlend;
-        var cutBlend = new CinemachineBlendDefinition(BlendStyle.Cut, 0f);
-        cinemachineBrain.DefaultBlend = cutBlend;
+        // Anular CUALQUIER blend (incluyendo custom pairs)
+        cinemachineBrain.CustomBlends = null;
+        cinemachineBrain.DefaultBlend = new CinemachineBlendDefinition(BlendStyle.Cut, 0f);
 
-        StartCoroutine(RestoreBlendAfterFrame(originalBlend));
+        cutModeActive = true;
     }
 
-    /// <summary>
-    /// Desactiva completamente una cámara virtual para asegurar que no se quede en "Live"
-    /// </summary>
-    private void DisableCameraCompletely(CinemachineCamera camera)
+    private IEnumerator EndHardCutNextFrame()
     {
-        if (camera == null) return;
-        
-        // Primero bajar prioridad a 0
-        camera.Priority = 0;
-        
-        // Luego desactivar el GameObject completamente
-        // Esto fuerza al Brain a recalcular las cámaras activas
-        camera.gameObject.SetActive(false);
+        // Restauramos al frame siguiente para evitar que el Brain “enganche” un blend tardío
+        yield return null;
+        if (cinemachineBrain != null && cutModeActive)
+        {
+            cinemachineBrain.DefaultBlend = savedDefaultBlend;
+            cinemachineBrain.CustomBlends = savedCustomBlends;
+        }
+        cutModeActive = false;
     }
 
-    /// <summary>
-    /// Reactiva una cámara virtual que fue desactivada completamente
-    /// </summary>
-    private void EnableCameraCompletely(CinemachineCamera camera, int priority)
-    {
-        if (camera == null) return;
-        
-        // Reactivar el GameObject
-        camera.gameObject.SetActive(true);
-        
-        // Asignar la prioridad deseada
-        camera.Priority = priority;
-    }
+    // ---------------------------------------------------------------------
 
-    private IEnumerator RestoreBlendAfterFrame(CinemachineBlendDefinition originalBlend)
-    {
-        yield return null; // 1 frame
-        if (cinemachineBrain != null)
-            cinemachineBrain.DefaultBlend = originalBlend;
-    }
-
+    // ---------- Inicio llamada ----------
     public void StartCall()
     {
         if (isCalling) return;
-
-        // Forzar corte instantáneo ANTES de cambiar prioridades
-        ForceInstantCameraCut();
-
-        // Activar cámara del teléfono con alta prioridad
-        EnableCameraCompletely(phoneCamera, phoneCameraPriority);
-        
-        // Bajar prioridad de la cámara del player (pero no desactivarla)
-        if (playerCamera != null) playerCamera.Priority = 0;
-
-        StartCoroutine(PhoneCallRoutine());
+        StartCoroutine(StartCallWithFadeInRoutine());
     }
 
     public void StartCallWithFadeIn()
@@ -168,7 +144,7 @@ public class PhoneOpen : MonoBehaviour
         this.isWithCall = isWithCall;
         if (isCalling) return;
 
-        if (phoneCallClip != null) callClip = phoneCallClip;
+        if (phoneCallClip) callClip = phoneCallClip;
         if (phoneDialogs != null && phoneDialogs.Length > 0) callDialogSequence = phoneDialogs;
 
         StartCoroutine(StartCallWithFadeInRoutine());
@@ -176,25 +152,87 @@ public class PhoneOpen : MonoBehaviour
 
     private IEnumerator StartCallWithFadeInRoutine()
     {
-        // 1) Corte instantáneo
-        ForceInstantCameraCut();
+        // Entramos en modo CUT para que NO haya blend al cambiar a la cam del teléfono
+        BeginHardCut();
 
-        // 2) Activar cámara del teléfono con alta prioridad
-        EnableCameraCompletely(phoneCamera, phoneCameraPriority);
-        
-        // Bajar prioridad de la cámara del player (pero no desactivarla)
-        if (playerCamera != null) playerCamera.Priority = 0;
+        // Subir/habilitar la cámara del teléfono. ¡NO toco la prioridad del player!
+        EnableCameraCompletely(phoneCamera, Mathf.Max(phoneCameraPriority, playerCameraPriority + 1));
 
-        // 3) Esperar un frame para que el Brain cambie
+        // Dejo un frame para que el Brain haga el switch como CUT
         yield return null;
 
-        // 4) Fade in
-        yield return StartCoroutine(FadeManager.Instance.FadeInCoroutine(0.3f));
+        // Restaurar blends a su estado normal
+        yield return StartCoroutine(EndHardCutNextFrame());
 
-        // 5) Iniciar llamada
+        // (Opcional) si querés, podés apagar el “look” del player ya mismo
+        // pero como ya estás en PhoneOpen, el PlayerClose gestiona los controles.
+
+        // Fade in y arrancar la rutina de llamada
+        yield return StartCoroutine(FadeManager.Instance.FadeInCoroutine(0.3f));
         StartCoroutine(PhoneCallRoutine());
     }
 
+    // ---------- Fin llamada ----------
+    private IEnumerator EndCallRoutine()
+    {
+        if (hangupClip != null)
+            yield return new WaitForSeconds(hangupClip.length);
+
+        // Fade out antes del cambio de cámara
+        yield return StartCoroutine(FadeManager.Instance.FadeOutCoroutine(0.3f));
+
+        // Entrar en modo CUT para el handoff de regreso al player
+        BeginHardCut();
+
+        // Asegurar que la del player esté activa y con prioridad base (no la bajo en ningún momento)
+        if (playerCamera)
+        {
+            playerCamera.gameObject.SetActive(true);
+            playerCamera.enabled = true;
+            playerCamera.Priority = playerCameraPriority;
+        }
+
+        // Apagar la del teléfono y bajarla
+        DisableCameraCompletely(phoneCamera);
+
+        // Un frame para consolidar el cut
+        yield return null;
+
+        // Alinear yaw del player a lo que se ve (por si tu rig lo necesita)
+        if (playerController != null)
+            playerController.SnapToCurrentCamera();
+
+        // Restaurar blends normales a partir del próximo frame
+        yield return StartCoroutine(EndHardCutNextFrame());
+
+        // Reactivar el teléfono cerrado y notificar
+        if (phoneCloseGameObject)
+        {
+            phoneCloseGameObject.SetActive(true);
+            var phoneCloseScript = phoneCloseGameObject.GetComponent<PhoneClose>();
+            if (phoneCloseScript) phoneCloseScript.OnHangUp(isWithCall);
+        }
+        if (callController) callController.OnCallCompleted(isWithCall);
+
+        isCalling = false;
+        isWithCall = false;
+
+        // Habilitar controles del player con un pelín de delay para no morder ejes
+        if (playerController != null)
+            StartCoroutine(EnableLookAfterDelay(0.05f));
+
+        // Este GO deja de estar activo
+        gameObject.SetActive(false);
+    }
+
+    private IEnumerator EnableLookAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (playerController != null)
+            playerController.SetControlesActivos(true);
+    }
+
+    // ---------- Secuencia principal de llamada ----------
     private IEnumerator PhoneCallRoutine()
     {
         if (isCalling) yield break;
@@ -229,46 +267,6 @@ public class PhoneOpen : MonoBehaviour
         StartCoroutine(EndCallRoutine());
     }
 
-    private IEnumerator EndCallRoutine()
-    {
-        // Esperar a que termine el sonido de colgar
-        if (hangupClip != null)
-            yield return new WaitForSeconds(hangupClip.length);
-
-        // 1) Fade out
-        yield return StartCoroutine(FadeManager.Instance.FadeOutCoroutine(0.3f));
-
-        // 2) Corte instantáneo para volver
-        ForceInstantCameraCut();
-
-        // 3) CAMBIO IMPORTANTE: Restaurar cámara del player y DESACTIVAR completamente la del teléfono
-        if (playerCamera != null) playerCamera.Priority = playerCameraPriority;
-        DisableCameraCompletely(phoneCamera); // Esto desactiva el GameObject completamente
-
-        // 4) Un frame para que el Brain procese
-        yield return null;
-
-        // 5) Reactivar el teléfono cerrado (esto habilita controles desde PhoneClose.OnHangUp)
-        if (phoneCloseGameObject != null)
-        {
-            phoneCloseGameObject.SetActive(true);
-
-            var phoneCloseScript = phoneCloseGameObject.GetComponent<PhoneClose>();
-            if (phoneCloseScript != null)
-                phoneCloseScript.OnHangUp(isWithCall);
-        }
-
-        // 6) Notificar al controlador principal
-        if (callController != null)
-            callController.OnCallCompleted(isWithCall);
-
-        isCalling = false;
-        isWithCall = false;
-
-        // 7) Desactivar este GO al final
-        gameObject.SetActive(false);
-    }
-
     private IEnumerator ShowDialogSequenceAndWait()
     {
         bool finished = false;
@@ -296,5 +294,22 @@ public class PhoneOpen : MonoBehaviour
         if (phoneCamera == null) Debug.LogWarning("[PhoneOpen] Phone camera no encontrada");
         if (playerCamera == null) Debug.LogWarning("[PhoneOpen] Player camera no encontrada");
         if (phoneCloseGameObject == null) Debug.LogWarning("[PhoneOpen] PhoneClose GameObject no asignado");
+        if (playerController == null) Debug.LogWarning("[PhoneOpen] PlayerController no asignado");
+    }
+
+    // ===== Helpers para (des)activar cámaras =====
+    private void DisableCameraCompletely(CinemachineCamera camera)
+    {
+        if (!camera) return;
+        camera.Priority = 0;
+        camera.enabled = false;
+        camera.gameObject.SetActive(false);
+    }
+    private void EnableCameraCompletely(CinemachineCamera camera, int priority)
+    {
+        if (!camera) return;
+        camera.gameObject.SetActive(true);
+        camera.enabled = true;
+        camera.Priority = priority;
     }
 }

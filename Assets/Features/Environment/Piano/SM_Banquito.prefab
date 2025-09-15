@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8621710736157538187}
   - component: {fileID: 1668067786754828108}
   - component: {fileID: 3920619531686413528}
+  - component: {fileID: 3613781088287316550}
   m_Layer: 0
   m_Name: SM_Banquito
   m_TagString: Untagged
@@ -86,3 +87,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3613781088287316550
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4808059765248196607}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.006647288, y: 0.0034420507, z: 0.0051862705}
+  m_Center: {x: -0.000119523975, y: 1.9178673e-10, z: -0.0019400138}

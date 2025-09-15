@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 8444919261218109893}
   - component: {fileID: 290845503994144316}
   - component: {fileID: 20824014220408521}
+  - component: {fileID: 5019714367097834447}
   m_Layer: 0
   m_Name: Chimenea_Low
   m_TagString: Untagged
@@ -172,6 +173,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5019714367097834447
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325451676915495004}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.947115, y: 1.5293058, z: 0.8631228}
+  m_Center: {x: -0.00000023841858, y: 0.7786451, z: -0.26}
 --- !u!1 &1949590044144615801
 GameObject:
   m_ObjectHideFlags: 0

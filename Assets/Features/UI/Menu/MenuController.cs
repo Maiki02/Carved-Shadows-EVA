@@ -12,6 +12,10 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Image fadeImage; // Imagen negra para fade out del menú
     [SerializeField] private float menuFadeOutDuration = 2f;
     
+    [Header("Audio del Menú")]
+    [SerializeField] private AudioClip menuMusicClip; // Clip de música para el menú
+    [SerializeField] private float menuMusicVolume = 0.5f; // Volumen de la música del menú
+    
     [Header("Cámaras Cinemachine")]
     [SerializeField] private CinemachineCamera menuVirtualCamera;
     [SerializeField] private CinemachineCamera playerVirtualCamera;
@@ -22,6 +26,7 @@ public class MenuController : MonoBehaviour
     [Header("Managers")]
     private IntroManager introManager;
     private MenuInitializer initializer;
+    private AudioSource menuAudioSource; // AudioSource para la música del menú
 
 
     [Header("Configuración")]
@@ -31,6 +36,9 @@ public class MenuController : MonoBehaviour
     {
         initializer = FindFirstObjectByType<MenuInitializer>();
         introManager = FindFirstObjectByType<IntroManager>();
+
+        // Inicializar AudioSource para la música del menú
+        InitializeMenuAudioSource();
 
         // Inicializar referencias de Cinemachine si no están asignadas
         InitializeCinemachineReferences();
@@ -93,6 +101,33 @@ public class MenuController : MonoBehaviour
             Debug.LogWarning("[MenuController] Cámara virtual del player no encontrada");
     }
 
+    private void InitializeMenuAudioSource()
+    {
+        // Buscar o crear AudioSource para la música del menú
+        menuAudioSource = GetComponent<AudioSource>();
+        if (menuAudioSource == null)
+        {
+            menuAudioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        // Configurar el AudioSource para música de fondo
+        menuAudioSource.clip = menuMusicClip;
+        menuAudioSource.volume = menuMusicVolume;
+        menuAudioSource.loop = true;
+        menuAudioSource.playOnAwake = false;
+
+        // Reproducir la música del menú si hay un clip asignado
+        if (menuMusicClip != null)
+        {
+            menuAudioSource.Play();
+            Debug.Log("[MenuController] Música del menú iniciada");
+        }
+        else
+        {
+            Debug.LogWarning("[MenuController] No se ha asignado un clip de música para el menú");
+        }
+    }
+
     /// <summary>
     /// Fuerza un corte instantáneo en Cinemachine sin transición
     /// </summary>
@@ -138,11 +173,7 @@ public class MenuController : MonoBehaviour
     private IEnumerator FadeOutMenu()
     {
         
-        // Detener música del menú
-        if (AudioController.Instance != null)
-            AudioController.Instance.StopMusic();
-        
-        // Hacer fade a negro con la imagen del menú
+        // Hacer fade a negro con la imagen del menú Y fade out de la música simultáneamente
         if (fadeImage != null)
         {
             fadeImage.enabled = true;
@@ -150,17 +181,41 @@ public class MenuController : MonoBehaviour
             Color endColor = new Color(0, 0, 0, 1);
             fadeImage.color = startColor;
             
+            // Valores iniciales para el fade de música
+            float initialMusicVolume = menuAudioSource != null ? menuAudioSource.volume : 0f;
+            
             float elapsed = 0f;
             while (elapsed < menuFadeOutDuration)
             {
                 elapsed += Time.deltaTime;
-                float alpha = Mathf.Lerp(0f, 1f, elapsed / menuFadeOutDuration);
+                float progress = elapsed / menuFadeOutDuration;
+                
+                // Fade visual
+                float alpha = Mathf.Lerp(0f, 1f, progress);
                 fadeImage.color = new Color(0, 0, 0, alpha);
+                
+                // Fade de audio
+                if (menuAudioSource != null && menuAudioSource.isPlaying)
+                {
+                    menuAudioSource.volume = Mathf.Lerp(initialMusicVolume, 0f, progress);
+                }
+                
                 yield return null;
             }
             
             fadeImage.color = endColor;
         }
+        
+        // Detener completamente la música del menú
+        if (menuAudioSource != null && menuAudioSource.isPlaying)
+        {
+            menuAudioSource.Stop();
+            Debug.Log("[MenuController] Música del menú detenida");
+        }
+        
+        // Detener música del AudioController (por compatibilidad)
+        if (AudioController.Instance != null)
+            AudioController.Instance.StopMusic();
         
         // Desactivar el menú
         if (menuRoot != null)
@@ -187,7 +242,7 @@ public class MenuController : MonoBehaviour
             // EJECUTAR TODO EN PARALELO - Sin yield return para que no esperen
             StartCoroutine(introManager.ShowIntroText());        // Texto: inmediato
             StartCoroutine(introManager.StartRainAfterDelay());  // Lluvia: después de 2s
-            StartCoroutine(introManager.StartScreamsAfterDelay()); // Gritos: después de 6s
+            //StartCoroutine(introManager.StartScreamsAfterDelay()); // Gritos: después de 6s
 
             // Esperar la duración total de la intro
             float totalDuration = introManager.GetTotalIntroDuration();

@@ -7,8 +7,8 @@ public class IntroManager : MonoBehaviour
     [Header("Configuración de Texto")]
     [SerializeField] private string introText = "La noche se oscurece... El día se aclara...";
     [SerializeField] public float textFadeInDuration = 10f;
-    [SerializeField] private float textDisplayDuration = 4f;
-    [SerializeField] private float textFadeOutDuration = 3f;
+    [SerializeField] private float textDisplayDuration = 10f;
+    [SerializeField] private float textFadeOutDuration = 5f;
     [SerializeField] private float textSize = 48f;
 
     [Header("Audio - Lluvia")]
@@ -115,7 +115,7 @@ public class IntroManager : MonoBehaviour
         if (screamsAudioSource != null && screamsAudioSource.isPlaying)
         {
             float targetVolume = screamsMaxVolume * 1.5f; // Aumentar 50% más
-            yield return FadeAudioVolume(screamsAudioSource, screamsAudioSource.volume, targetVolume, 2f);
+            yield return FadeAudioVolume(rainAudioSource, rainAudioSource.volume, targetVolume, 2f);
         }
         
         yield return new WaitForSeconds(1f); // Esperar un poco más para el efecto dramático

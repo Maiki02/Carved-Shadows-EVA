@@ -1,5 +1,7 @@
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.IO;
 using UnityEngine.Audio;
 using System.Linq;
@@ -18,6 +20,7 @@ public class SoundEventCreator : MonoBehaviour
     [ContextMenu("Generate SoundEvents")]
     public void GenerateSoundEvents()
     {
+#if UNITY_EDITOR
         // Asegurar que la carpeta de Events existe
         if (!AssetDatabase.IsValidFolder(eventsFolder))
         {
@@ -55,5 +58,8 @@ public class SoundEventCreator : MonoBehaviour
         AssetDatabase.Refresh();
 
         Debug.Log($"Se generaron {files.Length} SoundEvent ScriptableObjects.");
+#else
+        Debug.LogWarning("Esta función solo está disponible en el Editor de Unity.");
+#endif
     }
 }

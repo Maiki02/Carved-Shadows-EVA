@@ -9,6 +9,9 @@ public class AmbientSoundTrigger : MonoBehaviour
     [Tooltip("Tag del jugador que activa el trigger.")]
     public string playerTag = "Player";
 
+    [Tooltip("¿El sonido se reproduce cada vez que el jugador pasa? (si no, suena solo una vez)")]
+    public bool playEveryTime = true;
+
     private AudioSource audioSource;
     private bool hasPlayed = false;
 
@@ -32,9 +35,14 @@ public class AmbientSoundTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (hasPlayed) return;
         if (!other.CompareTag(playerTag)) return;
         if (audioSource == null) return;
+
+        // Caso 1: solo una vez
+        if (!playEveryTime && hasPlayed) return;
+
+        // Caso 2: varias veces, pero no reiniciar si ya está sonando
+        if (playEveryTime && audioSource.isPlaying) return;
 
         audioSource.Play();
         hasPlayed = true;

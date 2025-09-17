@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a4570424cc82cc4db5fc593aaeca324, type: 3}
   m_Name: SE_sfx_player_pasos_alfombra_beat_03
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: 2d24505daaf0ad044bab1d3b967d67e2, type: 3}
-  volume: 1
+  clip: {fileID: 8300000, guid: c730510af5933a349a43599cebf7c343, type: 3}
+  volume: 0.6
   spatialBlend: 0
   mixerGroup: {fileID: 7443974156611640802, guid: 1992caae9c51c244abb1dc3bfe4b0971, type: 2}
   loop: 0

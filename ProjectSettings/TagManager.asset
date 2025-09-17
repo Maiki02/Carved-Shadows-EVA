@@ -9,6 +9,7 @@ TagManager:
   - CameraPhone
   - InventoryHotbar
   - Alfombra
+  - Escalera
   layers:
   - Default
   - TransparentFX

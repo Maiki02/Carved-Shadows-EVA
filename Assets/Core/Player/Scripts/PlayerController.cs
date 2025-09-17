@@ -283,6 +283,8 @@ public class PlayerController : MonoBehaviour
         float t = Mathf.Clamp01(dizzyTimer / Mathf.Max(0.0001f, dizzyDuration));
         float weight = dizzyCurve.Evaluate(t) * dizzyIntensity;
 
+        AnxietyFXController.Instance?.SetWeight(weight);
+
         // ROLL (Dutch) con deriva + micro
         float rollDrift = (Mathf.PerlinNoise(seedRoll, Time.time * rollDriftFreq) * 2f - 1f);
         float rollMicro = (Mathf.PerlinNoise(seedRoll + 33.7f, Time.time * rollMicroFreq) * 2f - 1f) * 0.35f;
@@ -534,7 +536,7 @@ public class PlayerController : MonoBehaviour
         // En CM3 no existe VirtualCameraGameObject; para FPS alcanza con la cámara real
         return Camera.main != null ? Camera.main.transform : camTransform;
     }
-    
+
     /// <summary>
     /// Inicia un mareo “infinito” que solo se limpia manteniendo [ESPACIO] durante 'holdSeconds'.
     /// Muestra un diálogo persistente con el prompt (sin tocar tu DialogController).
@@ -548,6 +550,7 @@ public class PlayerController : MonoBehaviour
             dizzyHoldCR = null;
         }
         dizzyHoldCR = StartCoroutine(DizzyHoldRoutine(Mathf.Clamp01(intensity), Mathf.Max(0.1f, holdSeconds), prompt));
+        AnxietyFXController.Instance?.BeginAnxiety();
     }
 
     /// Limpia inmediatamente el mareo y oculta el mensaje.
@@ -613,6 +616,7 @@ public class PlayerController : MonoBehaviour
 
         isDizzy = false;
         dizzyTimer = 0f;
+        AnxietyFXController.Instance?.EndAnxiety();
 
         if (mainCam != null)
         {

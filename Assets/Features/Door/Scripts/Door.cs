@@ -10,7 +10,7 @@ public class Door : ObjectInteract
     [Header("Knocking Loop")]
     [SerializeField] private float knockingInterval = 3f;
     private Coroutine knockingLoopCoroutine;
-    
+
     [Header("Audio Clips")]
     [SerializeField] private AudioClip openDoorClip;
     [SerializeField] private AudioClip closeDoorClip;
@@ -54,11 +54,19 @@ public class Door : ObjectInteract
 
     private Quaternion initialRotation;
     private Coroutine doorCoroutine;
-    
+
     // Variables para puertas cerradas
     private bool isPlayingClosedDoorSequence = false;
     private bool hasCompletedClosedDoorSequence = false;
     private Coroutine closedDoorSequenceCoroutine;
+
+    [Header("Anti-spam puerta cerrada")]
+    [SerializeField] private float lockedInteractionCooldown = 0.8f;
+    [SerializeField] private bool blockHoverDuringLockedCooldown = true;
+
+    private bool isLockedCooldown = false;
+    private Coroutine lockedCooldownCoroutine;
+
 
     [Header("Events")]
     public UnityEvent OnClosedDoorReviewedUnity;                 // para enganchar desde Inspector
@@ -116,11 +124,15 @@ public class Door : ObjectInteract
 
     public override void OnHoverEnter()
     {
+        if (type == TypeDoorInteract.Close && isLockedCooldown) return;
+
         if (type != TypeDoorInteract.OpenAndClose && type != TypeDoorInteract.Close) return;
         if (isAnimating && blockInteractionWhileAnimating) return;
         if (type == TypeDoorInteract.None) return;
+
         base.OnHoverEnter();
     }
+
 
     public override void OnHoverExit()
     {
@@ -138,7 +150,7 @@ public class Door : ObjectInteract
             HandleClosedDoorInteraction();
             return;
         }
-        
+
         // Normal (abrir/cerrar)
         isDoorOpen = !isDoorOpen;
         ValidateDoorWithAnimation();
@@ -296,7 +308,7 @@ public class Door : ObjectInteract
         Vector3 targetEuler = startRot.eulerAngles;
         targetEuler.y = 0f;
         Quaternion targetRot = Quaternion.Euler(targetEuler);
-            
+
         float elapsed = 0f;
 
         while (elapsed < slowCloseDuration)
@@ -307,7 +319,7 @@ public class Door : ObjectInteract
             elapsed += Time.deltaTime;
             yield return null;
         }
-        
+
         transform.rotation = targetRot;
 
         SetAnimating(false);
@@ -342,22 +354,27 @@ public class Door : ObjectInteract
 
     private void HandleClosedDoorInteraction()
     {
-        // Siempre reproducir sonido de cerrada
-        if (lockedDoorClip != null)
-            PlayDoorAudio(lockedDoorClip);
-
-        if (isPlayingClosedDoorSequence)
+        if (isLockedCooldown)
         {
-            Debug.Log("[Door] Secuencia ya en progreso, ignorando interacción");
             return;
         }
 
         if (hasCompletedClosedDoorSequence && !closedDoorDialogData.ShouldAllowReinteraction())
         {
-            Debug.Log("[Door] Secuencia ya completada y no se permite reinteracción");
             this.SetType(TypeDoorInteract.None);
             return;
         }
+
+        if (isPlayingClosedDoorSequence)
+        {
+            BeginLockedCooldown();
+            return;
+        }
+
+        if (lockedDoorClip != null)
+            PlayDoorAudio(lockedDoorClip);
+
+        BeginLockedCooldown();
 
         if (closedDoorSequenceCoroutine != null)
             StopCoroutine(closedDoorSequenceCoroutine);
@@ -365,20 +382,21 @@ public class Door : ObjectInteract
         closedDoorSequenceCoroutine = StartCoroutine(PlayClosedDoorSequence());
     }
 
+
     private IEnumerator PlayClosedDoorSequence()
     {
         isPlayingClosedDoorSequence = true;
-        
+
         if (lockedDoorClip != null)
             yield return new WaitForSeconds(lockedDoorClip.length);
-        
+
         AudioClip dialogAudio = closedDoorDialogData.GetDialogAudioClip();
         if (dialogAudio != null)
         {
             PlayDoorAudio(dialogAudio);
             yield return new WaitForSeconds(0.2f);
         }
-        
+
         DialogData[] messages = closedDoorDialogData.GetAllDialogMessages();
         for (int i = 0; i < messages.Length; i++)
         {
@@ -389,11 +407,11 @@ public class Door : ObjectInteract
             if (i < messages.Length - 1)
                 yield return new WaitForSeconds(0.2f);
         }
-        
+
         hasCompletedClosedDoorSequence = true;
         isPlayingClosedDoorSequence = false;
         closedDoorSequenceCoroutine = null;
-        
+
         if (!closedDoorDialogData.ShouldAllowReinteraction())
         {
             type = TypeDoorInteract.None;
@@ -426,4 +444,28 @@ public class Door : ObjectInteract
             PlayDoorAudio(closeDoorClip);
         }
     }
+
+    private void BeginLockedCooldown(float? duration = null)
+    {
+        float d = duration ?? lockedInteractionCooldown;
+
+        if (lockedCooldownCoroutine != null)
+            StopCoroutine(lockedCooldownCoroutine);
+
+        lockedCooldownCoroutine = StartCoroutine(LockedCooldownCoroutine(d));
+    }
+
+    private IEnumerator LockedCooldownCoroutine(float duration)
+    {
+        isLockedCooldown = true;
+
+        if (blockHoverDuringLockedCooldown)
+            ForceUnhover();
+
+        yield return new WaitForSeconds(duration);
+
+        isLockedCooldown = false;
+        lockedCooldownCoroutine = null;
+    }
+
 }

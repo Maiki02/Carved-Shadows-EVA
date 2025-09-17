@@ -12,6 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/LoadingScene.unity
     guid: faad3c1aaa29180479901afa580a237d
   - enabled: 1
+    path: Assets/Scenes/MenuScene.unity
+    guid: ae589d66cf945614b989d47bf1d2d71a
+  - enabled: 1
+    path: Assets/Scenes/IntroScene.unity
+    guid: d76eb0beec7752d4e87b70f6ed303d3c
+  - enabled: 1
     path: Assets/Scenes/Loops/Loop_01.unity
     guid: 90686f16a740c8a428fed6b0617cc06a
   - enabled: 1

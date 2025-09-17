@@ -116,4 +116,9 @@ public class SceneController : MonoBehaviour
 
     }
 
+    public bool IsInScene(string sceneName)
+    {
+        return SceneManager.GetActiveScene().name == sceneName;
+    }
+
 }

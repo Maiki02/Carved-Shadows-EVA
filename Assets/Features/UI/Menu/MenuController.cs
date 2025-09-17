@@ -11,12 +11,153 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject menuRoot;
     [SerializeField] private Image fadeImage; // Imagen negra para fade out del menú
     [SerializeField] private float menuFadeOutDuration = 2f;
-    
+
     [Header("Audio del Menú")]
     [SerializeField] private AudioClip menuMusicClip; // Clip de música para el menú
     [SerializeField] private float menuMusicVolume = 0.5f; // Volumen de la música del menú
+    private AudioSource menuAudioSource; // AudioSource para la música del menú
+
+    [Header("Siguiente Escena")]
+    [SerializeField] private string nextSceneName = "IntroScene"; // Nombre de la escena de intro o juego
+
+    private void Awake()
+    {
+        this.InitializeMenuAudioSource();
+
+        this.InitializeFadeImage();
+    }
+
+    private void InitializeFadeImage()
+    {
+        // Asegurar que la imagen de fade esté inicialmente invisible
+        if (fadeImage != null)
+        {
+            fadeImage.color = new Color(0, 0, 0, 0);
+            fadeImage.enabled = false;
+        }
+    }
+
+
+    private void InitializeMenuAudioSource()
+    {
+        // Buscar o crear AudioSource para la música del menú
+        menuAudioSource = GetComponent<AudioSource>();
+        if (menuAudioSource == null)
+        {
+            menuAudioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        // Configurar el AudioSource para música de fondo
+        menuAudioSource.clip = menuMusicClip;
+        menuAudioSource.volume = menuMusicVolume;
+        menuAudioSource.loop = true;
+        menuAudioSource.playOnAwake = false;
+
+        // Reproducir la música del menú si hay un clip asignado
+        if (menuMusicClip != null)
+        {
+            menuAudioSource.Play();
+            Debug.Log("[MenuController] Música del menú iniciada");
+        }
+        else
+        {
+            Debug.LogWarning("[MenuController] No se ha asignado un clip de música para el menú");
+        }
+    }
+
+    public void OnStartButton()
+    {
+        StartCoroutine(CompleteGameStartSequence());
+    }
+
+    private IEnumerator CompleteGameStartSequence()
+    {
+        // 1. FADE OUT DEL MENÚ (pantalla negra)
+        yield return StartCoroutine(FadeOutMenu());
+
+        // 2. CARGAR LA SIGUIENTE ESCENA (intro o juego)
+        SceneController.Instance.LoadScene(nextSceneName);
+    }
+
+    private IEnumerator FadeOutMenu()
+    {
+        
+        // Hacer fade a negro con la imagen del menú Y fade out de la música simultáneamente
+        if (fadeImage != null)
+        {
+            fadeImage.enabled = true;
+            Color startColor = new Color(0, 0, 0, 0);
+            Color endColor = new Color(0, 0, 0, 1);
+            fadeImage.color = startColor;
+            
+            // Valores iniciales para el fade de música
+            float initialMusicVolume = menuAudioSource != null ? menuAudioSource.volume : 0f;
+            
+            float elapsed = 0f;
+            while (elapsed < menuFadeOutDuration)
+            {
+                elapsed += Time.deltaTime;
+                float progress = elapsed / menuFadeOutDuration;
+                
+                // Fade visual
+                float alpha = Mathf.Lerp(0f, 1f, progress);
+                fadeImage.color = new Color(0, 0, 0, alpha);
+                
+                // Fade de audio
+                if (menuAudioSource != null && menuAudioSource.isPlaying)
+                {
+                    menuAudioSource.volume = Mathf.Lerp(initialMusicVolume, 0f, progress);
+                }
+                
+                yield return null;
+            }
+            
+            fadeImage.color = endColor;
+        }
+        
+        // Detener completamente la música del menú
+        if (menuAudioSource != null && menuAudioSource.isPlaying)
+        {
+            menuAudioSource.Stop();
+            Debug.Log("[MenuController] Música del menú detenida");
+        }
+        
+        // Detener música del AudioController (por compatibilidad)
+        if (AudioController.Instance != null)
+            AudioController.Instance.StopMusic();
+        
+        // Desactivar el menú
+        if (menuRoot != null)
+            menuRoot.SetActive(false);
+        
+        // IMPORTANTE: Desactivar la fadeImage del menú y activar la blackImage del FadeManager
+        if (fadeImage != null)
+        {
+            fadeImage.enabled = false;
+        }
+    }
+
+    public void OnConfigurationButton()
+    {
+        // Mostrar la configuración usando el Singleton
+        if (ConfigController.Instance != null)
+        {
+            ConfigController.Instance.ShowConfiguration();
+        }
+        else
+        {
+            Debug.LogWarning("ConfigController.Instance no encontrado en la escena del menú");
+        }
+    }
     
-    [Header("Cámaras Cinemachine")]
+
+    public void OnExitButton()
+    {
+        Debug.Log("Saliendo del juego...");
+        Application.Quit();
+    }
+
+    /*[Header("Cámaras Cinemachine")]
     [SerializeField] private CinemachineCamera menuVirtualCamera;
     [SerializeField] private CinemachineCamera playerVirtualCamera;
     [SerializeField] private CinemachineBrain cinemachineBrain;
@@ -26,7 +167,6 @@ public class MenuController : MonoBehaviour
     [Header("Managers")]
     private IntroManager introManager;
     private MenuInitializer initializer;
-    private AudioSource menuAudioSource; // AudioSource para la música del menú
 
 
     [Header("Configuración")]
@@ -226,7 +366,6 @@ public class MenuController : MonoBehaviour
         {
             fadeImage.enabled = false;
         }
-        
     }
 
     private IEnumerator ExecuteIntro()
@@ -286,12 +425,6 @@ public class MenuController : MonoBehaviour
             initializer.ShowCanvasToActivate();
 
             GameFlowManager.Instance.SetTransitionStatus(false);
-
-            // Hacer fade in para mostrar el juego usando el FadeManager
-            /*      if (FadeManager.Instance != null)
-            {
-                yield return StartCoroutine(FadeManager.Instance.FadeInCoroutine(3f));
-            }*/
 
             // NUEVA FUNCIONALIDAD: Iniciar secuencia de despertar del protagonista
             if (playerGO != null)
@@ -360,5 +493,6 @@ public class MenuController : MonoBehaviour
     {
         Debug.Log("Saliendo del juego...");
         Application.Quit();
-    }
+    }*/
+
 }

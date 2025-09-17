@@ -108,15 +108,19 @@ public class ConfigController : MonoBehaviour
     {
         if (configPanel) configPanel.SetActive(true);
 
-        // Si está en pausa, ocultar el pause menu
-        if (GameController.Instance != null && GameController.Instance.IsPaused())
+        Debug.Log("Configuración mostrada");
+
+
+        if (SceneController.Instance.IsInScene("MenuScene"))
         {
-            PauseController.Instance?.SetShowPauseUI(false);
-        }
-        // Si NO está en pausa, ocultar el menú principal
-        else if (mainMenuPanel)
-        {
+            Debug.Log("Ocultamos menú principal");
+            //Ocultamos el Canvas, no el objeto padre porque tiene la música sonando
             mainMenuPanel.SetActive(false);
+        } // Si está en pausa, ocultar el pause menu
+        else if (GameController.Instance != null && GameController.Instance.IsPaused())
+        {
+            Debug.Log("Ocultamos menú de pausa");
+            PauseController.Instance?.SetShowPauseUI(false);
         }
 
         // Navegación UI + foco inicial

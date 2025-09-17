@@ -348,6 +348,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 722328918246849305}
     m_Modifications:
+    - target: {fileID: 5866675026765710079, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
+      propertyPath: Lens.FieldOfView
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 6062018077190977733, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
       propertyPath: m_Name
       value: Door_NextLoop

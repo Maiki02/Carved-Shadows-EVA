@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SE_sfx_player_pasos_alfombra_paso_01
   m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: 2e6d9e5111ce9444d8d722414a9830f7, type: 3}
-  volume: 1
+  volume: 1.3
   spatialBlend: 0
   mixerGroup: {fileID: 7810870113594945283, guid: 1992caae9c51c244abb1dc3bfe4b0971, type: 2}
   loop: 0

@@ -105,6 +105,9 @@ public class PlayerController : MonoBehaviour
     private bool dizzyHoldActive;
     private const float DIZZY_VERY_LONG = 9999f;
 
+    //Getter para avisarle a los sonidos de pasos y respiración que no sigan cuando el player queda disable
+    public bool IsInteracting => !controlesActivos;
+
     void OnEnable()
     {
         moveAction?.action.Enable();

@@ -10,6 +10,7 @@ TagManager:
   - InventoryHotbar
   - Alfombra
   - Escalera
+  - CanvasPoint
   layers:
   - Default
   - TransparentFX

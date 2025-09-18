@@ -15,9 +15,9 @@ public class CrosshairAnimator : MonoBehaviour
     [Header("Configuración de Animación")]
     [SerializeField] private float animationDuration = 0.8f;
     [SerializeField] private float normalInnerSize = 4f;     // Tamaño normal de la imagen interior
-    [SerializeField] private float expandedInnerSize = 16f;  // Tamaño expandido de la imagen interior
+    [SerializeField] private float expandedInnerSize = 4f;  // Tamaño expandido de la imagen interior (reducido de 16f)
     [SerializeField] private float normalOuterSize = 8f;     // Tamaño normal de la imagen exterior
-    [SerializeField] private float expandedOuterSize = 24f;  // Tamaño expandido de la imagen exterior
+    [SerializeField] private float expandedOuterSize = 6f;  // Tamaño expandido de la imagen exterior (reducido de 24f)
     [SerializeField] private AnimationCurve scaleCurve = AnimationCurve.EaseInOut(0, 1, 1, 1.2f);
     
     [Header("Configuración Visual")]
@@ -166,17 +166,21 @@ public class CrosshairAnimator : MonoBehaviour
         Vector2 initialOuterSize = outerRect != null ? outerRect.sizeDelta : originalOuterSize;
         Vector2 initialInnerSize = innerRect != null ? innerRect.sizeDelta : originalInnerSize;
         
+        // Colores iniciales transparentes
+        Color initialOuterColor = new Color(originalOuterColor.r, originalOuterColor.g, originalOuterColor.b, 0f);
+        Color initialInnerColor = new Color(originalInnerColor.r, originalInnerColor.g, originalInnerColor.b, 0f);
+        
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
             float progress = elapsedTime / duration;
             
-            // Transición de colores
+            // Transición de colores desde transparente
             if (outerImage != null)
-                outerImage.color = Color.Lerp(originalOuterColor, interactableOuterColor, progress);
+                outerImage.color = Color.Lerp(initialOuterColor, interactableOuterColor, progress);
             
             if (innerImage != null)
-                innerImage.color = Color.Lerp(originalInnerColor, hollowColor, progress);
+                innerImage.color = Color.Lerp(initialInnerColor, hollowColor, progress);
             
             // Transición de tamaños
             if (outerRect != null)
@@ -212,17 +216,21 @@ public class CrosshairAnimator : MonoBehaviour
         Vector2 currentOuterSize = outerRect != null ? outerRect.sizeDelta : Vector2.one * expandedOuterSize;
         Vector2 currentInnerSize = innerRect != null ? innerRect.sizeDelta : Vector2.one * expandedInnerSize;
         
+        // Colores finales transparentes
+        Color finalOuterColor = new Color(originalOuterColor.r, originalOuterColor.g, originalOuterColor.b, 0f);
+        Color finalInnerColor = new Color(originalInnerColor.r, originalInnerColor.g, originalInnerColor.b, 0f);
+        
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
             float progress = elapsedTime / duration;
             
-            // Transición de colores
+            // Transición de colores hacia transparente
             if (outerImage != null)
-                outerImage.color = Color.Lerp(interactableOuterColor, originalOuterColor, progress);
+                outerImage.color = Color.Lerp(interactableOuterColor, finalOuterColor, progress);
             
             if (innerImage != null)
-                innerImage.color = Color.Lerp(hollowColor, originalInnerColor, progress);
+                innerImage.color = Color.Lerp(hollowColor, finalInnerColor, progress);
             
             // Transición de tamaños de vuelta al original
             if (outerRect != null)
@@ -285,8 +293,9 @@ public class CrosshairAnimator : MonoBehaviour
     /// </summary>
     private void SetNormalState()
     {
-        if (outerImage != null) outerImage.color = originalOuterColor;
-        if (innerImage != null) innerImage.color = originalInnerColor;
+        // Hacer las imágenes completamente transparentes cuando no hay interacción
+        if (outerImage != null) outerImage.color = new Color(originalOuterColor.r, originalOuterColor.g, originalOuterColor.b, 0f);
+        if (innerImage != null) innerImage.color = new Color(originalInnerColor.r, originalInnerColor.g, originalInnerColor.b, 0f);
         
         if (outerRect != null) outerRect.sizeDelta = originalOuterSize;
         if (innerRect != null) innerRect.sizeDelta = Vector2.one * normalInnerSize;

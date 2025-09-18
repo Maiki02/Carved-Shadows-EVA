@@ -162,7 +162,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1125,6 +1125,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3040840924770859432}
     m_Modifications:
+    - target: {fileID: 96200405419168638, guid: c6c13b18adea1ff4e926d1b488c47d41, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 96200405419168638, guid: c6c13b18adea1ff4e926d1b488c47d41, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 96200405419168638, guid: c6c13b18adea1ff4e926d1b488c47d41, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 96200405419168638, guid: c6c13b18adea1ff4e926d1b488c47d41, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 717.75977
+      objectReference: {fileID: 0}
+    - target: {fileID: 96200405419168638, guid: c6c13b18adea1ff4e926d1b488c47d41, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 52.256
+      objectReference: {fileID: 0}
+    - target: {fileID: 96200405419168638, guid: c6c13b18adea1ff4e926d1b488c47d41, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 26.127998
+      objectReference: {fileID: 0}
     - target: {fileID: 4168178460498154137, guid: c6c13b18adea1ff4e926d1b488c47d41, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1208,6 +1232,26 @@ PrefabInstance:
     - target: {fileID: 5303159214262717498, guid: c6c13b18adea1ff4e926d1b488c47d41, type: 3}
       propertyPath: m_Name
       value: DialogText
+      objectReference: {fileID: 0}
+    - target: {fileID: 6566511771991812527, guid: c6c13b18adea1ff4e926d1b488c47d41, type: 3}
+      propertyPath: m_fontSize
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6566511771991812527, guid: c6c13b18adea1ff4e926d1b488c47d41, type: 3}
+      propertyPath: m_lineSpacing
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6566511771991812527, guid: c6c13b18adea1ff4e926d1b488c47d41, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6566511771991812527, guid: c6c13b18adea1ff4e926d1b488c47d41, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 6566511771991812527, guid: c6c13b18adea1ff4e926d1b488c47d41, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1368,6 +1412,10 @@ PrefabInstance:
     - target: {fileID: 6486714686432364747, guid: 7a4e2a57a68b0ad47b003895c5ef8f9b, type: 3}
       propertyPath: m_Name
       value: PointController
+      objectReference: {fileID: 0}
+    - target: {fileID: 6486714686432364747, guid: 7a4e2a57a68b0ad47b003895c5ef8f9b, type: 3}
+      propertyPath: m_TagString
+      value: CanvasPoint
       objectReference: {fileID: 0}
     - target: {fileID: 6719433913820227167, guid: 7a4e2a57a68b0ad47b003895c5ef8f9b, type: 3}
       propertyPath: m_Pivot.x

@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -95,6 +96,7 @@ public class PauseController : MonoBehaviour
         GameController.Instance.SetGameStarted(false);
         GameController.Instance.ResetValues();
         GameFlowManager.Instance.ResetGameFlow();
+        SceneController.Instance.LoadMenuScene();
     }
 
     public void TogglePauseMenu()

@@ -33,6 +33,22 @@ public class PlayerBreathing : MonoBehaviour
     {
         if (controller == null) return;
 
+        // 🔹 Nuevo: chequeo de interacción
+        PlayerController playerCtrl = controller.GetComponent<PlayerController>();
+        if (playerCtrl != null && playerCtrl.IsInteracting)
+        {
+            // Detener todos los AudioSources de respiración mientras interactúa
+            if (breathingSources != null)
+            {
+                foreach (AudioSource source in breathingSources)
+                {
+                    if (source.isPlaying) source.Stop();
+                }
+            }
+            breathTimer = 0f; // reiniciar contador mientras está quieto
+            return;
+        }
+
         // Verificamos si el jugador está caminando
         bool isMoving = controller.velocity.magnitude > movementThreshold;
 
@@ -58,7 +74,9 @@ public class PlayerBreathing : MonoBehaviour
         if (breathingSources == null || breathingSources.Length == 0) return;
 
         int randomIndex = Random.Range(0, breathingSources.Length);
-        if (!breathingSources[randomIndex].isPlaying) // para que no se corte el audio
+
+        // reproducir solo si no está sonando ese source
+        if (!breathingSources[randomIndex].isPlaying)
             breathingSources[randomIndex].Play();
     }
 
@@ -68,4 +86,3 @@ public class PlayerBreathing : MonoBehaviour
         nextBreathTime = Random.Range(minTimeBetweenBreaths, maxTimeBetweenBreaths);
     }
 }
-

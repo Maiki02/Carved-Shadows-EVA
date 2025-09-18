@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 6149958280514082870}
   m_Layer: 0
   m_Name: SM_Carpet
-  m_TagString: Untagged
+  m_TagString: Alfombra
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

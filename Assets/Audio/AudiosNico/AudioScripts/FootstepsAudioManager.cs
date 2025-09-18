@@ -48,19 +48,16 @@ public class FootstepAudioManager : MonoBehaviour
     {
         if (characterController == null) return;
 
-        bool isWalking;
+        // 🔹 Nuevo: si el player está interactuando, no reproducir pasos
+        if (characterController.GetComponent<PlayerController>().IsInteracting)
+        {
+            pasosSource.Stop();
+            beatsSource.Stop();
+            return;
+        }
 
-        if (enEscaleras)
-        {
-            isWalking = characterController.velocity.magnitude > 0.1f && characterController.isGrounded;
-            stepInterval = stairStepInterval;
-        }
-        else
-        {
-            Vector3 horizontalVelocity = new Vector3(characterController.velocity.x, 0, characterController.velocity.z);
-            isWalking = horizontalVelocity.magnitude > 0.1f && characterController.isGrounded;
-            stepInterval = defaultStepInterval;
-        }
+        Vector3 horizontalVelocity = new Vector3(characterController.velocity.x, 0, characterController.velocity.z);
+        bool isWalking = horizontalVelocity.magnitude > 0.1f && characterController.isGrounded;
 
         if (isWalking)
         {

@@ -160,6 +160,39 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!243 &-6600121435858006255
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Flicker
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 632213071108a514d8a5f90e316587be
+  m_Children: []
+  m_Volume: e8deaeb28655ff44aa81edc52c65b1a2
+  m_Pitch: 2ba0eb472467fa04e909ea60108c5f5a
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -6581385242378690864}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!244 &-6581385242378690864
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: de58087922479444bbaf955396570212
+  m_EffectName: Attenuation
+  m_MixLevel: b834aaa13a237a741bfc925bddaa7d13
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &-6377556067013324254
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -448,6 +481,8 @@ AudioMixerController:
     - 9f7c67caf2f2042479738b55d70857a8
     - b47ec27e5bd80f145880e3061c3ee276
     - ea1469b64ab178049bb69fa2722a2094
+    - bad2fe8ad4fd8ff4b931c8c89059d64f
+    - 632213071108a514d8a5f90e316587be
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -464,6 +499,8 @@ AudioMixerGroupController:
   - {fileID: 3591855804584871085}
   - {fileID: -8420166299203472491}
   - {fileID: -4843048443373225592}
+  - {fileID: 9222492212917823928}
+  - {fileID: -6600121435858006255}
   m_Volume: 8541ed067072d7a4db6753dcd7cd5298
   m_Pitch: 0eccd74acf7b9654ba6097570219767f
   m_Send: 00000000000000000000000000000000
@@ -497,19 +534,20 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 361e17a77964de94880eb6126c09c08c
   m_FloatValues:
+    2963f63170868ee47b01251884eeca94: -30.32013
     2a733c3193cc2fb40b7275dafaf2ef35: 0.8772599
     bac343e1d7547314ab6b9943414b8573: 1
     f69d50244e67c624c8bc0398e60a75c1: -0.04203648
-    5efc3a3418299d243a05a729eb6f40fb: -4.1973686
-    e097756460df68c439b137f8c82c407f: -15.625075
+    5efc3a3418299d243a05a729eb6f40fb: -2.8723037
+    e097756460df68c439b137f8c82c407f: -17.294695
     8541ed067072d7a4db6753dcd7cd5298: 0.3229725
     97a6c5d6db0652f478d71760deaa654c: 16.3
-    49c8691795e56834b84a32b3919bbbfd: -20.840292
-    f35944671670d1a47a7a56198c4263ba: -42.72366
+    49c8691795e56834b84a32b3919bbbfd: -19.033487
+    f35944671670d1a47a7a56198c4263ba: -38.48602
     b367f8d7f7308b345b69ddb7391bd33f: -10.34521
     6354f11abeef9184a8628319bb5f4415: -24.162655
-    da5690cada015f345bec57f91f5f8d8f: -10.692411
-    e71ac45b421e276439194b159912e6f8: -1.0129166
+    da5690cada015f345bec57f91f5f8d8f: -10.002743
+    e71ac45b421e276439194b159912e6f8: -0.1365753
     6cfdc03c74a3be145a5073fb578850d7: 3.6
     3849955c05ad08c4f960ec5837746b00: 4.165108
     b8ea3d5ccc4978242bd02bd499883561: -5.4548836
@@ -628,6 +666,20 @@ AudioMixerEffectController:
   m_EffectID: d4fa0d8cae421844b8cdfda5afecdbd0
   m_EffectName: Attenuation
   m_MixLevel: 23f887b11f3502b40aaabeb211b0884f
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!244 &1564305844927792242
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: ba83c37e9a0880d44a31b7872481b3b2
+  m_EffectName: Attenuation
+  m_MixLevel: afa1bff52bb802a478b92b8cca2e6a69
   m_Parameters: []
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
@@ -1222,6 +1274,25 @@ AudioMixerGroupController:
   m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: -5985243129916037359}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!243 &9222492212917823928
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Pasos Alfombra Organic
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: bad2fe8ad4fd8ff4b931c8c89059d64f
+  m_Children: []
+  m_Volume: 2963f63170868ee47b01251884eeca94
+  m_Pitch: 379e55869a582b349ad59c7ee2f2ed0c
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: 1564305844927792242}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0

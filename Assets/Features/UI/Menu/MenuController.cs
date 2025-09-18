@@ -27,6 +27,13 @@ public class MenuController : MonoBehaviour
         this.InitializeFadeImage();
     }
 
+    private void Start()
+    {
+        //Mostramos el cursor
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     private void InitializeFadeImage()
     {
         // Asegurar que la imagen de fade esté inicialmente invisible

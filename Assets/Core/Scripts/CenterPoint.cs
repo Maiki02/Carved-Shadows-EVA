@@ -36,6 +36,9 @@ public class CrosshairAnimator : MonoBehaviour
     private bool isInteracting = false;
     private Coroutine animationCoroutine;
     
+    // Referencia al PlayerInteractor para validar consistencia
+    private PlayerInteractor playerInteractor;
+    
     // Código no utilizado - tamaños comentados
     // private Vector2 originalOuterSize;
     // private Vector2 originalInnerSize;
@@ -73,6 +76,13 @@ public class CrosshairAnimator : MonoBehaviour
         if (outerImage != null) originalOuterColor = outerImage.color;
         if (innerImage != null) originalInnerColor = innerImage.color;
         
+        // Buscar referencia al PlayerInteractor en la escena para validación de consistencia
+        playerInteractor = FindFirstObjectByType<PlayerInteractor>();
+        if (playerInteractor == null)
+        {
+            Debug.LogWarning("CrosshairAnimator: No se encontró PlayerInteractor en la escena. La validación de consistencia no funcionará.");
+        }
+        
         // Código no utilizado - guardado de tamaños comentado
         // if (outerRect != null) 
         // {
@@ -89,6 +99,46 @@ public class CrosshairAnimator : MonoBehaviour
         
         // Estado inicial
         SetNormalState();
+    }
+    
+    void Update()
+    {
+        // Validar consistencia entre el estado del crosshair y el PlayerInteractor
+        // Solo verificamos cada 30 frames (~0.5s a 60fps) para optimizar performance
+        if (Time.frameCount % 30 == 0)
+        {
+            ValidateConsistency();
+        }
+    }
+    
+    /// <summary>
+    /// Valida que el estado del crosshair sea consistente con el estado del PlayerInteractor
+    /// Auto-corrige cualquier inconsistencia detectada para evitar bugs de sincronización
+    /// </summary>
+    private void ValidateConsistency()
+    {
+        // Verificar si tenemos referencia válida al PlayerInteractor
+        if (playerInteractor == null) return;
+        
+        // Verificar si debería estar visible según el PlayerInteractor
+        // HasCurrentInteractable se actualiza automáticamente cuando currentInteractable cambia
+        bool shouldBeVisible = playerInteractor.HasCurrentInteractable;
+        
+        // Detectar inconsistencia: mira activa pero no hay objeto interactuable
+        if (isInteracting && !shouldBeVisible)
+        {
+            // BUG DETECTADO: Crosshair activo sin objeto interactuable
+            // Forzar desactivación para corregir el estado
+            StopInteractionAnimation();
+        }
+        // Detectar inconsistencia: mira inactiva pero hay objeto interactuable
+        else if (!isInteracting && shouldBeVisible)
+        {
+            // BUG DETECTADO: Hay objeto interactuable pero crosshair inactivo
+            // Forzar activación para corregir el estado
+            StartInteractionAnimation();
+        }
+        // Si ambos estados coinciden, no hay inconsistencia (comportamiento normal)
     }
     
     /// <summary>

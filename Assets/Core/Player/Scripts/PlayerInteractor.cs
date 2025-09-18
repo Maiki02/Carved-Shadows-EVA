@@ -12,6 +12,10 @@ public class PlayerInteractor : MonoBehaviour
 
     private IInteractable currentInteractable;
 
+    // Propiedad pública para que CrosshairAnimator pueda validar consistencia
+    // Se actualiza automáticamente cuando currentInteractable cambia
+    public bool HasCurrentInteractable => currentInteractable != null;
+
     void Awake()
     {
         if (cameraChildren == null)

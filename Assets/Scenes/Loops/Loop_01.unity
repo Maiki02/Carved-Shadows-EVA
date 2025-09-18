@@ -188,10 +188,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI - Canvas 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1609160102210230008, guid: 106172354549ea2439b7a35ebf1285c9, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3040840924770859432, guid: 106172354549ea2439b7a35ebf1285c9, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -272,26 +268,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3346321951173831247, guid: 106172354549ea2439b7a35ebf1285c9, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3877951720333600789, guid: 106172354549ea2439b7a35ebf1285c9, type: 3}
-      propertyPath: expandedInnerSize
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3877951720333600789, guid: 106172354549ea2439b7a35ebf1285c9, type: 3}
-      propertyPath: expandedOuterSize
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 4850455178394023110, guid: 106172354549ea2439b7a35ebf1285c9, type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 687310666}
-    - target: {fileID: 8515550598850117022, guid: 106172354549ea2439b7a35ebf1285c9, type: 3}
-      propertyPath: mainMenuPanel
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1020,7 +1000,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5146161217788134673, guid: 0fa2d7e8e9f45884d9bbb3fc241c533c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7664126971398830350, guid: 0fa2d7e8e9f45884d9bbb3fc241c533c, type: 3}
       propertyPath: m_LocalPosition.x

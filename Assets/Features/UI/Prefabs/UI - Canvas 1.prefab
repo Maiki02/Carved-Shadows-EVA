@@ -1409,6 +1409,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3040840924770859432}
     m_Modifications:
+    - target: {fileID: 4730105883857242769, guid: 7a4e2a57a68b0ad47b003895c5ef8f9b, type: 3}
+      propertyPath: expandedInnerSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4730105883857242769, guid: 7a4e2a57a68b0ad47b003895c5ef8f9b, type: 3}
+      propertyPath: expandedOuterSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4730105883857242769, guid: 7a4e2a57a68b0ad47b003895c5ef8f9b, type: 3}
+      propertyPath: interactableInnerColor.a
+      value: 0.7019608
+      objectReference: {fileID: 0}
     - target: {fileID: 6486714686432364747, guid: 7a4e2a57a68b0ad47b003895c5ef8f9b, type: 3}
       propertyPath: m_Name
       value: PointController
@@ -1496,6 +1508,14 @@ PrefabInstance:
     - target: {fileID: 6719433913820227167, guid: 7a4e2a57a68b0ad47b003895c5ef8f9b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7538305382949123738, guid: 7a4e2a57a68b0ad47b003895c5ef8f9b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7538305382949123738, guid: 7a4e2a57a68b0ad47b003895c5ef8f9b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

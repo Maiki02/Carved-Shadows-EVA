@@ -446,6 +446,7 @@ AudioMixerController:
     - cf6ea0b9d02a08c4fabe86e2af7d8f25
     - 7953beae2dba6244eb930339a90fa88f
     - 9f7c67caf2f2042479738b55d70857a8
+    - 5b74d4be0a36a61468e2c5e43f68bf5d
     - b47ec27e5bd80f145880e3061c3ee276
     - ea1469b64ab178049bb69fa2722a2094
     name: View
@@ -499,9 +500,12 @@ AudioMixerSnapshotController:
   m_FloatValues:
     2a733c3193cc2fb40b7275dafaf2ef35: 0.8772599
     bac343e1d7547314ab6b9943414b8573: 1
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> d6db192 (Ajuste de intro)
     f69d50244e67c624c8bc0398e60a75c1: -0.19958185
     5efc3a3418299d243a05a729eb6f40fb: 4.648096
     e097756460df68c439b137f8c82c407f: -18.155502
@@ -522,6 +526,7 @@ AudioMixerSnapshotController:
     b367f8d7f7308b345b69ddb7391bd33f: -10.34521
     6354f11abeef9184a8628319bb5f4415: -24.162655
     da5690cada015f345bec57f91f5f8d8f: -10.692411
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     e71ac45b421e276439194b159912e6f8: -1.0129166
 =======
@@ -531,6 +536,9 @@ AudioMixerSnapshotController:
     e71ac45b421e276439194b159912e6f8: -1.0129166
 >>>>>>> 472f31e87f4e739f4dfa86e582570a44594d2f20
 >>>>>>> Stashed changes
+=======
+    6cfdc03c74a3be145a5073fb578850d7: 4.648096
+>>>>>>> d6db192 (Ajuste de intro)
     3849955c05ad08c4f960ec5837746b00: 4.165108
     b8ea3d5ccc4978242bd02bd499883561: -5.4548836
     bf7e81ec84be02146b943775a72cbea0: 0.27000841

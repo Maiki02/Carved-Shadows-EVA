@@ -238,8 +238,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c1ce4fb46143f46bc5cb5224c934f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clearColorMode: 0
-  backgroundColorHDR: {r: 0.025, g: 0.07, b: 0.19, a: 0}
+  clearColorMode: 1
+  backgroundColorHDR: {r: 0, g: 0, b: 0, a: 0}
   clearDepth: 1
   volumeLayerMask:
     serializedVersion: 2
@@ -476,8 +476,16 @@ PrefabInstance:
       value: IntroController
       objectReference: {fileID: 0}
     - target: {fileID: 2753451877748473215, guid: 418492c330d761b49897b19252a6a530, type: 3}
-      propertyPath: textFadeOutDuration
+      propertyPath: rainMaxVolume
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753451877748473215, guid: 418492c330d761b49897b19252a6a530, type: 3}
+      propertyPath: initialWaitTime
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2753451877748473215, guid: 418492c330d761b49897b19252a6a530, type: 3}
+      propertyPath: rainFadeInDuration
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5163782167127659675, guid: 418492c330d761b49897b19252a6a530, type: 3}
       propertyPath: m_LocalPosition.x

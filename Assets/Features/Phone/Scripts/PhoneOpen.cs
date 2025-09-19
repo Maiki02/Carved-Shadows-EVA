@@ -26,6 +26,13 @@ public class PhoneOpen : MonoBehaviour
     [SerializeField] private Call_Loop_01 callController;
     [SerializeField] private GameObject phoneCloseGameObject;
 
+    [Header("Black Hold (CUT)")]
+    [SerializeField] private float blackHoldOnOpen = 1.0f;   // tiempo en negro ANTES de volver a mostrar (entrada al teléfono)
+    [SerializeField] private float blackHoldOnClose = 1.0f;  // tiempo en negro ANTES de volver a jugador (salida de la llamada)
+
+    [SerializeField] private float fadeDuration = 0.3f;      // por si querés ajustar el fade in/out
+
+
     // CM3
     private CinemachineCamera phoneCamera;
     private CinemachineCamera playerCamera;
@@ -99,6 +106,9 @@ public class PhoneOpen : MonoBehaviour
     }
 
     // ================== UTILIDADES: MODO CUT SIN BLENDS ==================
+
+
+
     private void BeginHardCut()
     {
         if (cinemachineBrain == null || cutModeActive) return;
@@ -152,23 +162,29 @@ public class PhoneOpen : MonoBehaviour
 
     private IEnumerator StartCallWithFadeInRoutine()
     {
-        // Entramos en modo CUT para que NO haya blend al cambiar a la cam del teléfono
+        // Asegurar pantalla negra (si venís desde PhoneClose ya estás negro; esto lo fuerza a 0s)
+        yield return StartCoroutine(FadeManager.Instance.FadeOutCoroutine(0f));
+
+        // Forzar CUT para que NO haya blends
         BeginHardCut();
 
-        // Subir/habilitar la cámara del teléfono. ¡NO toco la prioridad del player!
+        // Subir la cámara del teléfono (switch por prioridad) MIENTRAS estamos negros
         EnableCameraCompletely(phoneCamera, Mathf.Max(phoneCameraPriority, playerCameraPriority + 1));
 
-        // Dejo un frame para que el Brain haga el switch como CUT
+        // Dejar un frame para consolidar el CUT
         yield return null;
 
-        // Restaurar blends a su estado normal
+        // Restaurar blends para el futuro (seguimos en negro)
         yield return StartCoroutine(EndHardCutNextFrame());
 
-        // (Opcional) si querés, podés apagar el “look” del player ya mismo
-        // pero como ya estás en PhoneOpen, el PlayerClose gestiona los controles.
+        // Mantener negro el tiempo deseado antes de mostrar la escena del teléfono
+        if (blackHoldOnOpen > 0f)
+            yield return new WaitForSeconds(blackHoldOnOpen);
 
-        // Fade in y arrancar la rutina de llamada
-        yield return StartCoroutine(FadeManager.Instance.FadeInCoroutine(0.3f));
+        // Ahora sí, aparecer
+        yield return StartCoroutine(FadeManager.Instance.FadeInCoroutine(fadeDuration));
+
+        // Arrancar la llamada
         StartCoroutine(PhoneCallRoutine());
     }
 
@@ -178,52 +194,51 @@ public class PhoneOpen : MonoBehaviour
         if (hangupClip != null)
             yield return new WaitForSeconds(hangupClip.length);
 
-        // Fade out antes del cambio de cámara
-        yield return StartCoroutine(FadeManager.Instance.FadeOutCoroutine(0.3f));
+        // Apagar a negro
+        yield return StartCoroutine(FadeManager.Instance.FadeOutCoroutine(fadeDuration));
 
-        // Entrar en modo CUT para el handoff de regreso al player
+        // Mantener negro un rato ANTES del cambio de cámara
+        if (blackHoldOnClose > 0f)
+            yield return new WaitForSeconds(blackHoldOnClose);
+
+        // Hacer CUT de vuelta al player mientras estamos negros
         BeginHardCut();
 
-        // Asegurar que la del player esté activa y con prioridad base (no la bajo en ningún momento)
         if (playerCamera)
         {
             playerCamera.gameObject.SetActive(true);
             playerCamera.enabled = true;
             playerCamera.Priority = playerCameraPriority;
         }
-
-        // Apagar la del teléfono y bajarla
         DisableCameraCompletely(phoneCamera);
 
-        // Un frame para consolidar el cut
+        // Un frame para consolidar el CUT
         yield return null;
 
-        // Alinear yaw del player a lo que se ve (por si tu rig lo necesita)
         if (playerController != null)
             playerController.SnapToCurrentCamera();
 
-        // Restaurar blends normales a partir del próximo frame
+        // Dejar el brain como estaba (seguimos negros todavía)
         yield return StartCoroutine(EndHardCutNextFrame());
 
-        // Reactivar el teléfono cerrado y notificar
+        // IMPORTANTE: llamamos al PhoneClose recién ahora; su HangUp hace el Fade In.
         if (phoneCloseGameObject)
         {
             phoneCloseGameObject.SetActive(true);
             var phoneCloseScript = phoneCloseGameObject.GetComponent<PhoneClose>();
-            if (phoneCloseScript) phoneCloseScript.OnHangUp(isWithCall);
+            if (phoneCloseScript) phoneCloseScript.OnHangUp(isWithCall); // esto hace FadeIn(0.3f) adentro
         }
         if (callController) callController.OnCallCompleted(isWithCall);
 
         isCalling = false;
         isWithCall = false;
 
-        // Habilitar controles del player con un pelín de delay para no morder ejes
         if (playerController != null)
             StartCoroutine(EnableLookAfterDelay(0.05f));
 
-        // Este GO deja de estar activo
         gameObject.SetActive(false);
     }
+
 
     private IEnumerator EnableLookAfterDelay(float delay)
     {

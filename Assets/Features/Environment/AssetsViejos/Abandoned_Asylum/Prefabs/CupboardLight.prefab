@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4331104951942214}
   - component: {fileID: 33634489840971922}
   - component: {fileID: 23846508644930868}
-  - component: {fileID: 2336210494931735528}
+  - component: {fileID: 3652100582604064280}
   m_Layer: 0
   m_Name: CupboardLight
   m_TagString: Untagged
@@ -87,7 +87,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2336210494931735528
+--- !u!65 &3652100582604064280
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

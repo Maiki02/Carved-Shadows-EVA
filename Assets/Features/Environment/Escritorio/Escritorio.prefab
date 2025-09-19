@@ -479,6 +479,7 @@ GameObject:
   - component: {fileID: 4592273049300981551}
   - component: {fileID: 5984194964142365494}
   - component: {fileID: 2882277629777696196}
+  - component: {fileID: 6667580099315634840}
   m_Layer: 0
   m_Name: Escritorio
   m_TagString: Untagged
@@ -554,6 +555,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6667580099315634840
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7060146315012373638}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.9598458, y: 0.4389056, z: 0.4220885}
+  m_Center: {x: -1.5476735e-14, y: 0.2189196, z: 0.0340337}
 --- !u!1 &9144540368551727151
 GameObject:
   m_ObjectHideFlags: 0

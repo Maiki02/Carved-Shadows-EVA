@@ -1334,8 +1334,8 @@ MonoBehaviour:
     loop: 1
     randomizeStart: 0
     enableFadeOut: 0
-    fadeOutStartTime: 4
-    fadeOutDuration: 2
+    fadeOutStartTime: 2
+    fadeOutDuration: 3
   - name: FuegoSub
     source: {fileID: 0}
     isEnabled: 1

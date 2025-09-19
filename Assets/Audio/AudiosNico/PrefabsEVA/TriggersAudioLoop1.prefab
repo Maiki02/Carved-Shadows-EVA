@@ -582,7 +582,7 @@ MonoBehaviour:
   reflectionLevel: 0
   reverbLevel: 0
   azimuthCorrection: 1
-  distanceCorrection: 6.79
+  distanceCorrection: 7.62
   useUnityDistance: 0
   auralization: 0
   roomPreset: 24
@@ -4606,7 +4606,7 @@ MonoBehaviour:
   reflectionLevel: 0
   reverbLevel: 0
   azimuthCorrection: 1
-  distanceCorrection: 6.79
+  distanceCorrection: 7.29
   useUnityDistance: 0
   auralization: 0
   roomPreset: 24
@@ -5598,8 +5598,8 @@ MonoBehaviour:
   occlusionRayUpdateTime: 1
   obstructionRayUpdateTime: 1
   clipIsPlaying: 0
-  gainLevel: 13.6
-  directLevel: 14.4
+  gainLevel: 3.6
+  directLevel: 3.7
   reflectionLevel: 0
   reverbLevel: 0
   azimuthCorrection: 1

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8961671796999031450}
   - component: {fileID: 7571236695946433245}
   - component: {fileID: 1398370027967065299}
+  - component: {fileID: 2885567037523223797}
   m_Layer: 0
   m_Name: SM_Puerta
   m_TagString: Untagged
@@ -110,3 +111,39 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0075343344, y: 0.0015990199, z: 0.019043477}
   m_Center: {x: -0.0037671672, y: 0.0000012209928, z: 0.009521739}
+--- !u!114 &2885567037523223797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6713606233934608883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4fa30f7f7acd94d8429e3b4c0633ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockingInterval: 3
+  openDoorClip: {fileID: 0}
+  closeDoorClip: {fileID: 0}
+  knockClip: {fileID: 0}
+  slowCloseClip: {fileID: 0}
+  fastCloseClip: {fileID: 0}
+  lockedDoorClip: {fileID: 0}
+  fastCloseMixer: {fileID: 0}
+  closedDoorDialogData: {fileID: 0}
+  type: 0
+  openDegreesY: 110
+  openDuration: 1
+  knockAmount: 4
+  knockSpeed: 5
+  slowCloseDuration: 3
+  initialOpenDegrees: 110
+  fastCloseDuration: 0.5
+  blockInteractionWhileAnimating: 1
+  blockRaycastsWhileAnimating: 1
+  lockedInteractionCooldown: 0.8
+  blockHoverDuringLockedCooldown: 1
+  OnClosedDoorReviewedUnity:
+    m_PersistentCalls:
+      m_Calls: []

@@ -124,21 +124,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockingInterval: 3
-  openDoorClip: {fileID: 0}
-  closeDoorClip: {fileID: 0}
+  openDoorClip: {fileID: 8300000, guid: f81b0b0ec6b23f4438a20f3c12a1ea16, type: 3}
+  closeDoorClip: {fileID: 8300000, guid: 0dace9370d4223340b48070e48ef781e, type: 3}
   knockClip: {fileID: 0}
-  slowCloseClip: {fileID: 0}
-  fastCloseClip: {fileID: 0}
-  lockedDoorClip: {fileID: 0}
-  fastCloseMixer: {fileID: 0}
+  slowCloseClip: {fileID: 8300000, guid: 58f3f84bfd5311b4abc10374a96eb008, type: 3}
+  fastCloseClip: {fileID: 8300000, guid: deb712402556e734ca72a33903feec77, type: 3}
+  lockedDoorClip: {fileID: 8300000, guid: ccc5bcaaf08f3d44d9c7f5e5a05e4db8, type: 3}
+  fastCloseMixer: {fileID: 4507347325302408704, guid: 1992caae9c51c244abb1dc3bfe4b0971, type: 2}
   closedDoorDialogData: {fileID: 0}
-  type: 0
+  type: 1
   openDegreesY: 110
   openDuration: 1
   knockAmount: 4
   knockSpeed: 5
   slowCloseDuration: 3
-  initialOpenDegrees: 110
+  initialOpenDegrees: 50
   fastCloseDuration: 0.5
   blockInteractionWhileAnimating: 1
   blockRaycastsWhileAnimating: 1

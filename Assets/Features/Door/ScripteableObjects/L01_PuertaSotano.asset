@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9a47be95b1a0104ea9e88b7ba340a48, type: 3}
-  m_Name: L01_PuertaHallTelefono 1
+  m_Name: L01_PuertaSotano
   m_EditorClassIdentifier: 
   dialogAudioClip: {fileID: 0}
   dialogMessages:

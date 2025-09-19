@@ -17418,6 +17418,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4834227860008182444, guid: b95c20770a08b1549a9ba34c35f574e6, type: 3}
+      propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834227860008182444, guid: b95c20770a08b1549a9ba34c35f574e6, type: 3}
+      propertyPath: closedDoorDialogData
+      value: 
+      objectReference: {fileID: 11400000, guid: ec68b73e5e40e1147bf215ec5ddda187, type: 2}
     m_RemovedComponents:
     - {fileID: 8231668712123195660, guid: b95c20770a08b1549a9ba34c35f574e6, type: 3}
     m_RemovedGameObjects: []
@@ -18543,11 +18551,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 939626753955992579, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16.695
+      value: 16.748
       objectReference: {fileID: 0}
     - target: {fileID: 939626753955992579, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.85104775
+      value: 0.8499
       objectReference: {fileID: 0}
     - target: {fileID: 939626753955992579, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_LocalPosition.z
@@ -18679,7 +18687,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5762725551707139617, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: Lens.FieldOfView
-      value: 40
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5762725551707139617, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: Priority.m_Value
@@ -19549,11 +19557,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 939626753955992579, guid: a246cb96fce263542a4ed95754392866, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16.695
+      value: 16.748
       objectReference: {fileID: 0}
     - target: {fileID: 939626753955992579, guid: a246cb96fce263542a4ed95754392866, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.85104775
+      value: 0.8499
       objectReference: {fileID: 0}
     - target: {fileID: 939626753955992579, guid: a246cb96fce263542a4ed95754392866, type: 3}
       propertyPath: m_LocalPosition.z
@@ -21002,6 +21010,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6843099817252396256}
     m_Modifications:
+    - target: {fileID: 2885567037523223797, guid: b055795559263d2479c6760f50bc98b2, type: 3}
+      propertyPath: type
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2885567037523223797, guid: b055795559263d2479c6760f50bc98b2, type: 3}
+      propertyPath: closedDoorDialogData
+      value: 
+      objectReference: {fileID: 11400000, guid: 7f70a15a6fefc384abfece202e90e75e, type: 2}
     - target: {fileID: 3022076718060099965, guid: b055795559263d2479c6760f50bc98b2, type: 3}
       propertyPath: m_LocalScale.y
       value: 100
@@ -23102,6 +23118,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6843099817252396256}
     m_Modifications:
+    - target: {fileID: 2885567037523223797, guid: b055795559263d2479c6760f50bc98b2, type: 3}
+      propertyPath: type
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3022076718060099965, guid: b055795559263d2479c6760f50bc98b2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.38856035
@@ -25461,7 +25481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4862071993560892, guid: e68a619303cb1e44ea3dde236af3366e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 21.971998
+      value: 22.238
       objectReference: {fileID: 0}
     - target: {fileID: 4862071993560892, guid: e68a619303cb1e44ea3dde236af3366e, type: 3}
       propertyPath: m_LocalPosition.y

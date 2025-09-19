@@ -66,9 +66,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a670bfc8142056443b594a508d6f4e9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  door: {fileID: 0}
+  doorToClose: {fileID: 0}
   phoneClose: {fileID: 0}
-  phoneCallClip: {fileID: 0}
-  phoneMessages: {fileID: 0}
-  ringDuration: 10
+  phoneCallClip: {fileID: 8300000, guid: 19ad6f5fc18f2914bac5064f65a367a2, type: 3}
+  phoneMessages: {fileID: 11400000, guid: 15c55db3431ffc0438ae85402e64f5ca, type: 2}
+  ringDuration: 600
   triggerOnce: 1
+  blackoutController: {fileID: 0}

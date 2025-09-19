@@ -17358,6 +17358,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6718397843879100023}
     m_Modifications:
+    - target: {fileID: 1085274250471148, guid: b95c20770a08b1549a9ba34c35f574e6, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1119892339220620, guid: b95c20770a08b1549a9ba34c35f574e6, type: 3}
       propertyPath: m_Name
       value: Door_V1 (2)
@@ -17421,6 +17425,10 @@ PrefabInstance:
     - target: {fileID: 4834227860008182444, guid: b95c20770a08b1549a9ba34c35f574e6, type: 3}
       propertyPath: type
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4834227860008182444, guid: b95c20770a08b1549a9ba34c35f574e6, type: 3}
+      propertyPath: openDegreesY
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 4834227860008182444, guid: b95c20770a08b1549a9ba34c35f574e6, type: 3}
       propertyPath: closedDoorDialogData
@@ -18623,7 +18631,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3227990545463816508, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.002
+      value: 0.0072
       objectReference: {fileID: 0}
     - target: {fileID: 3227990545463816508, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18631,7 +18639,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3227990545463816508, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.007
+      value: -0.0031
       objectReference: {fileID: 0}
     - target: {fileID: 3322998607343806268, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -18755,7 +18763,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7724016498563935094, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.114
+      value: -0.1648
       objectReference: {fileID: 0}
     - target: {fileID: 7724016498563935094, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18763,23 +18771,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7724016498563935094, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.413
+      value: 0.3909
       objectReference: {fileID: 0}
     - target: {fileID: 7724016498563935094, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.123174705
+      value: -0.19355388
       objectReference: {fileID: 0}
     - target: {fileID: 7724016498563935094, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.04135894
+      value: -0.06556364
       objectReference: {fileID: 0}
     - target: {fileID: 7724016498563935094, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.93995047
+      value: -0.9271491
       objectReference: {fileID: 0}
     - target: {fileID: 7724016498563935094, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.3156115
+      value: 0.31405863
       objectReference: {fileID: 0}
     - target: {fileID: 7942515686162967124, guid: 7b2be26e28bb4f644a9a5e9cd9970b02, type: 3}
       propertyPath: m_StaticShadowCaster
@@ -20936,6 +20944,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6718397843879100023}
     m_Modifications:
+    - target: {fileID: 1085274250471148, guid: b95c20770a08b1549a9ba34c35f574e6, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1119892339220620, guid: b95c20770a08b1549a9ba34c35f574e6, type: 3}
       propertyPath: m_Name
       value: Door_V1 (1)
@@ -21015,6 +21027,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2885567037523223797, guid: b055795559263d2479c6760f50bc98b2, type: 3}
+      propertyPath: openDegreesY
+      value: -110
+      objectReference: {fileID: 0}
+    - target: {fileID: 2885567037523223797, guid: b055795559263d2479c6760f50bc98b2, type: 3}
       propertyPath: closedDoorDialogData
       value: 
       objectReference: {fileID: 11400000, guid: 7f70a15a6fefc384abfece202e90e75e, type: 2}
@@ -21092,9 +21108,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6843099817252396256}
     m_Modifications:
+    - target: {fileID: 4440092248559497891, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5799437202680441361, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.6
+      objectReference: {fileID: 0}
     - target: {fileID: 6062018077190977733, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
       propertyPath: m_Name
       value: Door_NextLoop
+      objectReference: {fileID: 0}
+    - target: {fileID: 6062018077190977733, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7153576831291930757, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21134,6 +21162,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7153576831291930757, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7504512146739655918, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7805619236774115511, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7805619236774115511, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7805619236774115511, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.113
+      objectReference: {fileID: 0}
+    - target: {fileID: 7805619236774115511, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7805619236774115511, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7805619236774115511, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7805619236774115511, guid: 8f6f6d0aadcdc8b46a58477cbee28423, type: 3}
+      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -21364,6 +21424,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6718397843879100023}
     m_Modifications:
+    - target: {fileID: 1085274250471148, guid: b95c20770a08b1549a9ba34c35f574e6, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1119892339220620, guid: b95c20770a08b1549a9ba34c35f574e6, type: 3}
       propertyPath: m_Name
       value: Door_V1 (3)

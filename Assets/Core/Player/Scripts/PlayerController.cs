@@ -286,7 +286,6 @@ public class PlayerController : MonoBehaviour
         float t = Mathf.Clamp01(dizzyTimer / Mathf.Max(0.0001f, dizzyDuration));
         float weight = dizzyCurve.Evaluate(t) * dizzyIntensity;
 
-        AnxietyFXController.Instance?.SetWeight(weight);
 
         // ROLL (Dutch) con deriva + micro
         float rollDrift = (Mathf.PerlinNoise(seedRoll, Time.time * rollDriftFreq) * 2f - 1f);
@@ -553,7 +552,6 @@ public class PlayerController : MonoBehaviour
             dizzyHoldCR = null;
         }
         dizzyHoldCR = StartCoroutine(DizzyHoldRoutine(Mathf.Clamp01(intensity), Mathf.Max(0.1f, holdSeconds), prompt));
-        AnxietyFXController.Instance?.BeginAnxiety();
     }
 
     /// Limpia inmediatamente el mareo y oculta el mensaje.
@@ -619,7 +617,6 @@ public class PlayerController : MonoBehaviour
 
         isDizzy = false;
         dizzyTimer = 0f;
-        AnxietyFXController.Instance?.EndAnxiety();
 
         if (mainCam != null)
         {

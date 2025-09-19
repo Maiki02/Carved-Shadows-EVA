@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
@@ -16,14 +17,14 @@ public class BlackoutController : MonoBehaviour
     [Header("Camera Fill (suave, NO linterna)")]
     [Tooltip("Activa un point light MUY tenue que sigue a la cámara. Sin sombras ni especular.")]
     [SerializeField] private bool useCameraFill = true;
-    [SerializeField] private Color fillColor = new Color(0.70f, 0.82f, 1f);   // frío sutil
+    [SerializeField] private Color fillColor = new Color(0.70f, 0.82f, 1f);
     [Tooltip("Intensidad en lúmenes (HDRP)")]
     [SerializeField] private float fillIntensityLumens = 180f;
     [SerializeField] private float fillRange = 6.5f;
     [SerializeField] private float fillFadeSeconds = 0.25f;
 
     [Header("Moonlight direccional (opcional)")]
-    [SerializeField] private bool useDirectionalMoon = false;   // OFF por defecto
+    [SerializeField] private bool useDirectionalMoon = false;
     [SerializeField] private Light moonLight;
     [SerializeField] private Vector3 moonDirectionEuler = new Vector3(15f, -35f, 0f);
     [SerializeField] private Color moonLightColor = new Color(0.75f, 0.85f, 1f);
@@ -32,22 +33,29 @@ public class BlackoutController : MonoBehaviour
     [SerializeField] private float moonFadeSeconds = 0.35f;
 
     [Header("HDRP Exposure")]
-    [SerializeField] private Volume globalVolume;         // tu Global Volume si ya existe
+    [SerializeField] private Volume globalVolume; // Global Volume si ya existe
     [SerializeField] private bool tweakAutoExposure = true;
     [SerializeField] private bool createExposureIfMissing = true;
     [SerializeField] private float exposureEaseSeconds = 0.25f;
-    [SerializeField] private float autoExposureMinEV = -8.0f;   // bajar bastante el límite inferior
+    [SerializeField] private float autoExposureMinEV = -8.0f;
     [SerializeField] private float autoExposureMaxEV = 0.0f;
-    [SerializeField] private float exposureCompensation = 1.3f; // levanta un poquito
+    [SerializeField] private float exposureCompensation = 1.3f;
 
     [Header("SFX (opcional)")]
     [SerializeField] private AudioSource sfxSource;
     [SerializeField] private AudioClip sfxFlicker;
     [SerializeField] private AudioClip sfxPowerDown;
 
+    [Header("Auto-descubrimiento")]
+    [SerializeField] private bool autoCollectAllSceneLights = true;
+    [Tooltip("No apagar luces con estos tags (ej: la linterna del player).")]
+    [SerializeField] private string[] excludeTags = new string[] { "PlayerLight", "DontBlackout" };
+    [Tooltip("Exclusiones explícitas (se ignoran del apagón).")]
+    [SerializeField] private Light[] explicitExclusions;
+
     // backups luces
     private float[] mainOrigIntensity;
-    private bool[]  mainOrigEnabled;
+    private bool[] mainOrigEnabled;
     private bool hasBackup;
 
     // exposure
@@ -70,11 +78,15 @@ public class BlackoutController : MonoBehaviour
 
     void Awake()
     {
+        if (autoCollectAllSceneLights)
+            CollectSceneLights();
+
         BackupLights();
+
         if (!sfxSource) sfxSource = GetComponent<AudioSource>();
         SetupExposureRefIfAvailable();
 
-        // Preconfig de moon si está asignada pero desactivada por defecto
+        // Preconfig moon si está asignada pero desactivada por defecto
         if (moonLight)
         {
             EnsureHDData(moonLight, out moonHd);
@@ -96,7 +108,7 @@ public class BlackoutController : MonoBehaviour
             mainOrigIntensity[i] = L.intensity;
             mainOrigEnabled[i]   = L.enabled;
         }
-        hasBackup = true;
+        hasBackup = mainLights.Length > 0;
     }
 
     private void SetupExposureRefIfAvailable()
@@ -134,7 +146,7 @@ public class BlackoutController : MonoBehaviour
         if (useDirectionalMoon)
             yield return StartCoroutine(EnableDirectionalMoon());
 
-        // 4) Subir un toque la exposición para que “se vea” sin parecer linterna
+        // 4) Subir un toque la exposición para que “se vea”
         if (tweakAutoExposure && hasExposure)
             yield return StartCoroutine(EaseExposureAuto());
     }
@@ -182,7 +194,7 @@ public class BlackoutController : MonoBehaviour
 
             if (on)
             {
-                L.enabled = (hasBackup ? mainOrigEnabled[i] : true);
+                L.enabled   = (hasBackup ? mainOrigEnabled[i]   : true);
                 L.intensity = (hasBackup ? mainOrigIntensity[i] : L.intensity);
             }
             else
@@ -199,7 +211,6 @@ public class BlackoutController : MonoBehaviour
         if (!fillLight)
             CreateFill();
 
-        // Fade in
         float start = GetPointLumens(fillLight, fillHd);
         float t = 0f;
         while (t < fillFadeSeconds)
@@ -229,7 +240,7 @@ public class BlackoutController : MonoBehaviour
         fillLight.shadows = LightShadows.None;
 
         EnsureHDData(fillLight, out fillHd);
-        // Importantísimo para que no “brille” todo: sin especular
+        // sin especular para no “plastificar”
         fillHd.affectDiffuse = true;
         fillHd.affectSpecular = false;
 
@@ -291,7 +302,7 @@ public class BlackoutController : MonoBehaviour
         float t = 0f;
         float startMin = exp.limitMin.value;
         float startMax = exp.limitMax.value;
-        float startComp= exp.compensation.value;
+        float startComp = exp.compensation.value;
 
         while (t < exposureEaseSeconds)
         {
@@ -325,7 +336,7 @@ public class BlackoutController : MonoBehaviour
     private static void SetPointLumens(Light L, HDAdditionalLightData hd, float lumens)
     {
         if (hd) hd.SetIntensity(lumens, LightUnit.Lumen);
-        else    L.intensity = lumens; // fallback (no físicamente correcto)
+        else    L.intensity = lumens; // fallback
     }
     private static float GetPointLumens(Light L, HDAdditionalLightData hd) => hd ? hd.intensity : L.intensity;
 
@@ -376,6 +387,60 @@ public class BlackoutController : MonoBehaviour
                 exp.fixedExposure.value= fixedEVBackup;
             }
         }
+    }
+
+    // === Auto-collect helpers ===
+    private bool IsExcluded(Light L)
+    {
+        if (!L) return true;
+
+        // Excluir las creadas por este controlador
+        if (L == moonLight || L == fillLight) return true;
+
+        // Exclusiones explícitas
+        if (explicitExclusions != null)
+        {
+            for (int i = 0; i < explicitExclusions.Length; i++)
+                if (explicitExclusions[i] == L) return true;
+        }
+
+        // Exclusiones por tag
+        if (excludeTags != null && excludeTags.Length > 0)
+        {
+            var tag = L.tag;
+            for (int i = 0; i < excludeTags.Length; i++)
+                if (!string.IsNullOrEmpty(excludeTags[i]) && tag == excludeTags[i])
+                    return true;
+        }
+
+        return false;
+    }
+
+    private void CollectSceneLights()
+    {
+        Light[] all;
+#if UNITY_2022_2_OR_NEWER
+        all = FindObjectsByType<Light>(FindObjectsSortMode.None);
+#else
+        all = FindObjectsOfType<Light>(true); // incluye inactivas
+#endif
+        var list = new List<Light>(all.Length);
+        for (int i = 0; i < all.Length; i++)
+        {
+            var L = all[i];
+            if (!IsExcluded(L))
+                list.Add(L);
+        }
+        mainLights = list.ToArray();
+    }
+
+    // === Debug context menu ===
+    [ContextMenu("DEBUG/Recollect Lights")]
+    private void DEBUG_RecollectLights()
+    {
+        CollectSceneLights();
+        BackupLights();
+        Debug.Log($"[Blackout] Recolectadas {mainLights?.Length ?? 0} luces.");
     }
 
     [ContextMenu("DEBUG/Blackout Now")]

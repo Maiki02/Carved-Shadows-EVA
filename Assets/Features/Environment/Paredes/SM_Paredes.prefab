@@ -47,7 +47,8 @@ GameObject:
   - component: {fileID: 8945186482571814107}
   - component: {fileID: 7003740605236272105}
   - component: {fileID: 5703623057639772479}
-  - component: {fileID: 7011704177819084221}
+  - component: {fileID: 5224479761918574970}
+  - component: {fileID: 57921301598059617}
   m_Layer: 0
   m_Name: SM_MarcoPuerta
   m_TagString: Untagged
@@ -126,8 +127,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7011704177819084221
-MeshCollider:
+--- !u!65 &5224479761918574970
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -144,10 +145,30 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2971061942536419006, guid: ab86d681cb06a094694fdff8a6f5492e, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 0.001, y: 0.003, z: 0.029999996}
+  m_Center: {x: 0.0043, y: 0.001, z: 0.01}
+--- !u!65 &57921301598059617
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3263755648442601081}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.001, y: 0.003, z: 0.029999996}
+  m_Center: {x: -0.0043, y: 0.001, z: 0.01}
 --- !u!1 &4345947385755720916
 GameObject:
   m_ObjectHideFlags: 0
